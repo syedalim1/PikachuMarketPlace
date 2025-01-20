@@ -9,21 +9,21 @@ import ProfilePage from "./components/ProfilePage";
 
 const Profile = () => {
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="">
       {/* Header */}
       <Header />
 
       {/* Profile Tabs Section */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="container sm:mx-auto sm:px-6 lg:px-8 sm:py-8">
         <Tabs
           defaultValue="my-listing"
-          className="w-full p-4 bg-white rounded-xl shadow-lg"
+          className=" sm:px-4 bg-white sm:rounded-xl "
         >
           {/* Tabs List */}
-          <TabsList className="flex flex-row sm:flex-row justify-between bg-gradient-to-r from-indigo-500 to-purple-500 text-white p-4 rounded-xl shadow-md">
+          <TabsList className="flex flex-row h-[10] sm:flex-row justify-between bg-gradient-to-r from-indigo-500 to-purple-500 text-white sm:p-4 items-center  shadow-md">
             <TabsTrigger
               value="my-listing"
-              className="flex items-center justify-center gap-2 py-2 px-3 rounded-lg hover:scale-105 transition-transform focus:ring-2 focus:ring-white mb-2 sm:mb-0"
+              className="flex items-center justify-center gap-2 py-2 px-3 rounded-lg hover:scale-105 transition-transform focus:ring-2 focus:ring-white pb-2 sm:mb-0"
               aria-label="My Listing"
             >
               <FiUser className="text-lg" />
@@ -32,7 +32,7 @@ const Profile = () => {
 
             <TabsTrigger
               value="inbox"
-              className="flex items-center justify-center gap-2 py-2 px-3 rounded-lg hover:scale-105 transition-transform focus:ring-2 focus:ring-white mb-2 sm:mb-0"
+              className="flex items-center justify-center gap-2 py-2 px-3 rounded-lg hover:scale-105 transition-transform focus:ring-2 focus:ring-white pb-2 sm:mb-0"
               aria-label="Inbox"
             >
               <MdMessage className="text-lg" />

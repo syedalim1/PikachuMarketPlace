@@ -19,6 +19,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import Footer from "@/Common/Footer";
 
 function MyListing() {
   const { user } = useUser();
@@ -67,7 +68,7 @@ function MyListing() {
   };
 
   return (
-    <div className="px-4 sm:px-10 md:px-20 my-10">
+    <div className="px-4 h-full sm:px-10 md:px-20 py-10">
       {/* Header Section */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="font-bold text-2xl sm:text-3xl md:text-4xl">
@@ -76,12 +77,12 @@ function MyListing() {
       </div>
 
       {/* Listings Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="grid h-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {carList.length > 0 ? (
           carList.map((item, index) => (
             <div
               key={item.id}
-              className="flex flex-col bg-white p-4 rounded-lg shadow-lg"
+              className="flex flex-col bg-white p-4 rounded-lg "
             >
               {/* Show "New" badge for the latest listing */}
               <CarItem car={item} />
@@ -137,6 +138,7 @@ function MyListing() {
             No listings available. Click "+ Add New Listing" to create one.
           </div>
         )}
+        <Footer/>
       </div>
     </div>
   );
