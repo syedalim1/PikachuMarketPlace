@@ -11,7 +11,6 @@ import Features from "./Features";
 import Pricing from "./Pricing";
 import Specification from "./Specification";
 import OwnerDetails from "./OwnerDetails";
-import FinancialCalculater from "./FinancialCalculater";
 import MostSearchedCar from "@/MostSearchedCar";
 import Footer from "@/Common/Footer";
 
@@ -48,27 +47,25 @@ const CarDetails = () => {
 
   return (
     <div className="bg-white">
-      <Header />
       <div className="sm:p-10 md:px-20 bg-white  sm:mt-5">
-        <DetailHeaders car={car} />
-
         <ImageGallery car={car} />
+        <div className="bg-gray-200">
+          <Pricing car={car} />
+          <DetailHeaders car={car} />
+        </div>
+
         <CarDescription car={car} />
 
-        <div className="grid grid-cols-2 md:grid-cols-3  sm:mt-10">
-          {/* Left section (Image Gallery, Description, Features, Financial Calculations) */}
-          <div className="md:col-span-2 ">
-            <Features features={car.CarListing.features} />
-            <OwnerDetails car={car} />
-          </div>
+        {/* Left section (Image Gallery, Description, Features, Financial Calculations) */}
 
-          {/* Right section (Pricing, Specification, Owner Details) */}
-          <div className="bg-white sm:p-6 ">
-            <Pricing car={car} />
-            <Specification car={car} />
-          </div>
-        </div>
-        <FinancialCalculater car={car} />
+        {/* <Features features={car.CarListing.features} /> */}
+        <Specification car={car} />
+        <OwnerDetails car={car} />
+
+        {/* Right section (Pricing, Specification, Owner Details) */}
+        <div className="bg-white sm:p-6 "></div>
+
+   
         <MostSearchedCar />
       </div>
       <Footer />

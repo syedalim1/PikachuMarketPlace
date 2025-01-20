@@ -13,7 +13,7 @@ import { eq } from "drizzle-orm";
 const UploadImages = forwardRef(({ triggerUpload, carInfo, mode }, ref) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploadProgress, setUploadProgress] = useState({});
-  const cld = new Cloudinary({ cloud: { cloudName: "duutgarew" } });
+  const cld = new Cloudinary({ cloud: { cloudName: "dnfvdyqps" } });
   const [EditUploadImage, setEditUploadImage] = useState([]);
 
   const [id, setId] = useState();
@@ -46,10 +46,10 @@ const UploadImages = forwardRef(({ triggerUpload, carInfo, mode }, ref) => {
       for (const file of selectedFiles) {
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("upload_preset", "car-market");
+        formData.append("upload_preset", "pikachu-market");
 
         const response = await fetch(
-          "https://api.cloudinary.com/v1_1/duutgarew/image/upload",
+          "https://api.cloudinary.com/v1_1/dnfvdyqps/image/upload",
           {
             method: "POST",
             body: formData,
@@ -138,7 +138,6 @@ const UploadImages = forwardRef(({ triggerUpload, carInfo, mode }, ref) => {
         }
 
         // Update the state to remove the image from the UI
-      
       }
     } catch (error) {
       console.error("Error removing file:", error);

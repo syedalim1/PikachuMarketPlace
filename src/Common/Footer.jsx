@@ -1,79 +1,41 @@
 import React from "react";
-import {
-  FaFacebookF,
-  FaTwitter,
-  FaInstagram,
-  FaLinkedinIn,
-} from "react-icons/fa"; // Importing social media icons
+import { FaHome, FaComments, FaTag, FaAd, FaUserCircle } from "react-icons/fa"; // Importing Font Awesome icons
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <div className="mt-10 bg-gradient-to-r from-blue-500 to-purple-500 text-white py-10">
-      <div className="container mx-auto px-4 text-center">
-        {/* Footer Top Section */}
-        <div className="mb-8">
-          <h3 className="text-2xl font-semibold">Connect with Us</h3>
-          <div className="flex justify-center gap-6 mt-4">
-            {/* Social Media Icons */}
-            <a
-              href="https://facebook.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white text-xl hover:text-blue-300"
-            >
-              <FaFacebookF />
-            </a>
-            <a
-              href="https://twitter.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white text-xl hover:text-blue-300"
-            >
-              <FaTwitter />
-            </a>
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white text-xl hover:text-pink-300"
-            >
-              <FaInstagram />
-            </a>
-            <a
-              href="https://linkedin.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white text-xl hover:text-blue-300"
-            >
-              <FaLinkedinIn />
-            </a>
-          </div>
-        </div>
-
-        {/* Footer Links Section */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8">
-         
-
-
-        
-           
-    
-
-          <div>
-            <h4 className="text-lg font-semibold">Contact Us</h4>
-            <p className="mt-4">Coimbatore</p>
-            <p className="mt-2">Email: SyedSyed3777@gmail.com</p>
-            <p className="mt-2">Phone: +918300904920</p>
-          </div>
-        </div>
-
-        {/* Footer Bottom Section */}
-        <div className="border-t border-gray-400 pt-4 text-gray-300 text-sm">
-          <p>
-            &copy; {new Date().getFullYear()} Syed Ali M Created This Website .
-          </p>
-        </div>
+    <div className="fixed bottom-0 left-0 w-full bg-white p-3 flex justify-between items-center   text-black px-5">
+      {/* Home */}
+      <div className="flex flex-col items-center cursor-pointer">
+        <FaHome className="text-2xl mb-2" />
+        <span>Home</span>
       </div>
+
+      {/* Chats */}
+      <div className="flex flex-col items-center cursor-pointer">
+        <FaComments className="text-2xl mb-2" />
+        <span>Chats</span>
+      </div>
+
+      {/* Sell */}
+      <div className="flex flex-col items-center  cursor-pointer">
+        {/* <FaTag className="text-3xl mb-2 h-20 w-20  rounded-full border" /> */}
+        <span>Sell</span>
+      </div>
+
+      {/* My Ads */}
+      <div className="flex flex-col items-center cursor-pointer">
+        <FaAd className="text-2xl mb-2" />
+        <span>My Ads</span>
+      </div>
+
+      {/* Account */}
+      <Link to={'/profile'}>
+        <div className="flex flex-col items-center cursor-pointer">
+          <FaUserCircle className="text-2xl mb-2" />
+          <span>Account</span>
+        </div>
+      </Link>
     </div>
   );
 };

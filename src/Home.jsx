@@ -7,8 +7,8 @@ import Header from "./Common/Header";
 import Hero from "./Hero";
 import Category from "./Category";
 import MostSearchedCar from "./MostSearchedCar";
-import InfoSection from "./components/ui/InfoSection";
 import Footer from "./Common/Footer";
+import Map from "./Map";
 
 
 function Home() {
@@ -17,9 +17,10 @@ function Home() {
     <div>
       <Header />
       <Hero />
+      <Map/>
       <Category />
       <MostSearchedCar />
-      <InfoSection />
+      {/* <InfoSection /> */}
       <Footer />
       <SignedIn />
     </div>
