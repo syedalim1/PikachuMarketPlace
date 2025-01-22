@@ -30,7 +30,7 @@ const Footer = () => {
       </div>
 
       {/* Account */}
-      <Link to={'/profile'}>
+      <Link to={"/profile"}>
         <div className="flex flex-col items-center cursor-pointer">
           <FaUserCircle className="text-2xl mb-2" />
           <span>Account</span>
