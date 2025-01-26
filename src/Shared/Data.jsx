@@ -9,7 +9,7 @@ const Categories1 = [
   {
     id: 1,
     name: "Cars",
-    icon: < IoCarSportSharp />, // Car-related icon
+    icon: <IoCarSportSharp />, // Car-related icon
   },
   {
     id: 2,
@@ -31,9 +31,6 @@ const Categories1 = [
     name: "Electronics",
     icon: <MdElectricalServices />, // Electronics-related icon
   },
-];
-
-const Categories2 = [
   {
     id: 6,
     name: "Commercial",
@@ -61,9 +58,13 @@ const Categories2 = [
   },
 ];
 
+const Categories2 = [
+  
+];
+
 export { Categories1, Categories2 };
 
 export default {
   Categories1,
-  Categories2,
+ 
 };

@@ -1,10 +1,6 @@
 import React from "react";
 import Header from "@/Common/Header";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { FiUser, FiSettings } from "react-icons/fi";
-import { MdMessage } from "react-icons/md";
-import MyListing from "./components/MyListing";
-import Inbox from "./components/Inbox";
+
 import ProfilePage from "./components/ProfilePage";
 import { SignedOut, SignInButton, useUser } from "@clerk/clerk-react";
 import Footer from "@/Common/Footer";
