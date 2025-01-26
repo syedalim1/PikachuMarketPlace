@@ -119,14 +119,7 @@
       "column": 1,
       "icon": "FaCarSide"
     },
-    {
-      "label": "Year",
-      "name": "year",
-      "fieldType": "number",
-      "required": true,
-      "column": 1,
-      "icon": "FaCalendarAlt"
-    },
+   
     {
       "label": "Drive Type",
       "name": "drive_type",

@@ -28,7 +28,7 @@ const CarItemSearch = ({ car }) => {
       <img
         src={car?.images?.[0] || "/path/to/default-image.jpg"}
         alt={car?.listing_title || "Car"}
-        className="rounded-t-xl h-[100px] w-[150px] object-fill sm:w-full  sm:h-48  mb-4"
+        className="rounded-t-xl h-[100px] w-[150px] object-contain sm:w-full  sm:h-48  mb-4"
       />
       <div className="relative  h-[100px] rounded-2xl p-2  cursor-pointer hover:shadow-2xl transition-transform transform hover:scale-105">
         {/* New Badge */}
@@ -41,19 +41,22 @@ const CarItemSearch = ({ car }) => {
         {/* Car Title */}
         <div>
           <h2 className="font-bold text-black text-sm sm:text-lg mb-2">
-            {car?.listing_title || "Unknown Car"}
+            {car?.listing_title
+              ? car.listing_title.length > 10
+                ? car.listing_title.substring(0, 10) + "..."
+                : car.listing_title
+              : "Unknown Car"}
           </h2>
         </div>
 
-       
         {/* Price and View Details */}
         <div className="sm:flex items-center justify-between">
           <h2 className="font-bold sm:text-xl text-sm">
             ₹ {car?.selling_price || "Not Available"}
           </h2>
 
-          <button className="mt-3 bg-black text-white px-3 py-1 w-full rounded-lg hover:bg-gray-800 transition-all">
-            View Details
+          <button className="mt-3 bg-black text-white px-3 py-1 w-full rounded-xl hover:bg-gray-800 transition-all">
+            <p className="font-bold text-sm">View Details</p>
           </button>
         </div>
       </div>

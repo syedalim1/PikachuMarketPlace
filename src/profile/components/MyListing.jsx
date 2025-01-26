@@ -81,12 +81,12 @@ function MyListing() {
         </div>
 
         {/* Listings Grid */}
-        <div className="grid h-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid h-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 ">
           {carList.length > 0 ? (
             carList.map((item, index) => (
               <div
                 key={item.id}
-                className="flex flex-col bg-white p-4 rounded-lg "
+                className="flex flex-col bg-white p-2 rounded-lg "
               >
                 {/* Show "New" badge for the latest listing */}
                 <CarItemSearch car={item} />

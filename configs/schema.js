@@ -11,7 +11,6 @@ export const CarListing = pgTable("CarListing", {
   condition: varchar("condition").notNull(),
   make: varchar("make").notNull(),
   model: varchar("model"),
-  year: varchar("year"),
   drive_type: varchar("drive_type").notNull(),
   transmission: varchar("transmission").notNull(),
   fuel_type: varchar("fuel_type").notNull(),

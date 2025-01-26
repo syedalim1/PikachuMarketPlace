@@ -141,15 +141,13 @@ function AddListing() {
   return (
     <div>
       <Header />
-      <div className="px-4 sm:px-8 lg:px-10 my-10">
-        <h2 className="font-bold text-4xl text-center text-blue-600">
-          🚗 Add New Car Listing
-        </h2>
+      <div className="px-4 sm:px-8 lg:px-10 mt-3">
         <form
           onSubmit={onSubmit}
-          className="p-6 sm:p-10 border rounded-xl mt-10 shadow-lg bg-white"
+          className="p-6 sm:p-10 border rounded-xl mt-3 shadow-lg bg-white"
         >
           <div>
+
             <h2 className="font-medium text-xl mb-6 text-gray-700">
               Car Details
             </h2>
@@ -192,21 +190,7 @@ function AddListing() {
               ))}
             </div>
             <Separator className="text-black pb-5" />
-            {/* <h2 className="font-medium text-xl my-6">Features</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-              {features.features.map((item, index) => (
-                <div key={index} className="flex gap-2 items-center">
-                  <Checkbox
-                    checked={featuresData?.[item.name] || false}
-                    onCheckedChange={(value) =>
-                      handleFeaturesChange(item.name, value)
-                    }
-                  />
-                  <h2>{item.label}</h2>
-                </div>
-              ))}
-            </div> */}
-            <Separator className="my-6" />
+
             <UploadImages
               ref={imageUploaderRef}
               triggerUpload={triggerUpload}
@@ -215,7 +199,7 @@ function AddListing() {
             />
             <Button
               type="submit"
-              className="mt-10 bg-green-500 text-white py-2 px-4 rounded flex items-center justify-center gap-2"
+              className="my-10 bg-green-500 text-white py-2 px-4 rounded flex items-center justify-center gap-2"
               disabled={loading}
             >
               {loading ? (
@@ -230,7 +214,7 @@ function AddListing() {
           </div>
         </form>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

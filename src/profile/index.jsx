@@ -39,15 +39,13 @@ const Profile = () => {
     );
   }
   return (
-    <div className="">
+    <div>
       {/* Header */}
       <Header />
 
-      <h2 className="text-2xl text-center mt-6 sm:text-3xl font-semibold text-purple-700">
-        Profile Section
-      </h2>
-      <ProfilePage />
-
+      <div className="h-[800px]">
+        <ProfilePage />
+      </div>
       <Footer />
     </div>
   );

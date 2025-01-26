@@ -43,7 +43,7 @@ const MostSearchedCar = () => {
   return (
     <div className="h-full  px-4 sm:px-6 lg:px-8  bg-white ">
       {/* Section Title */}
-      <h2 className="font-bold  text-xl sm:text-3xl text-center py-5 mb-8 text-gray-800">
+      <h2 className="font-bold  text-xl sm:text-3xl text-center py-3  text-gray-800">
         Most Searched Cars
       </h2>
 
@@ -65,34 +65,16 @@ const MostSearchedCar = () => {
       {!loading && !error && carList.length > 0 && (
         <div className="flex flex-col h-screen">
           {/* Other content or header */}
-          
-        
 
           {/* Main Carousel Content */}
-          <main className="flex-grow overflow-hidden">
-            <Carousel>
-              <CarouselContent className="flex flex-nowrap h-full">
-                {/* Mapping through the car list and displaying CarItem for each */}
-                {carList.map((car, index) => (
-                  <CarouselItem
-                    className="flex-none basis-1/2 sm:basis-1/2 md:basis-1/3 p-2 transition-transform transform hover:scale-105"
-                    key={index}
-                  >
-                    <CarItem car={car} />
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-
-              {/* Carousel Navigation Buttons */}
-              <CarouselPrevious className="absolute left-0 top-1/2 transform -translate-y-1/2 text-white" />
-              <CarouselNext className="absolute right-0 top-1/2 transform -translate-y-1/2 text-white" />
-            </Carousel>
-          </main>
-
-          {/* Footer */}
-          <footer className="flex-none bg-gray-800 text-white text-center py-4">
-            &copy; 2025 Car Marketplace
-          </footer>
+          <div className="grid grid-cols-2 gap-2">
+            {/* Mapping through the car list and displaying CarItem for each */}
+            {carList.map((car, index) => (
+              <div className=" hover:scale-105">
+                <CarItem key={index} car={car} />
+              </div>
+            ))}
+          </div>
         </div>
       )}
 

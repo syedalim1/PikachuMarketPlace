@@ -41,12 +41,15 @@ const CarItem = ({ car }) => {
       />
 
       {/* Car Title */}
-      <div>
+      <div >
         <h2 className="font-bold text-black text-sm sm:text-lg mb-2">
-          {car?.listing_title || "Unknown Car"}
+          {car?.listing_title
+            ? car.listing_title.length > 10
+              ? car.listing_title.substring(0, 10) + "..."
+              : car.listing_title
+            : "Unknown Car"}
         </h2>
       </div>
-
 
       {/* Price and View Details */}
       <div className="sm:flex items-center justify-between">
@@ -54,8 +57,8 @@ const CarItem = ({ car }) => {
           ${car?.selling_price || "Not Available"}
         </h2>
 
-        <button className="mt-3 bg-black text-white px-3 py-1 w-full rounded-lg hover:bg-gray-800 transition-all">
-          View Details
+        <button className="mt-3 bg-black text-white px-3 py-1 w-full rounded-xl hover:bg-gray-800 transition-all">
+          <p className="font-bold text-sm">View Details</p>
         </button>
       </div>
     </div>

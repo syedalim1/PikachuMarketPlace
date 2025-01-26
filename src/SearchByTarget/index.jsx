@@ -47,7 +47,7 @@ const SearchByTarget = () => {
     <div className="">
       <Header />
       {cars.length > 0 ? (
-        <div className="p-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-7">
+        <div className="m-2 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-3">
           {cars.map((item, index) => (
             <div key={index}>
               <CarItemSearch car={item} />

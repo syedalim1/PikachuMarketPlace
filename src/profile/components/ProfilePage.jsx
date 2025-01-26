@@ -40,9 +40,9 @@ const ProfilePage = () => {
     return <div>Loading...</div>;
   }
 
-  if (!user ) {
+  if (!user) {
     return (
-      <div className="max-w-lg mx-auto p-6 bg-white rounded-lg">
+      <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold text-center text-red-600 mb-6">
           Not Registered
         </h1>
@@ -54,14 +54,17 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white rounded-lg">
-      <h1 className="text-2xl font-bold text-center mb-6">Edit Profile</h1>
-      <div className="flex flex-col justify-center items-center mb-6">
-        <div className="relative">
+    <div className="max-w-lg mx-auto px-5 bg-white rounded-lg ">
+      <h2 className="text-xl text-start mt-6 sm:text-3xl font-semibold text-purple-700">
+        Edit Profile
+      </h2>
+
+      <div className="flex flex-col justify-start items-center mb-6">
+        <div>
           <img
             src={editImageUrl}
             alt="Profile"
-            className="w-24 h-24 rounded-full object-cover mb-4"
+            className="w-12 h-12 rounded-full object-cover mb-4 border border-gray-300"
           />
         </div>
       </div>
@@ -76,7 +79,7 @@ const ProfilePage = () => {
             id="first-name"
             value={editFirstName}
             onChange={(e) => setEditFirstName(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-lg"
+            className="w-full p-1 border border-gray-300 rounded-lg"
           />
         </div>
         <div>
@@ -115,9 +118,9 @@ const ProfilePage = () => {
             className="w-full p-2 border border-gray-300 rounded-lg bg-gray-100"
           />
         </div>
-        <div className="mt-4">
+        <div className="mt-6">
           <button
-            className="w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+            className="w-full py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
             onClick={updateUser}
           >
             Save Changes
