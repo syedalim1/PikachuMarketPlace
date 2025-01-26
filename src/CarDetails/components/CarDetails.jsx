@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../../../configs"; // Adjust the path to your database configuration
 import { CarListing, CarImages } from "../../../configs/schema"; // Adjust paths to schema
@@ -46,10 +46,11 @@ const CarDetails = () => {
   }
 
   return (
-    <div className="bg-white">
+    <div className="bg-white px-3">
+      <Header />
       <div className="sm:p-10 md:px-20 bg-white  sm:mt-5">
         <ImageGallery car={car} />
-        <div className="bg-gray-200">
+        <div className="0">
           <Pricing car={car} />
           <DetailHeaders car={car} />
         </div>
@@ -65,7 +66,6 @@ const CarDetails = () => {
         {/* Right section (Pricing, Specification, Owner Details) */}
         <div className="bg-white sm:p-6 "></div>
 
-   
         <MostSearchedCar />
       </div>
       <Footer />

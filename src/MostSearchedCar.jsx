@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CarItem from "./CarItem"; // Importing the CarItem component
 import {
   Carousel,
@@ -41,7 +41,7 @@ const MostSearchedCar = () => {
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8  bg-white ">
+    <div className="h-full  px-4 sm:px-6 lg:px-8  bg-white ">
       {/* Section Title */}
       <h2 className="font-bold  text-xl sm:text-3xl text-center py-5 mb-8 text-gray-800">
         Most Searched Cars
@@ -63,23 +63,37 @@ const MostSearchedCar = () => {
 
       {/* Display Carousel if Data is Available */}
       {!loading && !error && carList.length > 0 && (
-        <Carousel>
-          <CarouselContent className="flex flex-nowrap  g">
-            {/* Mapping through the car list and displaying CarItem for each */}
-            {carList.map((car, index) => (
-              <CarouselItem
-                className="flex-none  basis-1/2 sm:basis-1/2 md:basis-1/3 p-2 transition-transform transform hover:scale-105"
-                key={index}
-              >
-                <CarItem car={car} />{" "}
-                {/* Display each car in a carousel item */}
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          {/* Carousel Navigation Buttons */}
-          <CarouselPrevious className="absolute left-0 top-1/2 transform -translate-y-1/2 text-white" />
-          <CarouselNext className="absolute right-0 top-1/2 transform -translate-y-1/2 text-white" />
-        </Carousel>
+        <div className="flex flex-col h-screen">
+          {/* Other content or header */}
+          
+        
+
+          {/* Main Carousel Content */}
+          <main className="flex-grow overflow-hidden">
+            <Carousel>
+              <CarouselContent className="flex flex-nowrap h-full">
+                {/* Mapping through the car list and displaying CarItem for each */}
+                {carList.map((car, index) => (
+                  <CarouselItem
+                    className="flex-none basis-1/2 sm:basis-1/2 md:basis-1/3 p-2 transition-transform transform hover:scale-105"
+                    key={index}
+                  >
+                    <CarItem car={car} />
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+
+              {/* Carousel Navigation Buttons */}
+              <CarouselPrevious className="absolute left-0 top-1/2 transform -translate-y-1/2 text-white" />
+              <CarouselNext className="absolute right-0 top-1/2 transform -translate-y-1/2 text-white" />
+            </Carousel>
+          </main>
+
+          {/* Footer */}
+          <footer className="flex-none bg-gray-800 text-white text-center py-4">
+            &copy; 2025 Car Marketplace
+          </footer>
+        </div>
       )}
 
       {/* No Data Fallback */}
