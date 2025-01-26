@@ -12,14 +12,26 @@ function Inbox() {
 
   useEffect(() => {
     if (user) {
-      const id = user.primaryEmailAddress?.emailAddress.split("@")[0];
-      setUserId(id); // Fixed setting userId
+      const id =
+        user.primaryEmailAddress?.emailAddress.split("@")[0] || "guest";
+      setUserId(id);
     }
   }, [user]);
 
+  if (!import.meta.env.VITE_SENDBIRD_APP_ID) {
+    return (
+      <div className="text-center text-red-500 mt-6">
+        <strong>Error:</strong> Sendbird App ID is not configured.
+      </div>
+    );
+  }
+
   if (!userId) {
-    // Render a loader or placeholder until the userId is ready
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="text-gray-500">Loading your inbox, please wait...</div>
+      </div>
+    );
   }
 
   return (
@@ -27,26 +39,31 @@ function Inbox() {
       <SendBirdProvider
         appId={import.meta.env.VITE_SENDBIRD_APP_ID}
         userId={userId}
-        nickname={user?.username}
-        profileUrl={user?.imageUrl}
+        nickname={
+          user?.username ||
+          user?.firstName ||
+          user?.primaryEmailAddress?.emailAddress
+        }
+        profileUrl={user?.imageUrl || "https://via.placeholder.com/150"}
         allowProfileEdit={true}
       >
         <div className="grid grid-cols-1 md:grid-cols-3 h-full">
           {/* Channel List */}
-          <div>
+          <div className="overflow-y-auto scrollable">
             <GroupChannelList
-              onChannelSelect={(channel) => {
-                setChannelUrl(channel?.url); // Corrected channelUrl spelling
-              }}
+              onChannelSelect={(channel) => setChannelUrl(channel?.url)}
               channelListQueryParams={{ includeEmpty: true }}
             />
           </div>
+
           {/* Channel Details */}
-          <div className="md:col-span-2">
+          <div className="md:col-span-2 flex items-center justify-center">
             {channelUrl ? (
               <GroupChannel channelUrl={channelUrl} />
             ) : (
-              <div>Select a channel to view details</div>
+              <div className="text-gray-500">
+                Select a channel to view details
+              </div>
             )}
           </div>
         </div>

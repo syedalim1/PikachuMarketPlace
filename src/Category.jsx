@@ -9,49 +9,46 @@ const Categories1 = () => {
         Browse By Type
       </h2>
 
-      {/* First Categories Row */}
-      <div className="flex flex-col overflow-x-auto scrollbar-hide scroll-smooth gap-6 px-6 sm:px-12 lg:px-20">
-        <div className="flex">
+      {/* Categories Rows */}
+      <div className="flex flex-col gap-6 px-6 sm:px-12 lg:px-20">
+        {/* First Categories Row */}
+        <div className="flex overflow-x-auto scrollbar-hide gap-6">
           {Data.Categories1.map((category, index) => (
             <div
               key={index}
-              className="p-4 flex flex-col items-center hover:shadow-xl transition-transform transform hover:scale-105 cursor-pointer"
+              className="w-20 h-20 p-6 flex flex-col items-center justify-center  hover:shadow-xl transition-transform transform hover:scale-105 cursor-pointer rounded-lg"
             >
               <Link to={`/search/${category.name}`}>
-                <img
-                  src={category.icon}
-                  alt={category.name}
-                  className="w-10 h-10" // Adjusted image size
-                />
-                <h2 className="mt-3 text-[12px] text-center text-gray-700 font-semibold">
-                  {category.name}
-                </h2>
+                <div className="flex flex-col items-center">
+                  <div className="text-3xl text-gray-600">{category.icon}</div>
+                  <h2 className="mt-4 text-sm text-center text-gray-700 font-semibold">
+                    {category.name}
+                  </h2>
+                </div>
               </Link>
             </div>
           ))}
         </div>
-        <div className="flex ">
+
+        {/* Second Categories Row */}
+        <div className="flex overflow-x-auto scrollbar-hide gap-6">
           {Data.Categories2.map((category, index) => (
             <div
               key={index}
-              className="p-4 flex flex-col items-center hover:shadow-xl transition-transform transform hover:scale-105 cursor-pointer"
+              className="w-20 h-20 p-6 flex flex-col items-center justify-center  hover:shadow-xl transition-transform transform hover:scale-105 cursor-pointer rounded-lg"
             >
               <Link to={`/search/${category.name}`}>
-                <img
-                  src={category.icon}
-                  alt={category.name}
-                  className="w-10 h-10" // Adjusted image size
-                />
-                <h2 className="mt-3 text-[12px] text-center text-gray-700 font-semibold">
-                  {category.name}
-                </h2>
+                <div className="flex flex-col items-center">
+                  <div className="text-3xl text-gray-600">{category.icon}</div>
+                  <h2 className="mt-4 text-sm text-center text-gray-700 font-semibold">
+                    {category.name}
+                  </h2>
+                </div>
               </Link>
             </div>
           ))}
         </div>
       </div>
-
-      {/* Second Categories Row */}
     </div>
   );
 };

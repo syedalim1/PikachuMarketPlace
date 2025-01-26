@@ -1,25 +1,26 @@
 import { useUser } from "@clerk/clerk-react";
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-// Ensure Clerk SDK is installed
 
 const ProfilePage = () => {
   const { user, isLoaded } = useUser();
-  const [searchParams] = useSearchParams();
-
   const [editFirstName, setEditFirstName] = useState("");
   const [editLastName, setEditLastName] = useState("");
   const [editImageUrl, setEditImageUrl] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
 
   useEffect(() => {
-    getUserDetails();
-    console.log(user);
-  }, []);
+    if (isLoaded && user) {
+      getUserDetails();
+    }
+  }, [isLoaded, user]);
 
   const getUserDetails = () => {
-    setEditFirstName(user.firstName || "");
-    setEditLastName(user.lastName || "");
-    setEditImageUrl(user.imageUrl);
+    setEditFirstName(user?.firstName || "");
+    setEditLastName(user?.lastName || "");
+    setEditImageUrl(user?.imageUrl || "https://via.placeholder.com/150");
+    setEmail(user?.primaryEmailAddress?.emailAddress || "");
+    setPhone(user?.phoneNumbers?.[0]?.phoneNumber || ""); // Use the first phone number if available
   };
 
   const updateUser = async () => {
@@ -35,25 +36,34 @@ const ProfilePage = () => {
     }
   };
 
-
-  // Call the function
-
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
 
+  if (!user || !user.primaryEmailAddress) {
+    return (
+      <div className="max-w-lg mx-auto p-6 bg-white rounded-lg">
+        <h1 className="text-2xl font-bold text-center text-red-600 mb-6">
+          Not Registered
+        </h1>
+        <p className="text-center text-gray-700">
+          Please register an account to view or edit your profile.
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white  rounded-lg">
+    <div className="max-w-lg mx-auto p-6 bg-white rounded-lg">
       <h1 className="text-2xl font-bold text-center mb-6">Edit Profile</h1>
       <div className="flex flex-col justify-center items-center mb-6">
         <div className="relative">
           <img
-            src={editImageUrl || "https://via.placeholder.com/150"} // Fallback image
+            src={editImageUrl}
             alt="Profile"
             className="w-24 h-24 rounded-full object-cover mb-4"
           />
         </div>
-       
       </div>
 
       <div className="space-y-4">
@@ -88,9 +98,9 @@ const ProfilePage = () => {
           <input
             type="email"
             id="email"
-            value={user.primaryEmailAddress.emailAddress}
-            onChange={(e) => setEditEmail(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-lg"
+            value={email}
+            readOnly
+            className="w-full p-2 border border-gray-300 rounded-lg bg-gray-100"
           />
         </div>
         <div>
@@ -100,9 +110,9 @@ const ProfilePage = () => {
           <input
             type="text"
             id="phone"
-            value={user.phoneNumbers}
-            onChange={(e) => setEditPhone(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-lg"
+            value={phone}
+            readOnly
+            className="w-full p-2 border border-gray-300 rounded-lg bg-gray-100"
           />
         </div>
         <div className="mt-4">

@@ -1,58 +1,68 @@
+import { FaMobileScreen } from "react-icons/fa6";
+import { IoCarSportSharp } from "react-icons/io5";
+
+import { FaMobileAlt, FaBiking, FaChair, FaDog } from "react-icons/fa";
+import { MdWork, MdElectricalServices } from "react-icons/md";
+import { GiCommercialAirplane, GiRunningShoe } from "react-icons/gi";
+
 const Categories1 = [
   {
     id: 1,
     name: "Cars",
-    icon: "https://cdn-icons-png.flaticon.com/128/13584/13584003.png", // Replace with a car-related icon URL
+    icon: < IoCarSportSharp />, // Car-related icon
   },
   {
     id: 2,
     name: "Mobiles",
-    icon: "https://cdn-icons-png.flaticon.com/128/1425/1425037.png", // Replace with a mobile-related icon URL
+    icon: <FaMobileAlt />, // Mobile-related icon
   },
   {
     id: 3,
     name: "Jobs",
-    icon: "https://cdn-icons-png.flaticon.com/128/942/942853.png", // Replace with a job-related icon URL
+    icon: <MdWork />, // Job-related icon
   },
   {
     id: 4,
     name: "Bikes",
-    icon: "https://cdn-icons-png.flaticon.com/128/2651/2651367.png", // Replace with a bike-related icon URL
+    icon: <FaBiking />, // Bike-related icon
   },
   {
     id: 5,
     name: "Electronics",
-    icon: "https://cdn-icons-png.flaticon.com/128/337/337955.png", // Replace with an electronics-related icon URL
+    icon: <MdElectricalServices />, // Electronics-related icon
   },
 ];
 
 const Categories2 = [
   {
     id: 6,
-    name: "Commercial ",
-    icon: "https://cdn-icons-png.flaticon.com/128/2798/2798193.png", // Replace with a commercial vehicle-related icon URL
+    name: "Commercial",
+    icon: <GiCommercialAirplane />, // Commercial vehicle-related icon
   },
   {
     id: 7,
     name: "Furniture",
-    icon: "https://cdn-icons-png.flaticon.com/128/3069/3069350.png", // Replace with a furniture-related icon URL
+    icon: <FaChair />, // Furniture-related icon
   },
   {
     id: 8,
     name: "Fashion",
-    icon: "https://cdn-icons-png.flaticon.com/128/4213/4213174.png", // Replace with a fashion-related icon URL
+    icon: <GiRunningShoe />, // Fashion-related icon
   },
   {
     id: 9,
-    name: "Sports ",
-    icon: "https://cdn-icons-png.flaticon.com/128/337/337935.png", // Replace with a books/sports-related icon URL
+    name: "Sports",
+    icon: <FaBiking />, // Sports-related icon
   },
   {
     id: 10,
     name: "Pets",
-    icon: "https://cdn-icons-png.flaticon.com/128/2950/2950056.png", // Replace with a pet-related icon URL
+    icon: <FaDog />, // Pet-related icon
   },
 ];
+
+export { Categories1, Categories2 };
+
 export default {
   Categories1,
   Categories2,
