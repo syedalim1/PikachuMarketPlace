@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-<<<<<<< HEAD
 .scrollbar-hide {
   -ms-overflow-style: none; /* Internet Explorer 10+ */
   scrollbar-width: none; /* Firefox */
@@ -10,8 +9,8 @@
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Edge, and Opera */
-=======
+}
+
 body {
   font-family: "Poppins", sans-serif;
->>>>>>> ace1af24e52b684b066ae66a11350265da47221b
 }
