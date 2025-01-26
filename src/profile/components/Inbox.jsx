@@ -4,6 +4,8 @@ import "@sendbird/uikit-react/dist/index.css";
 import { useUser } from "@clerk/clerk-react";
 import { GroupChannelList } from "@sendbird/uikit-react/GroupChannelList";
 import { GroupChannel } from "@sendbird/uikit-react/GroupChannel";
+import Header from "@/Common/Header";
+import Footer from "@/Common/Footer";
 
 function Inbox() {
   const { user } = useUser();
@@ -35,7 +37,9 @@ function Inbox() {
   }
 
   return (
-    <div style={{ width: "100%", height: "500px" }}>
+    <div style={{ width: "100%", height: "100%" }}>
+      <Header/>
+      
       <SendBirdProvider
         appId={import.meta.env.VITE_SENDBIRD_APP_ID}
         userId={userId}
@@ -46,6 +50,7 @@ function Inbox() {
         }
         profileUrl={user?.imageUrl || "https://via.placeholder.com/150"}
         allowProfileEdit={true}
+        
       >
         <div className="grid grid-cols-1 md:grid-cols-3 h-full">
           {/* Channel List */}
@@ -68,6 +73,7 @@ function Inbox() {
           </div>
         </div>
       </SendBirdProvider>
+      <Footer/>
     </div>
   );
 }

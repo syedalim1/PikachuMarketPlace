@@ -7,6 +7,7 @@ import CarItem from "@/CarItem";
 import Service from "../Shared/Service"; // Ensure correct path to Service
 import Header from "@/Common/Header";
 import Footer from "@/Common/Footer";
+import CarItemSearch from "@/search/[category]/CarItemSearch";
 
 const SearchByTarget = () => {
   const [searchParams] = useSearchParams();
@@ -49,7 +50,7 @@ const SearchByTarget = () => {
         <div className="p-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-7">
           {cars.map((item, index) => (
             <div key={index}>
-              <CarItem car={item} />
+              <CarItemSearch car={item} />
             </div>
           ))}
         </div>

@@ -20,6 +20,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import Footer from "@/Common/Footer";
+import CarItemSearch from "@/search/[category]/CarItemSearch";
+import Header from "@/Common/Header";
 
 function MyListing() {
   const { user } = useUser();
@@ -68,78 +70,81 @@ function MyListing() {
   };
 
   return (
-    <div className="px-4 h-full sm:px-10 md:px-20 py-10">
-      {/* Header Section */}
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="font-bold text-2xl sm:text-3xl md:text-4xl">
-          My Listings
-        </h2>
-      </div>
+    <div>
+      <Header/>
+      <div className="px-4 h-full sm:px-10 md:px-20 py-10">
+        {/* Header Section */}
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="font-bold text-2xl sm:text-3xl md:text-4xl">
+            My Listings
+          </h2>
+        </div>
 
-      {/* Listings Grid */}
-      <div className="grid h-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {carList.length > 0 ? (
-          carList.map((item, index) => (
-            <div
-              key={item.id}
-              className="flex flex-col bg-white p-4 rounded-lg "
-            >
-              {/* Show "New" badge for the latest listing */}
-              <CarItem car={item} />
+        {/* Listings Grid */}
+        <div className="grid h-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {carList.length > 0 ? (
+            carList.map((item, index) => (
+              <div
+                key={item.id}
+                className="flex flex-col bg-white p-4 rounded-lg "
+              >
+                {/* Show "New" badge for the latest listing */}
+                <CarItemSearch car={item} />
 
-              {/* Action Buttons */}
-              <div className="p-2 bg-gray-50 rounded-lg flex justify-between items-center gap-3">
-                <Link
-                  to={"/add-listing?mode=edit&id=" + item.id}
-                  className="w-full"
-                >
-                  <Button className="w-full" variant="outline">
-                    Edit
-                  </Button>
-                </Link>
-
-                <AlertDialog className="bg-white">
-                  <AlertDialogTrigger>
-                    <Button
-                      variant="destructive"
-                      className="bg-red-500 text-white rounded"
-                      onClick={() => setDeleteCarId(item.id)} // Set the ID of the car to delete
-                    >
-                      <FaTrashArrowUp />
+                {/* Action Buttons */}
+                <div className="p-2 bg-gray-50 rounded-lg flex justify-between items-center gap-3">
+                  <Link
+                    to={"/add-listing?mode=edit&id=" + item.id}
+                    className="w-full"
+                  >
+                    <Button className="w-full" variant="outline">
+                      Edit
                     </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent className="bg-white">
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>
-                        Are you sure you want to delete?
-                      </AlertDialogTitle>
-                      <AlertDialogDescription>
-                        This action cannot be undone. This will permanently
-                        delete your listing.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction
-                        onClick={() => {
-                          deleteCarListing(deleteCarId); // Delete the car listing
-                        }}
+                  </Link>
+
+                  <AlertDialog className="bg-white">
+                    <AlertDialogTrigger>
+                      <Button
+                        variant="destructive"
+                        className="bg-red-500 text-white rounded"
+                        onClick={() => setDeleteCarId(item.id)} // Set the ID of the car to delete
                       >
-                        Delete
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
+                        <FaTrashArrowUp />
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent className="bg-white">
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Are you sure you want to delete?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This action cannot be undone. This will permanently
+                          delete your listing.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={() => {
+                            deleteCarListing(deleteCarId); // Delete the car listing
+                          }}
+                        >
+                          Delete
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </div>
               </div>
+            ))
+          ) : (
+            <div className="col-span-full text-center text-gray-500">
+              No listings available. Click "+ Add New Listing" to create one.
             </div>
-          ))
-        ) : (
-          <div className="col-span-full text-center text-gray-500">
-            No listings available. Click "+ Add New Listing" to create one.
-          </div>
-        )}
-        <Footer/>
+          )}
+        </div>
       </div>
+      <Footer/>
     </div>
   );
 }

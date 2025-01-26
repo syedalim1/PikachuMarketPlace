@@ -20,6 +20,7 @@ import { useUser } from "@clerk/clerk-react";
 import moment from "moment";
 import { eq } from "drizzle-orm";
 import Service from "@/Shared/Service";
+import Footer from "@/Common/Footer";
 
 function AddListing() {
   const [formData, setFormData] = useState({});
@@ -229,6 +230,7 @@ function AddListing() {
           </div>
         </form>
       </div>
+      <Footer/>
     </div>
   );
 }

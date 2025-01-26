@@ -40,7 +40,7 @@ const ProfilePage = () => {
     return <div>Loading...</div>;
   }
 
-  if (!user || !user.primaryEmailAddress) {
+  if (!user ) {
     return (
       <div className="max-w-lg mx-auto p-6 bg-white rounded-lg">
         <h1 className="text-2xl font-bold text-center text-red-600 mb-6">

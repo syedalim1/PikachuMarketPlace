@@ -13,6 +13,8 @@ import SearchByTarget from "./SearchByTarget";
 import CarDetails from "./CarDetails/components/CarDetails";
 import Profile from "./profile";
 import ContactSeller from "./contact";
+import Inbox from "./profile/components/Inbox";
+import MyListing from "./profile/components/MyListing";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_KEY;
 
@@ -32,6 +34,8 @@ createRoot(document.getElementById("root")).render(
           <Route path="/searching" element={<SearchByTarget />} />
           <Route path="/search/:category" element={<SeachBycategory />} />
           <Route path="/car-details/:id" element={<CarDetails />} />
+          <Route path="/chats/:username" element={<Inbox />} />
+          <Route path="/mylists/:username" element={<MyListing />} />
         </Routes>
       </BrowserRouter>
       <Toaster />
