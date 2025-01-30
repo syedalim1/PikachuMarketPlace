@@ -17,6 +17,14 @@ import MyListing from "./profile/components/MyListing";
 import Selectcategorypost from "./SelectCategory/Selectcategorypost";
 import CarAddListing from "./add-listing/CarAddListing";
 import BikeAddListing from "./add-listing/BikeAddListing";
+import CommercialAddListing from "./add-listing/CommercialAddListing";
+import ElectronicsAddListing from "./add-listing/ElectronicsAddListing";
+import FashionAddlisting from "./add-listing/FashionAddlisting";
+import FurnitureAddlisting from "./add-listing/FurnitureAddlisting";
+import JobsAddListing from "./add-listing/JobsAddListing";
+import MobileAddListing from "./add-listing/MobileAddListing";
+import PetsAddlisting from "./add-listing/PetsAddlisting";
+import SportsAddlisting from "./add-listing/SportsAddlisting";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_KEY;
 
@@ -38,8 +46,26 @@ createRoot(document.getElementById("root")).render(
           <Route path="/car-details/:id" element={<CarDetails />} />
           <Route path="/chats/:username" element={<Inbox />} />
           <Route path="/mylists/:username" element={<MyListing />} />
+
           <Route path="/add-listing/Cars" element={<CarAddListing />} />
           <Route path="/add-listing/Bikes" element={<BikeAddListing />} />
+          <Route
+            path="/add-listing/Commercial"
+            element={<CommercialAddListing />}
+          />
+          <Route
+            path="/add-listing/Electronics"
+            element={<ElectronicsAddListing />}
+          />
+          <Route path="/add-listing/Fashion" element={<FashionAddlisting />} />
+          <Route
+            path="/add-listing/Furniture"
+            element={<FurnitureAddlisting />}
+          />
+          <Route path="/add-listing/Mobiles" element={<MobileAddListing />} />
+          <Route path="/add-listing/Jobs" element={<JobsAddListing />} />
+          <Route path="/add-listing/Pets" element={<PetsAddlisting />} />
+          <Route path="/add-listing/Sports" element={<SportsAddlisting />} />
         </Routes>
       </BrowserRouter>
       <Toaster />

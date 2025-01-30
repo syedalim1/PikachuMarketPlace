@@ -8,7 +8,6 @@ import TextAreaField from "./components/TextAreaField";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { db } from "../../configs";
-import { CarImages, CarListing } from "../../configs/schema";
 import UploadImages from "./components/UploadImages";
 import IconField from "./components/IconField";
 import { AiOutlineLoading } from "react-icons/ai";
@@ -19,7 +18,6 @@ import moment from "moment";
 import { eq } from "drizzle-orm";
 import Service from "@/Shared/Service";
 import Footer from "@/Common/Footer";
-import { FaMobileAlt } from "react-icons/fa";
 
 function BikeAddListing() {
   const [formData, setFormData] = useState({});
@@ -139,7 +137,7 @@ function BikeAddListing() {
         >
           <div>
             <h2 className="font-medium text-xl mb-6 text-gray-700">
-              Bike Details
+            Enter  Bike List Details
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {carDetails.bikeDetails.map((item, index) => (

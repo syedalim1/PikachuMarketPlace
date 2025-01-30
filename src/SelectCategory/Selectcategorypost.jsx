@@ -3,7 +3,36 @@ import Data from "@/Shared/Data";
 import { Link } from 'react-router-dom';
 import Header from '@/Common/Header';
 import Footer from '@/Common/Footer';
+import { SignedOut, SignInButton, useUser } from '@clerk/clerk-react';
+import { Button } from '@/components/ui/button';
 function Selectcategorypost() {
+  const { user } = useUser();
+
+   if (!user) {
+     return (
+       <div>
+         <Header />
+         <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg">
+           <h1 className="text-2xl font-bold text-center text-red-600 mb-6">
+             Not Registered
+           </h1>
+           <p className="text-center text-gray-700">
+             Please register an account to view or edit your profile.
+           </p>
+           <div className="flex items-center justify-center mt-5">
+             <SignedOut>
+               <SignInButton>
+                 <Button className="hover:scale-110 text-center hover:text-black hover:bg-white transition-transform text-white bg-black">
+                   Sign In
+                 </Button>
+               </SignInButton>
+             </SignedOut>
+           </div>
+         </div>
+         <Footer />
+       </div>
+     );
+   }
   return (
     <div>
         <Header/>

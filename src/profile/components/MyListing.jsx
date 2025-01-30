@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { db } from "../../../configs";
 import { CarImages, CarListing } from "../../../configs/schema";
 import { desc, eq } from "drizzle-orm";
-import { useUser } from "@clerk/clerk-react";
+import { SignedOut, SignInButton, useUser } from "@clerk/clerk-react";
 import { FaTrashArrowUp } from "react-icons/fa6";
 import Service from "@/Shared/Service"; // For default export
 import CarItem from "@/CarItem";
@@ -34,6 +34,31 @@ function MyListing() {
     }
   }, [user]);
 
+if (!user) {
+  return (
+    <div>
+      <Header />
+      <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg">
+        <h1 className="text-2xl font-bold text-center text-red-600 mb-6">
+          Not Registered
+        </h1>
+        <p className="text-center text-gray-700">
+          Please register an account to view or edit your profile.
+        </p>
+        <div className="flex items-center justify-center mt-5">
+          <SignedOut>
+            <SignInButton>
+              <Button className="hover:scale-110 text-center hover:text-black hover:bg-white transition-transform text-white bg-black">
+                Sign In
+              </Button>
+            </SignInButton>
+          </SignedOut>
+        </div>
+      </div>
+      <Footer />
+    </div>
+  );
+}
   const getUserCarListing = async () => {
     try {
       const result = await db

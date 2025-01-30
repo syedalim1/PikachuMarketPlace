@@ -147,7 +147,7 @@ const UploadImages = forwardRef(({ triggerUpload, carInfo, mode }, ref) => {
   return (
     <div>
       <h2 className="font-medium text-xl my-3 text-gray-700">
-        Upload Car Images
+        Upload  Images
       </h2>
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
         {/* Display existing images in "edit" mode */}

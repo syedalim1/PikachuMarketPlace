@@ -1,4 +1,5 @@
-import { useUser } from "@clerk/clerk-react";
+import { Button } from "@/components/ui/button";
+import { SignedIn, SignOutButton, useUser } from "@clerk/clerk-react";
 import React, { useEffect, useState } from "react";
 
 const ProfilePage = () => {
@@ -49,6 +50,7 @@ const ProfilePage = () => {
         <p className="text-center text-gray-700">
           Please register an account to view or edit your profile.
         </p>
+        
       </div>
     );
   }
@@ -126,6 +128,13 @@ const ProfilePage = () => {
             Save Changes
           </button>
         </div>
+        <SignedIn>
+          <SignOutButton>
+            <Button className="hover:scale-110 hover:text-black hover:bg-white transition-transform text-white bg-black">
+              Sign Out
+            </Button>
+          </SignOutButton>
+        </SignedIn>
       </div>
     </div>
   );

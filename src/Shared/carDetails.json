@@ -379,5 +379,218 @@
       "column": 2,
       "icon": "FaFileAlt"
     }
+  ],
+  
+  "commercialDetails": [
+    {
+      "label": "Business Name",
+      "name": "business_name",
+      "fieldType": "text",
+      "required": true,
+      "column": 1,
+      "icon": "FaBuilding"
+    },
+    {
+      "label": "Category",
+      "name": "category",
+      "fieldType": "dropdown",
+      "options": ["Retail", "Wholesale", "Services", "Manufacturing"],
+      "required": true,
+      "column": 1,
+      "icon": "FaShoppingCart"
+    },
+    {
+      "label": "Location",
+      "name": "location",
+      "fieldType": "text",
+      "required": true,
+      "column": 1,
+      "icon": "FaMapMarkerAlt"
+    },
+    {
+      "label": "Description",
+      "name": "description",
+      "fieldType": "textarea",
+      "required": true,
+      "column": 2,
+      "icon": "FaFileAlt"
+    }
+  ],
+  "furnitureDetails": [
+    {
+      "label": "Brand",
+      "name": "brand",
+      "fieldType": "text",
+      "required": true,
+      "column": 1,
+      "icon": "FaCouch"
+    },
+    {
+      "label": "Material",
+      "name": "material",
+      "fieldType": "dropdown",
+      "options": ["Wood", "Metal", "Plastic", "Fabric"],
+      "required": true,
+      "column": 1,
+      "icon": "FaHammer"
+    },
+    {
+      "label": "Condition",
+      "name": "condition",
+      "fieldType": "dropdown",
+      "options": ["New", "Used"],
+      "required": true,
+      "column": 1,
+      "icon": "FaCheckCircle"
+    },
+    {
+      "label": "Price",
+      "name": "price",
+      "fieldType": "text",
+      "required": true,
+      "column": 1,
+      "icon": "FaDollarSign"
+    },
+    {
+      "label": "Description",
+      "name": "description",
+      "fieldType": "textarea",
+      "required": true,
+      "column": 2,
+      "icon": "FaFileAlt"
+    }
+  ],
+  "fashionDetails": [
+    {
+      "label": "Brand",
+      "name": "brand",
+      "fieldType": "text",
+      "required": true,
+      "column": 1,
+      "icon": "FaTshirt"
+    },
+    {
+      "label": "Size",
+      "name": "size",
+      "fieldType": "dropdown",
+      "options": ["S", "M", "L", "XL", "XXL"],
+      "required": true,
+      "column": 1,
+      "icon": "FaRuler"
+    },
+    {
+      "label": "Condition",
+      "name": "condition",
+      "fieldType": "dropdown",
+      "options": ["New", "Used"],
+      "required": true,
+      "column": 1,
+      "icon": "FaCheckCircle"
+    },
+    {
+      "label": "Price",
+      "name": "price",
+      "fieldType": "text",
+      "required": true,
+      "column": 1,
+      "icon": "FaDollarSign"
+    },
+    {
+      "label": "Description",
+      "name": "description",
+      "fieldType": "textarea",
+      "required": true,
+      "column": 2,
+      "icon": "FaFileAlt"
+    }
+  ],
+  "sportsDetails": [
+    {
+      "label": "Brand",
+      "name": "brand",
+      "fieldType": "text",
+      "required": true,
+      "column": 1,
+      "icon": "FaBasketballBall"
+    },
+    {
+      "label": "Sport Type",
+      "name": "sport_type",
+      "fieldType": "dropdown",
+      "options": ["Football", "Basketball", "Tennis", "Cricket", "Running"],
+      "required": true,
+      "column": 1,
+      "icon": "FaFutbol"
+    },
+    {
+      "label": "Condition",
+      "name": "condition",
+      "fieldType": "dropdown",
+      "options": ["New", "Used"],
+      "required": true,
+      "column": 1,
+      "icon": "FaCheckCircle"
+    },
+    {
+      "label": "Price",
+      "name": "price",
+      "fieldType": "text",
+      "required": true,
+      "column": 1,
+      "icon": "FaDollarSign"
+    },
+    {
+      "label": "Description",
+      "name": "description",
+      "fieldType": "textarea",
+      "required": true,
+      "column": 2,
+      "icon": "FaFileAlt"
+    }
+  ],
+  "petsDetails": [
+    {
+      "label": "Pet Type",
+      "name": "pet_type",
+      "fieldType": "dropdown",
+      "options": ["Dog", "Cat", "Bird", "Fish", "Reptile"],
+      "required": true,
+      "column": 1,
+      "icon": "FaPaw"
+    },
+    {
+      "label": "Breed",
+      "name": "breed",
+      "fieldType": "text",
+      "required": true,
+      "column": 1,
+      "icon": "FaDog"
+    },
+    {
+      "label": "Age",
+      "name": "age",
+      "fieldType": "text",
+      "required": true,
+      "column": 1,
+      "icon": "FaCalendarAlt"
+    },
+    {
+      "label": "Price",
+      "name": "price",
+      "fieldType": "text",
+      "required": true,
+      "column": 1,
+      "icon": "FaDollarSign"
+    },
+    {
+      "label": "Description",
+      "name": "description",
+      "fieldType": "textarea",
+      "required": true,
+      "column": 2,
+      "icon": "FaFileAlt"
+    }
   ]
+
+
 }

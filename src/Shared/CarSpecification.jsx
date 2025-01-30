@@ -1,5 +1,4 @@
 export default [
- 
   {
     label: "Condition",
     name: "condition",
@@ -19,7 +18,7 @@ export default [
   },
   {
     label: "Fuel Type",
-    name: "fuelType",
+    name: "fuel_type",
     icon: "FaGasPump",
   },
   {

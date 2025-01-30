@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { App as SendbirdApp, SendBirdProvider } from "@sendbird/uikit-react";
 import "@sendbird/uikit-react/dist/index.css";
-import { useUser } from "@clerk/clerk-react";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  SignOutButton,
+  useUser,
+} from "@clerk/clerk-react";
 import { GroupChannelList } from "@sendbird/uikit-react/GroupChannelList";
 import { GroupChannel } from "@sendbird/uikit-react/GroupChannel";
 import Header from "@/Common/Header";
 import Footer from "@/Common/Footer";
+import { Button } from "@/components/ui/button";
 
 function Inbox() {
   const { user } = useUser();
@@ -28,18 +35,36 @@ function Inbox() {
     );
   }
 
-  if (!userId) {
+  if (!user) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="text-gray-500">Loading your inbox, please wait...</div>
+      <div>
+        <Header />
+        <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg">
+          <h1 className="text-2xl font-bold text-center text-red-600 mb-6">
+            Not Registered
+          </h1>
+          <p className="text-center text-gray-700">
+            Please register an account to view or edit your profile.
+          </p>
+          <div className="flex items-center justify-center mt-5">
+            <SignedOut>
+              <SignInButton>
+                <Button className="hover:scale-110 text-center hover:text-black hover:bg-white transition-transform text-white bg-black">
+                  Sign In
+                </Button>
+              </SignInButton>
+            </SignedOut>
+          </div>
+        </div>
+        <Footer/>
       </div>
     );
   }
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
-      <Header/>
-      
+      <Header />
+
       <SendBirdProvider
         appId={import.meta.env.VITE_SENDBIRD_APP_ID}
         userId={userId}
@@ -50,7 +75,6 @@ function Inbox() {
         }
         profileUrl={user?.imageUrl || "https://via.placeholder.com/150"}
         allowProfileEdit={true}
-        
       >
         <div className="grid grid-cols-1 md:grid-cols-3 h-full">
           {/* Channel List */}
@@ -73,7 +97,7 @@ function Inbox() {
           </div>
         </div>
       </SendBirdProvider>
-      <Footer/>
+      <Footer />
     </div>
   );
 }
