@@ -28,7 +28,7 @@ const Footer = () => {
       </Link>
 
       {/* Sell */}
-      <Link to={"/add-listing"}>
+      <Link to={"/select-category"}>
         <div className="flex flex-col items-center cursor-pointer">
           <div className="   rounded-full  flex justify-center items-center">
             <FaTag className="text--black text-xl" />

@@ -6,9 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const CarItem = ({ car }) => {
   const navigate = useNavigate();
-  console.log("====================================");
   console.log(car);
-  console.log("====================================");
   if (!car) {
     return (
       <div className="text-center text-gray-500">No car data available.</div>
@@ -16,7 +14,11 @@ const CarItem = ({ car }) => {
   }
 
   const handleLinkClick = () => {
-    navigate("/car-details/" + car.id);
+    navigate("/car-details/" + car.id || car.id); // Navigate to the details page
+
+    setTimeout(() => {
+      window.location.reload(); // Refresh after navigation
+    }, 100); // Short delay to allow navigation first
   };
 
   return (
@@ -41,7 +43,7 @@ const CarItem = ({ car }) => {
       />
 
       {/* Car Title */}
-      <div >
+      <div>
         <h2 className="font-bold text-black text-sm sm:text-lg mb-2">
           {car?.listing_title
             ? car.listing_title.length > 10

@@ -6,11 +6,9 @@ import { Label } from "@radix-ui/react-label";
 import DropdownField from "./components/DropdownField";
 import TextAreaField from "./components/TextAreaField";
 import { Separator } from "@/components/ui/separator";
-import features from "./../Shared/features.json";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { db } from "./../../configs";
-import { CarImages, CarListing } from "./../../configs/schema";
+import { db } from "../../configs";
+import { CarImages, CarListing } from "../../configs/schema";
 import UploadImages from "./components/UploadImages";
 import IconField from "./components/IconField";
 import { AiOutlineLoading } from "react-icons/ai";
@@ -21,10 +19,10 @@ import moment from "moment";
 import { eq } from "drizzle-orm";
 import Service from "@/Shared/Service";
 import Footer from "@/Common/Footer";
+import { FaMobileAlt } from "react-icons/fa";
 
-function AddListing() {
+function BikeAddListing() {
   const [formData, setFormData] = useState({});
-  const [featuresData, setFeaturesData] = useState({});
   const imageUploaderRef = useRef(null);
   const [triggerUpload, setTriggerUpload] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -32,7 +30,7 @@ function AddListing() {
   const navigate = useNavigate();
   const { user, isLoaded } = useUser();
   const [searchParams] = useSearchParams();
-  const [carInfo, setCarInfo] = useState(null);
+  const [bikeInfo, setBikeInfo] = useState(null);
 
   const mode = searchParams.get("mode");
   const listid = searchParams.get("id");
@@ -47,14 +45,13 @@ function AddListing() {
     try {
       const result = await db
         .select()
-        .from(CarListing)
-        .innerJoin(CarImages, eq(CarListing.id, CarImages.carlistingId))
-        .where(eq(CarListing.id, listid));
+        .from(BikeListing)
+        .innerJoin(BikeImages, eq(BikeListing.id, BikeImages.bikelistingId))
+        .where(eq(BikeListing.id, listid));
 
       const resp = Service.FormatResult(result);
-      setCarInfo(resp[0]);
+      setBikeInfo(resp[0]);
       setFormData(resp[0]);
-      setFeaturesData(resp[0]?.features || {});
     } catch (error) {
       console.error("Error fetching listing details:", error);
     }
@@ -64,12 +61,8 @@ function AddListing() {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleFeaturesChange = (name, value) => {
-    setFeaturesData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
   const validateForm = () => {
-    const requiredFields = carDetails.carDetails.filter(
+    const requiredFields = bikeDetails.bikeDetails.filter(
       (item) => item.required
     );
     const isValid = requiredFields.every(
@@ -94,32 +87,30 @@ function AddListing() {
     try {
       if (mode === "edit") {
         await db
-          .update(CarListing)
+          .update(BikeListing)
           .set({
             ...formData,
-            features: JSON.stringify(featuresData),
             createdBy: user?.primaryEmailAddress?.emailAddress || "Unknown",
             username: user?.username || "Anonymous",
             userImageUrl: user?.profileImageUrl || "",
             postedOn: moment().format("DD/MM/yyyy"),
           })
-          .where(eq(CarListing.id, listid));
+          .where(eq(BikeListing.id, listid));
       } else {
         const result = await db
-          .insert(CarListing)
+          .insert(BikeListing)
           .values({
             ...formData,
-            features: JSON.stringify(featuresData),
             username: user?.username,
             createdBy: user?.primaryEmailAddress?.emailAddress || "Unknown",
             postedOn: moment().format("DD/MM/yyyy"),
             fullName: user?.fullName,
           })
-          .returning({ id: CarListing.id });
+          .returning({ id: BikeListing.id });
 
         if (result.length >= 0) {
-          const carListingId = result[0].id;
-          setTriggerUpload(carListingId);
+          const bikeListingId = result[0].id;
+          setTriggerUpload(bikeListingId);
           await imageUploaderRef.current.uploadFiles();
         }
       }
@@ -147,12 +138,11 @@ function AddListing() {
           className="p-6 sm:p-10 border rounded-xl mt-3 shadow-lg bg-white"
         >
           <div>
-
             <h2 className="font-medium text-xl mb-6 text-gray-700">
-              Car Details
+              Bike Details
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {carDetails.carDetails.map((item, index) => (
+              {carDetails.bikeDetails.map((item, index) => (
                 <div className="flex flex-col" key={index}>
                   <div className="flex gap-1">
                     <IconField iconName={item.icon} />
@@ -169,20 +159,20 @@ function AddListing() {
                   {item.fieldType === "text" || item.fieldType === "number" ? (
                     <InputField
                       item={item}
-                      carInfo={carInfo}
+                      bikeInfo={bikeInfo}
                       handleInputChanges={handleInputChanges}
                     />
                   ) : item.fieldType === "dropdown" &&
                     Array.isArray(item.options) ? (
                     <DropdownField
                       item={item}
-                      carInfo={carInfo}
+                      bikeInfo={bikeInfo}
                       handleInputChanges={handleInputChanges}
                     />
                   ) : item.fieldType === "textarea" ? (
                     <TextAreaField
                       item={item}
-                      carInfo={carInfo}
+                      bikeInfo={bikeInfo}
                       handleInputChanges={handleInputChanges}
                     />
                   ) : null}
@@ -190,11 +180,10 @@ function AddListing() {
               ))}
             </div>
             <Separator className="text-black pb-5" />
-
             <UploadImages
               ref={imageUploaderRef}
               triggerUpload={triggerUpload}
-              carInfo={carInfo}
+              bikeInfo={bikeInfo}
               mode={mode}
             />
             <Button
@@ -204,8 +193,7 @@ function AddListing() {
             >
               {loading ? (
                 <>
-                  <AiOutlineLoading className="animate-spin" />
-                  Uploading...
+                  <AiOutlineLoading className="animate-spin" /> Uploading...
                 </>
               ) : (
                 "Submit"
@@ -219,4 +207,4 @@ function AddListing() {
   );
 }
 
-export default AddListing;
+export default BikeAddListing;

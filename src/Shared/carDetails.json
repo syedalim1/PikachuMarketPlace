@@ -119,7 +119,7 @@
       "column": 1,
       "icon": "FaCarSide"
     },
-   
+
     {
       "label": "Drive Type",
       "name": "drive_type",
@@ -204,6 +204,176 @@
     {
       "label": "Listing Description",
       "name": "listing_description",
+      "fieldType": "textarea",
+      "required": true,
+      "column": 2,
+      "icon": "FaFileAlt"
+    }
+  ],
+  "mobileDetails": [
+    {
+      "label": "Brand",
+      "name": "brand",
+      "fieldType": "text",
+      "required": true,
+      "column": 1,
+      "icon": "FaMobileAlt"
+    },
+    {
+      "label": "Model",
+      "name": "model",
+      "fieldType": "text",
+      "required": true,
+      "column": 1,
+      "icon": "FaMobileAlt"
+    },
+    {
+      "label": "Condition",
+      "name": "condition",
+      "fieldType": "dropdown",
+      "options": ["New", "Used"],
+      "required": true,
+      "column": 1,
+      "icon": "FaCheckCircle"
+    },
+    {
+      "label": "Price",
+      "name": "price",
+      "fieldType": "text",
+      "required": true,
+      "column": 1,
+      "icon": "FaDollarSign"
+    },
+    {
+      "label": "Description",
+      "name": "description",
+      "fieldType": "textarea",
+      "required": true,
+      "column": 2,
+      "icon": "FaFileAlt"
+    }
+  ],
+  "jobDetails": [
+    {
+      "label": "Job Title",
+      "name": "job_title",
+      "fieldType": "text",
+      "required": true,
+      "column": 1,
+      "icon": "FaBriefcase"
+    },
+    {
+      "label": "Company",
+      "name": "company",
+      "fieldType": "text",
+      "required": true,
+      "column": 1,
+      "icon": "FaBuilding"
+    },
+    {
+      "label": "Salary",
+      "name": "salary",
+      "fieldType": "text",
+      "column": 1,
+      "icon": "FaDollarSign"
+    },
+    {
+      "label": "Job Description",
+      "name": "job_description",
+      "fieldType": "textarea",
+      "required": true,
+      "column": 2,
+      "icon": "FaFileAlt"
+    },
+    {
+      "label": "Location",
+      "name": "location",
+      "fieldType": "text",
+      "required": true,
+      "column": 1,
+      "icon": "FaMapMarkerAlt"
+    }
+  ],
+  "bikeDetails": [
+    {
+      "label": "Brand",
+      "name": "brand",
+      "fieldType": "text",
+      "required": true,
+      "column": 1,
+      "icon": "FaBicycle"
+    },
+    {
+      "label": "Model",
+      "name": "model",
+      "fieldType": "text",
+      "required": true,
+      "column": 1,
+      "icon": "FaBicycle"
+    },
+    {
+      "label": "Condition",
+      "name": "condition",
+      "fieldType": "dropdown",
+      "options": ["New", "Used"],
+      "required": true,
+      "column": 1,
+      "icon": "FaCheckCircle"
+    },
+    {
+      "label": "Price",
+      "name": "price",
+      "fieldType": "text",
+      "required": true,
+      "column": 1,
+      "icon": "FaDollarSign"
+    },
+    {
+      "label": "Description",
+      "name": "description",
+      "fieldType": "textarea",
+      "required": true,
+      "column": 2,
+      "icon": "FaFileAlt"
+    }
+  ],
+  "electronicsDetails": [
+    {
+      "label": "Brand",
+      "name": "brand",
+      "fieldType": "text",
+      "required": true,
+      "column": 1,
+      "icon": "FaPlug"
+    },
+    {
+      "label": "Model",
+      "name": "model",
+      "fieldType": "text",
+      "required": true,
+      "column": 1,
+      "icon": "FaPlug"
+    },
+    {
+      "label": "Condition",
+      "name": "condition",
+      "fieldType": "dropdown",
+      "options": ["New", "Used"],
+      "required": true,
+      "column": 1,
+      "icon": "FaCheckCircle"
+    },
+    {
+      "label": "Price",
+      "name": "price",
+      "fieldType": "text",
+      "required": true,
+      "column": 1,
+      "icon": "FaDollarSign"
+    },
+    {
+      "label": "Description",
+      "name": "description",
       "fieldType": "textarea",
       "required": true,
       "column": 2,
