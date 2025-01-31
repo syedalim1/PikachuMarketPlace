@@ -4,6 +4,7 @@ import Header from "./Common/Header";
 import Category from "./Category";
 import MostSearchedCar from "./MostSearchedCar";
 import Footer from "./Common/Footer";
+import MostSearchedMobile from "./MostSearchedMobile";
 
 function Home() {
   return (
@@ -14,6 +15,7 @@ function Home() {
       {/* <Map/> */}
       <Category />
       <MostSearchedCar />
+      <MostSearchedMobile />
       {/* <InfoSection /> */}
       <Footer />
       <SignedIn />

@@ -1,37 +1,35 @@
 import { useEffect, useState } from "react";
 import CarItem from "./CarItem"; // Importing the CarItem component
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"; // Carousel components
+// Carousel components
 import Service from "./Shared/Service";
 import { desc, eq } from "drizzle-orm";
 import { db } from "../configs";
-import { CarImages, CarListing } from "../configs/schema";
+import { MobilesListing, MobilesImages } from "../configs/schema";
 
-const MostSearchedCar = () => {
-  const [carList, setCarList] = useState([]);
+const MostSearchedMobile = () => {
+  const [MobileList, setMobileList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    GetPopularCarList();
+    GetPopularMobileList();
   }, []);
 
-  const GetPopularCarList = async () => {
+  const GetPopularMobileList = async () => {
     try {
       setLoading(true);
       const result = await db
         .select()
-        .from(CarListing)
-        .leftJoin(CarImages, eq(CarListing.id, CarImages.carlistingId))
-        .orderBy(desc(CarListing.id));
+        .from(MobilesListing)
+        .leftJoin(
+          MobilesImages,
+          eq(MobilesListing.id, MobilesImages.mobilelistingId)
+        )
+        .orderBy(desc(MobilesListing.id));
 
       const formattedResult = Service.FormatResult(result);
-      setCarList(formattedResult);
+      setMobileList(formattedResult);
+      console.log(formattedResult);
     } catch (err) {
       setError("Failed to fetch car listings. Please try again later.");
       console.error("Error fetching car listings:", err);
@@ -41,10 +39,10 @@ const MostSearchedCar = () => {
   };
 
   return (
-    <div className="  px-4 sm:px-6 lg:px-8  bg-white ">
+    <div className="h-full  px-4 sm:px-6 lg:px-8  bg-white ">
       {/* Section Title */}
       <h2 className="font-bold  text-xl sm:text-3xl text-center py-3  text-gray-800">
-        Most Searched Cars
+        Most Searched Mobiles
       </h2>
 
       {/* Loading State */}
@@ -62,14 +60,14 @@ const MostSearchedCar = () => {
       )}
 
       {/* Display Carousel if Data is Available */}
-      {!loading && !error && carList.length > 0 && (
-        <div className="flex flex-col ">
+      {!loading && !error && MobileList.length > 0 && (
+        <div className="flex flex-col h-screen">
           {/* Other content or header */}
 
           {/* Main Carousel Content */}
           <div className="grid grid-cols-2 gap-2">
             {/* Mapping through the car list and displaying CarItem for each */}
-            {carList.map((car, index) => (
+            {MobileList.map((car, index) => (
               <div className=" hover:scale-105">
                 <CarItem key={index} car={car} />
               </div>
@@ -79,7 +77,7 @@ const MostSearchedCar = () => {
       )}
 
       {/* No Data Fallback */}
-      {!loading && !error && carList.length === 0 && (
+      {!loading && !error && MobileList.length === 0 && (
         <div className="text-center text-gray-500 py-8">
           <p>No cars available at the moment. Please check back later.</p>
         </div>
@@ -88,4 +86,4 @@ const MostSearchedCar = () => {
   );
 };
 
-export default MostSearchedCar;
+export default MostSearchedMobile;

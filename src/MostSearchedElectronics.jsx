@@ -12,7 +12,7 @@ import { desc, eq } from "drizzle-orm";
 import { db } from "../configs";
 import { CarImages, CarListing } from "../configs/schema";
 
-const MostSearchedCar = () => {
+const MostSearchedMobile = () => {
   const [carList, setCarList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -41,10 +41,10 @@ const MostSearchedCar = () => {
   };
 
   return (
-    <div className="  px-4 sm:px-6 lg:px-8  bg-white ">
+    <div className="h-full  px-4 sm:px-6 lg:px-8  bg-white ">
       {/* Section Title */}
       <h2 className="font-bold  text-xl sm:text-3xl text-center py-3  text-gray-800">
-        Most Searched Cars
+        Most Searched Mobiles
       </h2>
 
       {/* Loading State */}
@@ -63,7 +63,7 @@ const MostSearchedCar = () => {
 
       {/* Display Carousel if Data is Available */}
       {!loading && !error && carList.length > 0 && (
-        <div className="flex flex-col ">
+        <div className="flex flex-col h-screen">
           {/* Other content or header */}
 
           {/* Main Carousel Content */}
@@ -88,4 +88,4 @@ const MostSearchedCar = () => {
   );
 };
 
-export default MostSearchedCar;
+export default MostSearchedMobile;
