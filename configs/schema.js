@@ -5,24 +5,15 @@ export const CarListing = pgTable("CarListing", {
   id: serial("id").primaryKey(),
   listing_title: varchar("listing_title").notNull(),
   tagline: varchar("tagline"),
-  original_price: varchar("original_price"),
   selling_price: varchar("selling_price").notNull(),
   category: varchar("category").notNull(),
   condition: varchar("condition").notNull(),
-  make: varchar("make").notNull(),
   model: varchar("model"),
-  drive_type: varchar("drive_type").notNull(),
-  transmission: varchar("transmission").notNull(),
+  make:varchar("make").notNull(),
   fuel_type: varchar("fuel_type").notNull(),
   mileage: varchar("mileage").notNull(),
-  engine_size: varchar("engine_size"),
-  cylinder: varchar("cylinder"),
   color: varchar("color").notNull(),
-  door: varchar("door").notNull(),
-  offer_type: varchar("offer_type"),
-  vin: varchar("vin"),
   listing_description: varchar("listing_description").notNull(),
-  features: json("features"),
   createdBy: varchar("createdBy").notNull(),
   username: varchar("userName").notNull(),
   userImageUrl: varchar("userimageurl"),
@@ -37,7 +28,7 @@ export const CarImages = pgTable("carImages", {
     .references(() => CarListing.id),
 });
 
-export const MobilesListing = pgTable("Mobiles", {
+export const MobilesListing = pgTable("MobilesListing", {
   id: serial("id").primaryKey(),
   brand: varchar("brand").notNull(),
   model: varchar("model").notNull(),
@@ -46,9 +37,13 @@ export const MobilesListing = pgTable("Mobiles", {
   description: varchar("description").notNull(),
   features: json("features"),
   postedOn: varchar("postedOn"),
+  fullName: varchar("full_name").notNull(),
+  createdBy: varchar("createdBy").notNull(),
+  username: varchar("userName").notNull(),
+  userImageUrl: varchar("userimageurl"),
 });
 
-export const MobilesImages = pgTable("MobileImages", {
+export const MobilesImages = pgTable("mobilesImages", {
   id: serial("id").primaryKey(),
   imageUrl: varchar("imageUrl").notNull(),
   mobilelistingId: integer("carlistingId")
@@ -66,6 +61,10 @@ export const JobsListing = pgTable("Jobs", {
   description: varchar("description").notNull(),
   requirements: json("requirements"),
   postedOn: varchar("postedOn"),
+  fullName: varchar("full_name").notNull(),
+  createdBy: varchar("createdBy").notNull(),
+  username: varchar("userName").notNull(),
+  userImageUrl: varchar("userimageurl"),
 });
 
 export const JobsImages = pgTable("JobsImages", {
@@ -85,6 +84,10 @@ export const BikesListing = pgTable("Bikes", {
   description: varchar("description").notNull(),
   features: json("features"),
   postedOn: varchar("postedOn"),
+  fullName: varchar("full_name").notNull(),
+  createdBy: varchar("createdBy").notNull(),
+  username: varchar("userName").notNull(),
+  userImageUrl: varchar("userimageurl"),
 });
 
 export const BikesImages = pgTable("BikesImages", {
@@ -105,6 +108,10 @@ export const ElectronicsListing = pgTable("Electronics", {
   description: varchar("description").notNull(),
   features: json("features"),
   postedOn: varchar("postedOn"),
+  fullName: varchar("full_name").notNull(),
+  createdBy: varchar("createdBy").notNull(),
+  username: varchar("userName").notNull(),
+  userImageUrl: varchar("userimageurl"),
 });
 
 export const ElectronicsImages = pgTable("ElectronicsImages", {
@@ -124,6 +131,10 @@ export const CommercialListing = pgTable("Commercial", {
   description: varchar("description").notNull(),
   features: json("features"),
   postedOn: varchar("postedOn"),
+  fullName: varchar("full_name").notNull(),
+  createdBy: varchar("createdBy").notNull(),
+  username: varchar("userName").notNull(),
+  userImageUrl: varchar("userimageurl"),
 });
 
 export const CommercialImages = pgTable("CommercialImages", {
@@ -143,6 +154,10 @@ export const FurnitureListing = pgTable("Furniture", {
   description: varchar("description").notNull(),
   features: json("features"),
   postedOn: varchar("postedOn"),
+  fullName: varchar("full_name").notNull(),
+  createdBy: varchar("createdBy").notNull(),
+  username: varchar("userName").notNull(),
+  userImageUrl: varchar("userimageurl"),
 });
 
 export const FurnitureImages = pgTable("FurnitureImages", {
@@ -163,6 +178,10 @@ export const FashionListing = pgTable("Fashion", {
   description: varchar("description").notNull(),
   features: json("features"),
   postedOn: varchar("postedOn"),
+  fullName: varchar("full_name").notNull(),
+  createdBy: varchar("createdBy").notNull(),
+  username: varchar("userName").notNull(),
+  userImageUrl: varchar("userimageurl"),
 });
 
 export const FashionImages = pgTable("FashionImages", {
@@ -182,6 +201,10 @@ export const SportsListing = pgTable("Sports", {
   description: varchar("description").notNull(),
   features: json("features"),
   postedOn: varchar("postedOn"),
+  fullName: varchar("full_name").notNull(),
+  createdBy: varchar("createdBy").notNull(),
+  username: varchar("userName").notNull(),
+  userImageUrl: varchar("userimageurl"),
 });
 
 export const SportsImages = pgTable("SportsImages", {
@@ -201,6 +224,10 @@ export const PetsListing = pgTable("Pets", {
   description: varchar("description").notNull(),
   features: json("features"),
   postedOn: varchar("postedOn"),
+  fullName: varchar("full_name").notNull(),
+  createdBy: varchar("createdBy").notNull(),
+  username: varchar("userName").notNull(),
+  userImageUrl: varchar("userimageurl"),
 });
 
 export const PetsImages = pgTable("PetsImages", {

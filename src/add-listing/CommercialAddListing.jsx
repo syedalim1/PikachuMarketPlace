@@ -20,7 +20,7 @@ import Service from "@/Shared/Service";
 import Footer from "@/Common/Footer";
 
 function CommercialAddListing() {
- const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({});
   const imageUploaderRef = useRef(null);
   const [triggerUpload, setTriggerUpload] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -114,7 +114,7 @@ function CommercialAddListing() {
       }
 
       toast({ title: "Successfully Uploaded" });
-      navigate("/profile");
+      navigate(`/mylists/${username}`);
     } catch (error) {
       console.error("Error saving data:", error);
       toast({ title: "Error saving data", description: error.message });

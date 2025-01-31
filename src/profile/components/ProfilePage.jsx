@@ -13,6 +13,8 @@ const ProfilePage = () => {
   useEffect(() => {
     if (isLoaded && user) {
       getUserDetails();
+      console.log(user);
+      
     }
   }, [isLoaded, user]);
 

@@ -114,7 +114,7 @@ function BikeAddListing() {
       }
 
       toast({ title: "Successfully Uploaded" });
-      navigate("/profile");
+      navigate(`/mylists/${username}`);
     } catch (error) {
       console.error("Error saving data:", error);
       toast({ title: "Error saving data", description: error.message });
@@ -137,7 +137,7 @@ function BikeAddListing() {
         >
           <div>
             <h2 className="font-medium text-xl mb-6 text-gray-700">
-            Enter  Bike List Details
+              Enter Bike List Details
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {carDetails.bikeDetails.map((item, index) => (

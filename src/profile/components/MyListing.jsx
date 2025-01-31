@@ -119,7 +119,7 @@ if (!user) {
                 {/* Action Buttons */}
                 <div className="p-2 bg-gray-50 rounded-lg flex justify-between items-center gap-3">
                   <Link
-                    to={"/add-listing?mode=edit&id=" + item.id}
+                    to={"/add-listing/Cars?mode=edit&id=" + item.id}
                     className="w-full"
                   >
                     <Button className="w-full" variant="outline">

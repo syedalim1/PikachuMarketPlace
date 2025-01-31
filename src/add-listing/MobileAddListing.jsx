@@ -18,6 +18,7 @@ import moment from "moment";
 import { eq } from "drizzle-orm";
 import Service from "@/Shared/Service";
 import Footer from "@/Common/Footer";
+import { MobilesListing, MobilesImages } from "../../configs/schema";
 
 // Import correct table references
 
@@ -31,9 +32,11 @@ function MobileAddListing() {
   const { user, isLoaded } = useUser();
   const [searchParams] = useSearchParams();
   const [mobileInfo, setMobileInfo] = useState(null);
+  const username = user?.username || "guest";
 
   const mode = searchParams.get("mode");
   const listid = searchParams.get("id");
+  console.log(user);
 
   useEffect(() => {
     if (mode === "edit" && isLoaded) {
@@ -43,6 +46,7 @@ function MobileAddListing() {
 
   const GetListDetails = async () => {
     try {
+      console.log("Fetching details for listing ID:", listid); // Debug log
       const result = await db
         .select()
         .from(MobilesListing)
@@ -119,7 +123,7 @@ function MobileAddListing() {
       }
 
       toast({ title: "Successfully Uploaded" });
-      navigate("/profile");
+      navigate(`/mylists/${username}`);
     } catch (error) {
       console.error("Error saving data:", error);
       toast({ title: "Error saving data", description: error.message });

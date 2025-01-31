@@ -6,10 +6,10 @@ import React, {
 } from "react";
 import { Cloudinary } from "@cloudinary/url-gen";
 import { db } from "../../../configs"; // Firestore config
-import { CarImages } from "../../../configs/schema";
+import { CarImages, MobilesImages } from "../../../configs/schema";
 import { useSearchParams } from "react-router-dom";
 import { eq } from "drizzle-orm";
-
+import { useLocation } from "react-router-dom";
 const UploadImages = forwardRef(({ triggerUpload, carInfo, mode }, ref) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploadProgress, setUploadProgress] = useState({});
@@ -82,7 +82,7 @@ const UploadImages = forwardRef(({ triggerUpload, carInfo, mode }, ref) => {
   const onSubmit = async () => {
     try {
       if (!triggerUpload) {
-        console.error("CarListing ID is not defined.");
+        console.error("Listing ID is not defined.");
         return;
       }
 
@@ -93,18 +93,26 @@ const UploadImages = forwardRef(({ triggerUpload, carInfo, mode }, ref) => {
         return;
       }
 
-      // Loop through uploaded URLs and save them to the database with the correct CarListing ID
-      for (const url of uploadedUrls) {
-        const result = await db.insert(CarImages).values({
-          imageUrl: url, // Save the imageUrl (from Cloudinary)
-          carlistingId: triggerUpload, // Use triggerUpload as the CarListing ID
-        });
+      // Get the current path
+      const location = window.location.pathname; // OR use `useLocation().pathname` in a React component
 
-        if (result) {
-          console.log("Data saved successfully:", result);
-        } else {
-          console.error("Failed to save data.");
+      // Check if the user is posting a car or mobile listing
+      if (location.includes("/add-listing/Mobiles")) {
+        for (const url of uploadedUrls) {
+          await db.insert(MobilesImages).values({
+            imageUrl: url,
+            mobilelistingId: triggerUpload, // Use triggerUpload as the MobileListing ID
+          });
         }
+        console.log("Mobile images uploaded successfully!");
+      } else {
+        for (const url of uploadedUrls) {
+          await db.insert(CarImages).values({
+            imageUrl: url,
+            carlistingId: triggerUpload, // Use triggerUpload as the CarListing ID
+          });
+        }
+        console.log("Car images uploaded successfully!");
       }
     } catch (error) {
       console.error("Error saving data:", error);
@@ -146,9 +154,7 @@ const UploadImages = forwardRef(({ triggerUpload, carInfo, mode }, ref) => {
 
   return (
     <div>
-      <h2 className="font-medium text-xl my-3 text-gray-700">
-        Upload  Images
-      </h2>
+      <h2 className="font-medium text-xl my-3 text-gray-700">Upload Images</h2>
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
         {/* Display existing images in "edit" mode */}
         {mode === "edit" &&

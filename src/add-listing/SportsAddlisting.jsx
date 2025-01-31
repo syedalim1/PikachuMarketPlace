@@ -114,7 +114,7 @@ function SportsAddlisting() {
       }
 
       toast({ title: "Successfully Uploaded" });
-      navigate("/profile");
+      navigate(`/mylists/${username}`);
     } catch (error) {
       console.error("Error saving data:", error);
       toast({ title: "Error saving data", description: error.message });

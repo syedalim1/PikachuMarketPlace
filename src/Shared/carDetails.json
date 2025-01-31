@@ -15,13 +15,7 @@
       "column": 2,
       "icon": "FaClipboardList"
     },
-    {
-      "label": "Original Price",
-      "name": "originalPrice",
-      "fieldType": "text",
-      "column": 1,
-      "icon": "FaDollarSign"
-    },
+
     {
       "label": "Selling Price",
       "name": "selling_price",
@@ -121,24 +115,6 @@
     },
 
     {
-      "label": "Drive Type",
-      "name": "drive_type",
-      "fieldType": "dropdown",
-      "options": ["FWD", "RWD", "AWD", "4WD"],
-      "required": true,
-      "column": 1,
-      "icon": "FaRoad"
-    },
-    {
-      "label": "Transmission",
-      "name": "transmission",
-      "fieldType": "dropdown",
-      "options": ["Automatic", "Manual", "CVT"],
-      "required": true,
-      "column": 1,
-      "icon": "FaCogs"
-    },
-    {
       "label": "Fuel Type",
       "name": "fuel_type",
       "fieldType": "dropdown",
@@ -155,20 +131,7 @@
       "column": 1,
       "icon": "FaTachometerAlt"
     },
-    {
-      "label": "Engine Size",
-      "name": "engine_size",
-      "fieldType": "text",
-      "column": 1,
-      "icon": "FaWrench"
-    },
-    {
-      "label": "Cylinder",
-      "name": "cylinder",
-      "fieldType": "number",
-      "column": 1,
-      "icon": "FaCircle"
-    },
+
     {
       "label": "Color",
       "name": "color",
@@ -178,29 +141,7 @@
       "column": 2,
       "icon": "FaPalette"
     },
-    {
-      "label": "Door",
-      "name": "door",
-      "fieldType": "number",
-      "required": true,
-      "column": 1,
-      "icon": "FaDoorClosed"
-    },
-    {
-      "label": "VIN",
-      "name": "vin",
-      "fieldType": "text",
-      "column": 1,
-      "icon": "FaIdCard"
-    },
-    {
-      "label": "Offer Type",
-      "name": "offer_type",
-      "fieldType": "dropdown",
-      "options": ["Buy", "Hot Offer", "Sell", "Urgent"],
-      "column": 2,
-      "icon": "FaTags"
-    },
+
     {
       "label": "Listing Description",
       "name": "listing_description",
@@ -380,7 +321,7 @@
       "icon": "FaFileAlt"
     }
   ],
-  
+
   "commercialDetails": [
     {
       "label": "Business Name",
@@ -591,6 +532,4 @@
       "icon": "FaFileAlt"
     }
   ]
-
-
 }

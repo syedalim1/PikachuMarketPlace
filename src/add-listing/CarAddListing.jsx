@@ -31,6 +31,8 @@ function CarAddListing() {
   const { user, isLoaded } = useUser();
   const [searchParams] = useSearchParams();
   const [carInfo, setCarInfo] = useState(null);
+  const username = user?.username || "guest";
+console.log(user);
 
   const mode = searchParams.get("mode");
   const listid = searchParams.get("id");
@@ -38,16 +40,20 @@ function CarAddListing() {
   useEffect(() => {
     if (mode === "edit" && isLoaded) {
       GetListDetails();
+
     }
   }, [mode, listid, isLoaded]);
 
   const GetListDetails = async () => {
     try {
+      console.log("Fetching details for listing ID:", listid); // Debug log
       const result = await db
         .select()
         .from(CarListing)
         .innerJoin(CarImages, eq(CarListing.id, CarImages.carlistingId))
         .where(eq(CarListing.id, listid));
+
+      console.log("Fetched data:", result); // Debug log
 
       const resp = Service.FormatResult(result);
       setCarInfo(resp[0]);
@@ -62,9 +68,6 @@ function CarAddListing() {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleFeaturesChange = (name, value) => {
-    setFeaturesData((prevData) => ({ ...prevData, [name]: value }));
-  };
 
   const validateForm = () => {
     const requiredFields = carDetails.carDetails.filter(
@@ -91,11 +94,11 @@ function CarAddListing() {
 
     try {
       if (mode === "edit") {
+        
         await db
           .update(CarListing)
           .set({
             ...formData,
-            features: JSON.stringify(featuresData),
             createdBy: user?.primaryEmailAddress?.emailAddress || "Unknown",
             username: user?.username || "Anonymous",
             userImageUrl: user?.profileImageUrl || "",
@@ -103,11 +106,11 @@ function CarAddListing() {
           })
           .where(eq(CarListing.id, listid));
       } else {
+       
         const result = await db
           .insert(CarListing)
           .values({
             ...formData,
-            features: JSON.stringify(featuresData),
             username: user?.username,
             createdBy: user?.primaryEmailAddress?.emailAddress || "Unknown",
             postedOn: moment().format("DD/MM/yyyy"),
@@ -123,7 +126,7 @@ function CarAddListing() {
       }
 
       toast({ title: "Successfully Uploaded" });
-      navigate("/profile");
+      navigate(`/mylists/${username}`);
     } catch (error) {
       console.error("Error saving data:", error);
       toast({ title: "Error saving data", description: error.message });
@@ -146,7 +149,7 @@ function CarAddListing() {
         >
           <div>
             <h2 className="font-medium text-xl mb-6 text-gray-700">
-             Enter Car List Details
+              Enter Car List Details
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {carDetails.carDetails.map((item, index) => (
