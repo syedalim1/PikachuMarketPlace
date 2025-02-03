@@ -1,7 +1,4 @@
-import { Separator } from "@/components/ui/separator";
-import { LuFuel } from "react-icons/lu";
-import { TbBrandSpeedtest } from "react-icons/tb";
-import { GiGearStickPattern } from "react-icons/gi";
+
 import { useNavigate } from "react-router-dom";
 
 const CarItem = ({ car }) => {

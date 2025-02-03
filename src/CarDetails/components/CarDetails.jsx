@@ -1,4 +1,4 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../../../configs"; // Adjust the path to your database configuration
 import { CarListing, CarImages } from "../../../configs/schema"; // Adjust paths to schema
@@ -11,7 +11,7 @@ import Features from "./Features";
 import Pricing from "./Pricing";
 import Specification from "./Specification";
 import OwnerDetails from "./OwnerDetails";
-import MostSearchedCar from "@/MostSearchedCar";
+import MostSearchedCar from "@/MostSearch/MostSearchedCar";
 import Footer from "@/Common/Footer";
 
 const CarDetails = () => {

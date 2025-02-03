@@ -1,18 +1,11 @@
 import { useEffect, useState } from "react";
-import CarItem from "./CarItem"; // Importing the CarItem component
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"; // Carousel components
-import Service from "./Shared/Service";
+import CarItem from "../Items/CarItem"; // Importing the CarItem component
+import Service from "../Shared/Service";
 import { desc, eq } from "drizzle-orm";
-import { db } from "../configs";
-import { CarImages, CarListing } from "../configs/schema";
+import { db } from "../../configs";
+import { CarImages, CarListing } from "../../configs/schema";
 
-const MostSearchedMobile = () => {
+const MostSearchedCar = () => {
   const [carList, setCarList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -30,8 +23,10 @@ const MostSearchedMobile = () => {
         .leftJoin(CarImages, eq(CarListing.id, CarImages.carlistingId))
         .orderBy(desc(CarListing.id));
 
-      const formattedResult = Service.FormatResult(result);
+      const formattedResult = Service.CarFormatResult(result);
       setCarList(formattedResult);
+      
+     
     } catch (err) {
       setError("Failed to fetch car listings. Please try again later.");
       console.error("Error fetching car listings:", err);
@@ -41,10 +36,10 @@ const MostSearchedMobile = () => {
   };
 
   return (
-    <div className="h-full  px-4 sm:px-6 lg:px-8  bg-white ">
+    <div className="  px-4 sm:px-6 lg:px-8  bg-white ">
       {/* Section Title */}
       <h2 className="font-bold  text-xl sm:text-3xl text-center py-3  text-gray-800">
-        Most Searched Mobiles
+        Most Searched Cars
       </h2>
 
       {/* Loading State */}
@@ -63,14 +58,14 @@ const MostSearchedMobile = () => {
 
       {/* Display Carousel if Data is Available */}
       {!loading && !error && carList.length > 0 && (
-        <div className="flex flex-col h-screen">
+        <div className="flex flex-col ">
           {/* Other content or header */}
 
           {/* Main Carousel Content */}
           <div className="grid grid-cols-2 gap-2">
             {/* Mapping through the car list and displaying CarItem for each */}
             {carList.map((car, index) => (
-              <div className=" hover:scale-105">
+              <div className=" hover:scale-105" key={index}>
                 <CarItem key={index} car={car} />
               </div>
             ))}
@@ -88,4 +83,4 @@ const MostSearchedMobile = () => {
   );
 };
 
-export default MostSearchedMobile;
+export default MostSearchedCar;

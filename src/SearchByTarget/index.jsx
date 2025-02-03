@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { db } from "../../configs"; // Ensure correct path to your database configuration
 import { CarListing, CarImages } from "../../configs/schema"; // Correct paths to schema
 import { eq } from "drizzle-orm";
-import CarItem from "@/CarItem";
+import CarItem from "@/Items/CarItem";
 import Service from "../Shared/Service"; // Ensure correct path to Service
 import Header from "@/Common/Header";
 import Footer from "@/Common/Footer";
@@ -58,7 +58,7 @@ const SearchByTarget = () => {
         <p>No cars found matching the criteria.</p>
       )}
 
-      <Footer/>
+      <Footer />
     </div>
   );
 };

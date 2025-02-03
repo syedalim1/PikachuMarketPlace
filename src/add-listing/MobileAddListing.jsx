@@ -20,8 +20,6 @@ import Service from "@/Shared/Service";
 import Footer from "@/Common/Footer";
 import { MobilesListing, MobilesImages } from "../../configs/schema";
 
-// Import correct table references
-
 function MobileAddListing() {
   const [formData, setFormData] = useState({});
   const imageUploaderRef = useRef(null);
@@ -36,17 +34,27 @@ function MobileAddListing() {
 
   const mode = searchParams.get("mode");
   const listid = searchParams.get("id");
-  console.log(user);
+
+  console.log("User Info:", user);
 
   useEffect(() => {
-    if (mode === "edit" && isLoaded) {
+    if (mode === "edit" && isLoaded && listid) {
       GetListDetails();
     }
   }, [mode, listid, isLoaded]);
 
+  useEffect(() => {
+    console.log("Updated mobileInfo:", mobileInfo);
+  }, [mobileInfo]);
+
   const GetListDetails = async () => {
+    if (!listid) {
+      console.error("Error: Missing list ID");
+      return;
+    }
+
     try {
-      console.log("Fetching details for listing ID:", listid); // Debug log
+      console.log("Fetching details for listing ID:", listid);
       const result = await db
         .select()
         .from(MobilesListing)
@@ -56,9 +64,15 @@ function MobileAddListing() {
         )
         .where(eq(MobilesListing.id, listid));
 
-      const resp = Service.FormatResult(result);
-      setMobileInfo(resp[0]);
-      setFormData(resp[0]);
+      console.log("Fetched data:", result);
+
+      if (result.length > 0) {
+        const resp = Service.MobileFormatResult(result);
+        setMobileInfo(resp[0]);
+        setFormData(resp[0]);
+      } else {
+        console.error("No data found for this listing ID.");
+      }
     } catch (error) {
       console.error("Error fetching listing details:", error);
     }

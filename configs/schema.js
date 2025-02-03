@@ -46,7 +46,7 @@ export const MobilesListing = pgTable("MobilesListing", {
 export const MobilesImages = pgTable("mobilesImages", {
   id: serial("id").primaryKey(),
   imageUrl: varchar("imageUrl").notNull(),
-  mobilelistingId: integer("carlistingId")
+  mobilelistingId: integer("mobilelistingId")
     .notNull()
     .references(() => MobilesListing.id),
 });
@@ -70,7 +70,7 @@ export const JobsListing = pgTable("Jobs", {
 export const JobsImages = pgTable("JobsImages", {
   id: serial("id").primaryKey(),
   imageUrl: varchar("imageUrl").notNull(),
-  jobslistingId: integer("carlistingId")
+  jobslistingId: integer("jobslistingId")
     .notNull()
     .references(() => JobsListing.id),
 });

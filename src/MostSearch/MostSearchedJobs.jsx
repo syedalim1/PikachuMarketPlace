@@ -1,35 +1,37 @@
 import { useEffect, useState } from "react";
-import CarItem from "./CarItem"; // Importing the CarItem component
-// Carousel components
-import Service from "./Shared/Service";
+import CarItem from "../Items/CarItem"; // Importing the CarItem component
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"; // Carousel components
+import Service from "../Shared/Service";
 import { desc, eq } from "drizzle-orm";
-import { db } from "../configs";
-import { MobilesListing, MobilesImages } from "../configs/schema";
+import { db } from "../../configs";
+import { CarImages, CarListing } from "../../configs/schema";
 
 const MostSearchedMobile = () => {
-  const [MobileList, setMobileList] = useState([]);
+  const [carList, setCarList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    GetPopularMobileList();
+    GetPopularCarList();
   }, []);
 
-  const GetPopularMobileList = async () => {
+  const GetPopularCarList = async () => {
     try {
       setLoading(true);
       const result = await db
         .select()
-        .from(MobilesListing)
-        .leftJoin(
-          MobilesImages,
-          eq(MobilesListing.id, MobilesImages.mobilelistingId)
-        )
-        .orderBy(desc(MobilesListing.id));
+        .from(CarListing)
+        .leftJoin(CarImages, eq(CarListing.id, CarImages.carlistingId))
+        .orderBy(desc(CarListing.id));
 
       const formattedResult = Service.FormatResult(result);
-      setMobileList(formattedResult);
-      console.log(formattedResult);
+      setCarList(formattedResult);
     } catch (err) {
       setError("Failed to fetch car listings. Please try again later.");
       console.error("Error fetching car listings:", err);
@@ -60,14 +62,14 @@ const MostSearchedMobile = () => {
       )}
 
       {/* Display Carousel if Data is Available */}
-      {!loading && !error && MobileList.length > 0 && (
+      {!loading && !error && carList.length > 0 && (
         <div className="flex flex-col h-screen">
           {/* Other content or header */}
 
           {/* Main Carousel Content */}
           <div className="grid grid-cols-2 gap-2">
             {/* Mapping through the car list and displaying CarItem for each */}
-            {MobileList.map((car, index) => (
+            {carList.map((car, index) => (
               <div className=" hover:scale-105">
                 <CarItem key={index} car={car} />
               </div>
@@ -77,7 +79,7 @@ const MostSearchedMobile = () => {
       )}
 
       {/* No Data Fallback */}
-      {!loading && !error && MobileList.length === 0 && (
+      {!loading && !error && carList.length === 0 && (
         <div className="text-center text-gray-500 py-8">
           <p>No cars available at the moment. Please check back later.</p>
         </div>

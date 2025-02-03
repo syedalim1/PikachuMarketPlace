@@ -2,7 +2,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
 import React from "react";
 
-const InputField = ({ item, handleInputChanges, carInfo }) => {
+const InputField = ({ item, handleInputChanges, carInfo,mobileInfo }) => {
   return (
     <div>
       {/* Corrected Label */}
@@ -14,7 +14,7 @@ const InputField = ({ item, handleInputChanges, carInfo }) => {
         name={item?.name}
         required={item?.required}
         onChange={(e) => handleInputChanges(item.name, e.target.value)}
-        defaultValue={carInfo?.[item.name]}
+        defaultValue={carInfo?.[item.name]|| mobileInfo?.[item.name]}
         placeholder={item?.placeholder}
         className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
         

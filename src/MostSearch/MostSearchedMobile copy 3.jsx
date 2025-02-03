@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CarItem from "./CarItem"; // Importing the CarItem component
+import CarItem from "../Items/CarItem"; // Importing the CarItem component
 import {
   Carousel,
   CarouselContent,
@@ -7,10 +7,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"; // Carousel components
-import Service from "./Shared/Service";
+import Service from "../Shared/Service";
 import { desc, eq } from "drizzle-orm";
-import { db } from "../configs";
-import { CarImages, CarListing } from "../configs/schema";
+import { db } from "../../configs";
+import { CarImages, CarListing } from "../../configs/schema";
 
 const MostSearchedMobile = () => {
   const [carList, setCarList] = useState([]);

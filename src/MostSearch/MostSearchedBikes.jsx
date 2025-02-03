@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CarItem from "./CarItem"; // Importing the CarItem component
+import CarItem from "../Items/CarItem"; // Importing the CarItem component
 import {
   Carousel,
   CarouselContent,
@@ -7,10 +7,11 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"; // Carousel components
-import Service from "./Shared/Service";
+import Service from "../Shared/Service";
 import { desc, eq } from "drizzle-orm";
-import { db } from "../configs";
-import { CarImages, CarListing } from "../configs/schema";
+import { db } from "../../configs";
+import { CarImages, CarListing } from "../../configs/schema";
+import MobileItem from "@/Items/MobileItem";
 
 const MostSearchedMobile = () => {
   const [carList, setCarList] = useState([]);
@@ -32,6 +33,7 @@ const MostSearchedMobile = () => {
 
       const formattedResult = Service.FormatResult(result);
       setCarList(formattedResult);
+      console.log(carList);
     } catch (err) {
       setError("Failed to fetch car listings. Please try again later.");
       console.error("Error fetching car listings:", err);
@@ -69,9 +71,9 @@ const MostSearchedMobile = () => {
           {/* Main Carousel Content */}
           <div className="grid grid-cols-2 gap-2">
             {/* Mapping through the car list and displaying CarItem for each */}
-            {carList.map((car, index) => (
+            {carList.map((mobile, index) => (
               <div className=" hover:scale-105">
-                <CarItem key={index} car={car} />
+                <MobileItem key={index} car={car} />
               </div>
             ))}
           </div>

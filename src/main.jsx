@@ -2,16 +2,14 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
-
-import Home from "./Home";
+import Home from "./Main/Home";
 import { ClerkProvider } from "@clerk/clerk-react";
-
 import SeachBycategory from "./search/[category]";
 import { Toaster } from "@/components/ui/toaster";
 import SearchByTarget from "./SearchByTarget";
 import CarDetails from "./CarDetails/components/CarDetails";
 import Profile from "./profile";
-import ContactSeller from "./contact";
+import ContactSeller from "./Main/contact";
 import Inbox from "./profile/components/Inbox";
 import MyListing from "./profile/components/MyListing";
 import Selectcategorypost from "./SelectCategory/Selectcategorypost";
@@ -25,6 +23,7 @@ import JobsAddListing from "./add-listing/JobsAddListing";
 import MobileAddListing from "./add-listing/MobileAddListing";
 import PetsAddlisting from "./add-listing/PetsAddlisting";
 import SportsAddlisting from "./add-listing/SportsAddlisting";
+import MostSearchedMobile from "./MostSearch/MostSearchedMobile";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_KEY;
 
@@ -66,6 +65,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="/add-listing/Jobs" element={<JobsAddListing />} />
           <Route path="/add-listing/Pets" element={<PetsAddlisting />} />
           <Route path="/add-listing/Sports" element={<SportsAddlisting />} />
+          {/* <Route path="/search/Mobiles" element={<MostSearchedMobile />} /> */}
         </Routes>
       </BrowserRouter>
       <Toaster />

@@ -1,4 +1,4 @@
-import Data from "./Shared/Data";
+import Data from "../Shared/Data";
 import { Link } from "react-router-dom";
 
 const Categories1 = () => {
@@ -20,7 +20,9 @@ const Categories1 = () => {
             >
               <Link to={`/search/${category.name}`}>
                 <div className="flex flex-col items-center">
-                  <div className="text-xl text-white bg-blue-500 p-2 rounded-full">{category.icon}</div>
+                  <div className="text-xl text-white bg-blue-500 p-2 rounded-full">
+                    {category.icon}
+                  </div>
                   <h2 className="mt-4 text-sm text-center text-gray-700 font-semibold">
                     {category.name}
                   </h2>

@@ -32,7 +32,7 @@ function CarAddListing() {
   const [searchParams] = useSearchParams();
   const [carInfo, setCarInfo] = useState(null);
   const username = user?.username || "guest";
-console.log(user);
+
 
   const mode = searchParams.get("mode");
   const listid = searchParams.get("id");
@@ -55,10 +55,12 @@ console.log(user);
 
       console.log("Fetched data:", result); // Debug log
 
-      const resp = Service.FormatResult(result);
+      const resp = Service.CarFormatResult(result);
       setCarInfo(resp[0]);
       setFormData(resp[0]);
       setFeaturesData(resp[0]?.features || {});
+    
+      
     } catch (error) {
       console.error("Error fetching listing details:", error);
     }

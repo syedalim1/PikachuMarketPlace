@@ -10,7 +10,7 @@ import { CarImages, MobilesImages } from "../../../configs/schema";
 import { useSearchParams } from "react-router-dom";
 import { eq } from "drizzle-orm";
 import { useLocation } from "react-router-dom";
-const UploadImages = forwardRef(({ triggerUpload, carInfo, mode }, ref) => {
+const UploadImages = forwardRef(({ triggerUpload, carInfo, mode,mobileInfo }, ref) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploadProgress, setUploadProgress] = useState({});
   const cld = new Cloudinary({ cloud: { cloudName: "dnfvdyqps" } });
@@ -30,6 +30,15 @@ const UploadImages = forwardRef(({ triggerUpload, carInfo, mode }, ref) => {
       console.log("Images loaded for edit:", carInfo.images);
     }
   }, [mode, carInfo]);
+  
+useEffect(()=>{
+ if (mode === "edit" && mobileInfo?.images?.length > 0) {
+      setEditUploadImage(mobileInfo.images);
+      console.log("Images loaded for edit:", mobileInfo.images);
+    }
+}, [mode, mobileInfo]);
+   
+  
 
   useEffect(() => {
     if (triggerUpload) {

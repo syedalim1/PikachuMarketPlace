@@ -1,10 +1,10 @@
-import Header from "./Common/Header";
-import Footer from "./Common/Footer";
+import Header from "../Common/Header";
+import Footer from "../Common/Footer";
 
 const ContactUs = () => {
   return (
     <div>
-      <Header/>
+      <Header />
       <div className="bg-white py-10">
         {/* Header Section */}
         <div className="max-w-4xl mx-auto text-center mb-10">
@@ -97,11 +97,8 @@ const ContactUs = () => {
             </div>
           </form>
         </div>
-
-     
-       
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };
