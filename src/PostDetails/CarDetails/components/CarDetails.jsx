@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { db } from "../../../configs"; // Adjust the path to your database configuration
-import { CarListing, CarImages } from "../../../configs/schema"; // Adjust paths to schema
+import { db } from "../../../../configs"; // Adjust the path to your database configuration
+import { CarListing, CarImages } from "../../../../configs/schema"; // Adjust paths to schema
 import { eq } from "drizzle-orm";
 import Header from "@/Common/Header";
 import DetailHeaders from "./DetailHeaders";
 import ImageGallery from "./ImageGallery";
 import CarDescription from "./CarDescription";
-import Features from "./Features";
 import Pricing from "./Pricing";
 import Specification from "./Specification";
 import OwnerDetails from "./OwnerDetails";
@@ -67,6 +66,9 @@ const CarDetails = () => {
         <div className="bg-white sm:p-6 "></div>
 
         <MostSearchedCar />
+        <br />
+        <br />
+        <br />
       </div>
       <Footer />
     </div>

@@ -7,7 +7,7 @@ import { ClerkProvider } from "@clerk/clerk-react";
 import SeachBycategory from "./search/[category]";
 import { Toaster } from "@/components/ui/toaster";
 import SearchByTarget from "./SearchByTarget";
-import CarDetails from "./CarDetails/components/CarDetails";
+import CarDetails from "./PostDetails/CarDetails/components/CarDetails";
 import Profile from "./profile";
 import ContactSeller from "./Main/contact";
 import Inbox from "./profile/components/Inbox";
@@ -24,6 +24,7 @@ import MobileAddListing from "./add-listing/MobileAddListing";
 import PetsAddlisting from "./add-listing/PetsAddlisting";
 import SportsAddlisting from "./add-listing/SportsAddlisting";
 import MostSearchedMobile from "./MostSearch/MostSearchedMobile";
+import MobileDetails from "./PostDetails/MobileDetails/components/MobileDetails";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_KEY;
 
@@ -43,6 +44,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="/searching" element={<SearchByTarget />} />
           <Route path="/search/:category" element={<SeachBycategory />} />
           <Route path="/car-details/:id" element={<CarDetails />} />
+          <Route path="/mobile-details/:id" element={<MobileDetails />} />
           <Route path="/chats/:username" element={<Inbox />} />
           <Route path="/mylists/:username" element={<MyListing />} />
 
