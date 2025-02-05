@@ -38,6 +38,8 @@ const MostSearchedMobile = () => {
     } finally {
       setLoading(false);
     }
+    console.log(mobileList);
+    
   };
 
   return (
@@ -63,7 +65,7 @@ const MostSearchedMobile = () => {
 
       {/* Display Carousel if Data is Available */}
       {!loading && !error && mobileList.length > 0 && (
-        <div className="flex flex-col h-screen">
+        <div className="flex flex-col">
           {/* Other content or header */}
 
           {/* Main Carousel Content */}

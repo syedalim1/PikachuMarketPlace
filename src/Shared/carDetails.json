@@ -197,7 +197,7 @@
   "jobDetails": [
     {
       "label": "Job Title",
-      "name": "job_title",
+      "name": "title",
       "fieldType": "text",
       "required": true,
       "column": 1,
@@ -220,7 +220,7 @@
     },
     {
       "label": "Job Description",
-      "name": "job_description",
+      "name": "description",
       "fieldType": "textarea",
       "required": true,
       "column": 2,
@@ -229,6 +229,14 @@
     {
       "label": "Location",
       "name": "location",
+      "fieldType": "text",
+      "required": true,
+      "column": 1,
+      "icon": "FaMapMarkerAlt"
+    },
+    {
+      "label": "Job Type",
+      "name": "job_type",
       "fieldType": "text",
       "required": true,
       "column": 1,

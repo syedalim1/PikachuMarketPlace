@@ -13,7 +13,7 @@ import { db } from "../../configs";
 import { CarImages, CarListing } from "../../configs/schema";
 import MobileItem from "@/Items/MobileItem";
 
-const MostSearchedMobile = () => {
+const MostSearchedBikes = () => {
   const [carList, setCarList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -90,4 +90,4 @@ const MostSearchedMobile = () => {
   );
 };
 
-export default MostSearchedMobile;
+export default MostSearchedBikes;

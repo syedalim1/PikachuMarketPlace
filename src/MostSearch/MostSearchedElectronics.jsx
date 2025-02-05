@@ -12,7 +12,7 @@ import { desc, eq } from "drizzle-orm";
 import { db } from "../../configs";
 import { CarImages, CarListing } from "../../configs/schema";
 
-const MostSearchedMobile = () => {
+const MostSearchedElectronics = () => {
   const [carList, setCarList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -88,4 +88,4 @@ const MostSearchedMobile = () => {
   );
 };
 
-export default MostSearchedMobile;
+export default MostSearchedElectronics;

@@ -2,7 +2,7 @@ import Service from "@/Shared/Service";
 import { useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 
-function OwnerDetails({ mobile }) {
+function OwnerDetails({ mobile ,job}) {
   const { user } = useUser();
   const navigation = useNavigate();
   const onMessageOwnerButtonClick = async () => {
@@ -69,10 +69,10 @@ function OwnerDetails({ mobile }) {
           />
           <div>
             <h2 className="font-bold text-sm  mt-4 text-blue-700 sm:text-xl md:text-2xl">
-              {mobile?.mobileListing?.fullName || "Unknown User"}
+              {job?.Jobs?.fullName || "Unknown User"}
             </h2>
             <h2 className="font-bold text-sm  mt-4 text-blue-700 sm:text-xl md:text-2xl">
-              {mobile?.mobileListing?.Place || "Unknown Location"}
+              {job?.Jobs?.location || "Unknown Location"}
             </h2>
           </div>
         </div>

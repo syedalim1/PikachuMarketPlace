@@ -25,6 +25,7 @@ import PetsAddlisting from "./add-listing/PetsAddlisting";
 import SportsAddlisting from "./add-listing/SportsAddlisting";
 import MostSearchedMobile from "./MostSearch/MostSearchedMobile";
 import MobileDetails from "./PostDetails/MobileDetails/components/MobileDetails";
+import JobDetails from "./PostDetails/JobDetails/JobDetails";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_KEY;
 
@@ -45,6 +46,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="/search/:category" element={<SeachBycategory />} />
           <Route path="/car-details/:id" element={<CarDetails />} />
           <Route path="/mobile-details/:id" element={<MobileDetails />} />
+          <Route path="/Jobs-details/:id" element={<JobDetails />} />
           <Route path="/chats/:username" element={<Inbox />} />
           <Route path="/mylists/:username" element={<MyListing />} />
 

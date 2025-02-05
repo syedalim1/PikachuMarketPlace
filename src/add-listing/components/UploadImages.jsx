@@ -6,224 +6,155 @@ import React, {
 } from "react";
 import { Cloudinary } from "@cloudinary/url-gen";
 import { db } from "../../../configs"; // Firestore config
-import { CarImages, MobilesImages } from "../../../configs/schema";
-import { useSearchParams } from "react-router-dom";
+import { CarImages, JobsImages, MobilesImages } from "../../../configs/schema";
 import { eq } from "drizzle-orm";
-import { useLocation } from "react-router-dom";
-const UploadImages = forwardRef(({ triggerUpload, carInfo, mode,mobileInfo }, ref) => {
-  const [selectedFiles, setSelectedFiles] = useState([]);
-  const [uploadProgress, setUploadProgress] = useState({});
-  const cld = new Cloudinary({ cloud: { cloudName: "dnfvdyqps" } });
-  const [EditUploadImage, setEditUploadImage] = useState([]);
 
-  const [id, setId] = useState();
+const UploadImages = forwardRef(
+  ({ triggerUpload, carInfo, mode, mobileInfo, jobinfo }, ref) => {
+    const [selectedFiles, setSelectedFiles] = useState([]);
+    const [uploadProgress, setUploadProgress] = useState({});
+    const cld = new Cloudinary({ cloud: { cloudName: "dnfvdyqps" } });
+    const [editUploadImage, setEditUploadImage] = useState([]);
+    const [id, setId] = useState();
 
-  // Handle file selection
-  const onFileSelected = (event) => {
-    const files = Array.from(event.target.files);
-    setSelectedFiles((prevFiles) => [...prevFiles, ...files]);
-  };
+    useEffect(() => {
+      if (mode === "edit" && carInfo?.images?.length > 0) {
+        setEditUploadImage(carInfo.images);
+      }
+    }, [mode, carInfo]);
 
-  useEffect(() => {
-    if (mode === "edit" && carInfo?.images?.length > 0) {
-      setEditUploadImage(carInfo.images);
-      console.log("Images loaded for edit:", carInfo.images);
-    }
-  }, [mode, carInfo]);
-  
-useEffect(()=>{
- if (mode === "edit" && mobileInfo?.images?.length > 0) {
-      setEditUploadImage(mobileInfo.images);
-      console.log("Images loaded for edit:", mobileInfo.images);
-    }
-}, [mode, mobileInfo]);
-   
-  
+    useEffect(() => {
+      if (mode === "edit" && jobinfo?.images?.length > 0) {
+        setEditUploadImage(jobinfo.images);
+      }
+    }, [mode, jobinfo]);
 
-  useEffect(() => {
-    if (triggerUpload) {
-      console.log("Trigger Upload ID:", triggerUpload);
-      setId(triggerUpload);
-      onSubmit();
-    }
-  }, [triggerUpload]);
+    useEffect(() => {
+      if (mode === "edit" && mobileInfo?.images?.length > 0) {
+        setEditUploadImage(mobileInfo.images);
+      }
+    }, [mode, mobileInfo]);
 
-  // Upload files to Cloudinary
-  const uploadFiles = async () => {
-    const uploadedUrls = [];
-    try {
-      for (const file of selectedFiles) {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("upload_preset", "pikachu-market");
+    useEffect(() => {
+      if (triggerUpload) {
+        setId(triggerUpload);
+        onSubmit();
+      }
+    }, [triggerUpload]);
 
-        const response = await fetch(
-          "https://api.cloudinary.com/v1_1/dnfvdyqps/image/upload",
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
+    const onFileSelected = (event) => {
+      const files = Array.from(event.target.files);
+      setSelectedFiles((prevFiles) => [...prevFiles, ...files]);
+    };
 
-        if (!response.ok) {
-          throw new Error(
-            `Cloudinary upload failed with status ${response.status}`
+    const uploadFiles = async () => {
+      const uploadedUrls = [];
+      try {
+        for (const file of selectedFiles) {
+          const formData = new FormData();
+          formData.append("file", file);
+          formData.append("upload_preset", "pikachu-market");
+
+          const response = await fetch(
+            "https://api.cloudinary.com/v1_1/dnfvdyqps/image/upload",
+            { method: "POST", body: formData }
           );
+
+          if (!response.ok)
+            throw new Error(`Cloudinary upload failed: ${response.status}`);
+
+          const data = await response.json();
+          uploadedUrls.push(data.secure_url);
+          setUploadProgress((prev) => ({ ...prev, [file.name]: 100 }));
         }
-
-        const data = await response.json();
-        uploadedUrls.push(data.secure_url);
-
-        // Update progress state
-        setUploadProgress((prevProgress) => ({
-          ...prevProgress,
-          [file.name]: 100,
-        }));
+        return uploadedUrls;
+      } catch (error) {
+        console.error("Upload error:", error);
+        return [];
       }
-      return uploadedUrls;
-    } catch (error) {
-      console.error("Error during upload process:", error);
-      return [];
-    }
-  };
+    };
 
-  // Save image URLs to the database
-  const onSubmit = async () => {
-    try {
-      if (!triggerUpload) {
-        console.error("Listing ID is not defined.");
-        return;
-      }
+    const onSubmit = async () => {
+      if (!triggerUpload) return;
 
       const uploadedUrls = await uploadFiles();
 
-      if (uploadedUrls.length === 0) {
-        console.error("No files were uploaded.");
-        return;
+      const location = window.location.pathname;
+
+      try {
+        if (location.includes("/add-listing/Mobiles")) {
+          for (const url of uploadedUrls) {
+            await db
+              .insert(MobilesImages)
+              .values({ imageUrl: url, mobileListingId: triggerUpload });
+          }
+        } else if (location.includes("/add-listing/Jobs")) {
+          for (const url of uploadedUrls) {
+            await db
+              .insert(JobsImages)
+              .values({ imageUrl: url, jobslistingId: triggerUpload });
+          }
+          
+        } else if (location.includes("/add-listing/Cars")) {
+          for (const url of uploadedUrls) {
+            await db
+              .insert(CarImages)
+              .values({ imageUrl: url, carListingId: triggerUpload });
+          }
+        }
+        console.log("Images uploaded successfully!");
+      } catch (error) {
+        console.error("Error saving data:", error);
       }
+    };
 
-      // Get the current path
-      const location = window.location.pathname; // OR use `useLocation().pathname` in a React component
+    useImperativeHandle(ref, () => ({ uploadFiles }));
 
-      // Check if the user is posting a car or mobile listing
-      if (location.includes("/add-listing/Mobiles")) {
-        for (const url of uploadedUrls) {
-          await db.insert(MobilesImages).values({
-            imageUrl: url,
-            mobilelistingId: triggerUpload, // Use triggerUpload as the MobileListing ID
-          });
-        }
-        console.log("Mobile images uploaded successfully!");
-      } else {
-        for (const url of uploadedUrls) {
-          await db.insert(CarImages).values({
-            imageUrl: url,
-            carlistingId: triggerUpload, // Use triggerUpload as the CarListing ID
-          });
-        }
-        console.log("Car images uploaded successfully!");
-      }
-    } catch (error) {
-      console.error("Error saving data:", error);
-    }
-  };
-
-  useImperativeHandle(ref, () => ({
-    uploadFiles,
-  }));
-
-  const removeFile = async (index, isExistingImage) => {
-    try {
-      if (isExistingImage) {
-        // Get the image to be removed
-        const imageToRemove = EditUploadImage[index];
-
-        if (!imageToRemove) {
-          console.error("Image not found for the given index.");
-          return;
-        }
-
-        // Delete the image from the database
-        const deleteResult = await db
-          .delete(CarImages)
-          .where(eq(CarImages.imageUrl, imageToRemove));
-
-        if (deleteResult) {
-          console.log("Image deleted from database:", imageToRemove);
-        } else {
-          console.error("Failed to delete image from database.");
-        }
-
-        // Update the state to remove the image from the UI
-      }
-    } catch (error) {
-      console.error("Error removing file:", error);
-    }
-  };
-
-  return (
-    <div>
-      <h2 className="font-medium text-xl my-3 text-gray-700">Upload Images</h2>
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-        {/* Display existing images in "edit" mode */}
-        {mode === "edit" &&
-          EditUploadImage?.map((image, index) => (
+    return (
+      <div>
+        <h2 className="font-medium text-xl my-3 text-gray-700">
+          Upload Images
+        </h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          {mode === "edit" &&
+            editUploadImage?.map((image, index) => (
+              <div
+                key={`edit-${index}`}
+                className="relative group border rounded-xl"
+              >
+                <img
+                  src={image}
+                  alt={`Uploaded ${index}`}
+                  className="h-32 w-full object-cover"
+                />
+              </div>
+            ))}
+          {selectedFiles.map((file, index) => (
             <div
-              key={`edit-${index}`}
+              key={`new-${index}`}
               className="relative group border rounded-xl"
             >
               <img
-                src={image}
-                alt={`Uploaded ${index}`}
+                src={URL.createObjectURL(file)}
+                alt={`Preview ${index}`}
                 className="h-32 w-full object-cover"
               />
-              <button
-                onClick={() => removeFile(index, true)} // Pass true to indicate it's an existing image
-                className="absolute top-1 right-1 bg-red-600 text-white text-xs px-2 py-1 rounded-full"
-              >
-                ✕
-              </button>
             </div>
           ))}
-
-        {/* Display newly selected files */}
-        {selectedFiles.map((file, index) => (
-          <div
-            key={`new-${index}`}
-            className="relative group border rounded-xl"
-          >
-            <img
-              src={URL.createObjectURL(file)}
-              alt={`Preview ${index}`}
-              className="h-32 w-full object-cover"
-            />
-            <button
-              onClick={() => removeFile(index, false)} // Pass false for newly selected files
-              className="absolute top-1 right-1 bg-red-600 text-white text-xs px-2 py-1 rounded-full"
-            >
-              ✕
-            </button>
-            {uploadProgress[file.name] && (
-              <div className="absolute bottom-0 left-0 right-0 bg-purple-500 text-white text-xs text-center">
-                {uploadProgress[file.name]}%
-              </div>
-            )}
-          </div>
-        ))}
-
-        <label htmlFor="upload-images" className="border-dotted border">
-          <div className="p-10">Add Images</div>
-        </label>
-        <input
-          type="file"
-          multiple
-          id="upload-images"
-          className="hidden"
-          onChange={onFileSelected}
-        />
+          <label htmlFor="upload-images" className="border-dotted border">
+            <div className="p-10">Add Images</div>
+          </label>
+          <input
+            type="file"
+            multiple
+            id="upload-images"
+            className="hidden"
+            onChange={onFileSelected}
+          />
+        </div>
       </div>
-    </div>
-  );
-});
+    );
+  }
+);
 
 export default UploadImages;

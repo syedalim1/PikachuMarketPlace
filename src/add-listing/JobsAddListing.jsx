@@ -18,6 +18,7 @@ import moment from "moment";
 import { eq } from "drizzle-orm";
 import Service from "@/Shared/Service";
 import Footer from "@/Common/Footer";
+import { JobsImages, JobsListing } from "../../configs/schema";
 
 function JobsAddListing() {
   const [formData, setFormData] = useState({});
@@ -28,11 +29,12 @@ function JobsAddListing() {
   const navigate = useNavigate();
   const { user, isLoaded } = useUser();
   const [searchParams] = useSearchParams();
-  const [bikeInfo, setBikeInfo] = useState(null);
+  const [jobinfo, Setjobinfo] = useState(null);
 
   const mode = searchParams.get("mode");
   const listid = searchParams.get("id");
 
+  const username=user?.username;
   useEffect(() => {
     if (mode === "edit" && isLoaded) {
       GetListDetails();
@@ -43,12 +45,12 @@ function JobsAddListing() {
     try {
       const result = await db
         .select()
-        .from(BikeListing)
-        .innerJoin(BikeImages, eq(BikeListing.id, BikeImages.bikelistingId))
-        .where(eq(BikeListing.id, listid));
+        .from(JobsListing)
+        .innerJoin(JobsImages, eq(JobsListing.id, JobsImages.JobsListingId))
+        .where(eq(JobsListing.id, listid));
 
       const resp = Service.FormatResult(result);
-      setBikeInfo(resp[0]);
+      Setjobinfo(resp[0]);
       setFormData(resp[0]);
     } catch (error) {
       console.error("Error fetching listing details:", error);
@@ -60,7 +62,7 @@ function JobsAddListing() {
   };
 
   const validateForm = () => {
-    const requiredFields = bikeDetails.bikeDetails.filter(
+    const requiredFields = carDetails.jobDetails.filter(
       (item) => item.required
     );
     const isValid = requiredFields.every(
@@ -74,6 +76,8 @@ function JobsAddListing() {
     return true;
   };
 
+  console.log(user);
+  
   const onSubmit = async (e) => {
     e.preventDefault();
 
@@ -85,7 +89,7 @@ function JobsAddListing() {
     try {
       if (mode === "edit") {
         await db
-          .update(BikeListing)
+          .update(JobsListing)
           .set({
             ...formData,
             createdBy: user?.primaryEmailAddress?.emailAddress || "Unknown",
@@ -93,27 +97,32 @@ function JobsAddListing() {
             userImageUrl: user?.profileImageUrl || "",
             postedOn: moment().format("DD/MM/yyyy"),
           })
-          .where(eq(BikeListing.id, listid));
+          .where(eq(JobsListing.id, listid));
       } else {
         const result = await db
-          .insert(BikeListing)
+          .insert(JobsListing)
           .values({
             ...formData,
             username: user?.username,
             createdBy: user?.primaryEmailAddress?.emailAddress || "Unknown",
             postedOn: moment().format("DD/MM/yyyy"),
             fullName: user?.fullName,
+            
           })
-          .returning({ id: BikeListing.id });
+          .returning({ id: JobsListing.id });
+console.log(result+ " result");
+
+
 
         if (result.length >= 0) {
-          const bikeListingId = result[0].id;
-          setTriggerUpload(bikeListingId);
+          const JobsListingId = result[0].id;
+          setTriggerUpload(JobsListingId);
           await imageUploaderRef.current.uploadFiles();
         }
       }
 
       toast({ title: "Successfully Uploaded" });
+
       navigate(`/mylists/${username}`);
     } catch (error) {
       console.error("Error saving data:", error);
@@ -157,20 +166,20 @@ function JobsAddListing() {
                   {item.fieldType === "text" || item.fieldType === "number" ? (
                     <InputField
                       item={item}
-                      bikeInfo={bikeInfo}
+                      jobinfo={jobinfo}
                       handleInputChanges={handleInputChanges}
                     />
                   ) : item.fieldType === "dropdown" &&
                     Array.isArray(item.options) ? (
                     <DropdownField
                       item={item}
-                      bikeInfo={bikeInfo}
+                      jobinfo={jobinfo}
                       handleInputChanges={handleInputChanges}
                     />
                   ) : item.fieldType === "textarea" ? (
                     <TextAreaField
                       item={item}
-                      bikeInfo={bikeInfo}
+                      jobinfo={jobinfo}
                       handleInputChanges={handleInputChanges}
                     />
                   ) : null}
@@ -181,7 +190,7 @@ function JobsAddListing() {
             <UploadImages
               ref={imageUploaderRef}
               triggerUpload={triggerUpload}
-              bikeInfo={bikeInfo}
+              jobinfo={jobinfo}
               mode={mode}
             />
             <Button
