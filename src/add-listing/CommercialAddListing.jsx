@@ -18,6 +18,7 @@ import moment from "moment";
 import { eq } from "drizzle-orm";
 import Service from "@/Shared/Service";
 import Footer from "@/Common/Footer";
+import { CommercialListing } from "../../configs/schema";
 
 function CommercialAddListing() {
   const [formData, setFormData] = useState({});
@@ -28,11 +29,12 @@ function CommercialAddListing() {
   const navigate = useNavigate();
   const { user, isLoaded } = useUser();
   const [searchParams] = useSearchParams();
-  const [bikeInfo, setBikeInfo] = useState(null);
+  const [commercialInfo, setCommercialInfo] = useState(null);
 
   const mode = searchParams.get("mode");
   const listid = searchParams.get("id");
 
+  // Fetch existing listing details for edit mode
   useEffect(() => {
     if (mode === "edit" && isLoaded) {
       GetListDetails();
@@ -43,13 +45,13 @@ function CommercialAddListing() {
     try {
       const result = await db
         .select()
-        .from(BikeListing)
-        .innerJoin(BikeImages, eq(BikeListing.id, BikeImages.bikelistingId))
-        .where(eq(BikeListing.id, listid));
+        .from(CommercialListing)
+        .where(eq(CommercialListing.id, listid));
 
-      const resp = Service.FormatResult(result);
-      setBikeInfo(resp[0]);
-      setFormData(resp[0]);
+      if (result.length > 0) {
+        setCommercialInfo(result[0]);
+        setFormData(result[0]);
+      }
     } catch (error) {
       console.error("Error fetching listing details:", error);
     }
@@ -60,7 +62,7 @@ function CommercialAddListing() {
   };
 
   const validateForm = () => {
-    const requiredFields = bikeDetails.bikeDetails.filter(
+    const requiredFields = carDetails.commercialDetails.filter(
       (item) => item.required
     );
     const isValid = requiredFields.every(
@@ -71,6 +73,12 @@ function CommercialAddListing() {
       toast({ title: "Please fill in all required fields." });
       return false;
     }
+
+    if (!formData.type || formData.type.trim() === "") {
+      toast({ title: "Please select a listing type." });
+      return false;
+    }
+
     return true;
   };
 
@@ -83,38 +91,42 @@ function CommercialAddListing() {
     toast({ title: "Please Wait ......." });
 
     try {
+      console.log("Form Data before insert:", formData); // Debugging
+
       if (mode === "edit") {
         await db
-          .update(BikeListing)
+          .update(CommercialListing)
           .set({
             ...formData,
+            type: formData.type || "defaultType", // Ensure type is set
             createdBy: user?.primaryEmailAddress?.emailAddress || "Unknown",
             username: user?.username || "Anonymous",
             userImageUrl: user?.profileImageUrl || "",
             postedOn: moment().format("DD/MM/yyyy"),
           })
-          .where(eq(BikeListing.id, listid));
+          .where(eq(CommercialListing.id, listid));
       } else {
         const result = await db
-          .insert(BikeListing)
+          .insert(CommercialListing)
           .values({
             ...formData,
+            type: formData.type || "defaultType", // Set default type if missing
             username: user?.username,
             createdBy: user?.primaryEmailAddress?.emailAddress || "Unknown",
             postedOn: moment().format("DD/MM/yyyy"),
             fullName: user?.fullName,
           })
-          .returning({ id: BikeListing.id });
+          .returning({ id: CommercialListing.id });
 
-        if (result.length >= 0) {
-          const bikeListingId = result[0].id;
-          setTriggerUpload(bikeListingId);
+        if (result.length > 0) {
+          const listingId = result[0].id;
+          setTriggerUpload(listingId);
           await imageUploaderRef.current.uploadFiles();
         }
       }
 
       toast({ title: "Successfully Uploaded" });
-      navigate(`/mylists/${username}`);
+      navigate(`/mylists/${user?.username}`);
     } catch (error) {
       console.error("Error saving data:", error);
       toast({ title: "Error saving data", description: error.message });
@@ -135,69 +147,78 @@ function CommercialAddListing() {
           onSubmit={onSubmit}
           className="p-6 sm:p-10 border rounded-xl mt-3 shadow-lg bg-white"
         >
-          <div>
-            <h2 className="font-medium text-xl mb-6 text-gray-700">
-              Enter Commercial List Details
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {carDetails.commercialDetails.map((item, index) => (
-                <div className="flex flex-col" key={index}>
-                  <div className="flex gap-1">
-                    <IconField iconName={item.icon} />
-                    <Label
-                      htmlFor={item.name}
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      {item.label}
-                      {item.required && (
-                        <span className="text-red-500"> *</span>
-                      )}
-                    </Label>
-                  </div>
-                  {item.fieldType === "text" || item.fieldType === "number" ? (
-                    <InputField
-                      item={item}
-                      bikeInfo={bikeInfo}
-                      handleInputChanges={handleInputChanges}
-                    />
-                  ) : item.fieldType === "dropdown" &&
-                    Array.isArray(item.options) ? (
-                    <DropdownField
-                      item={item}
-                      bikeInfo={bikeInfo}
-                      handleInputChanges={handleInputChanges}
-                    />
-                  ) : item.fieldType === "textarea" ? (
-                    <TextAreaField
-                      item={item}
-                      bikeInfo={bikeInfo}
-                      handleInputChanges={handleInputChanges}
-                    />
-                  ) : null}
+          <h2 className="font-medium text-xl mb-6 text-gray-700">
+            Enter Commercial Listing Details
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {carDetails.commercialDetails.map((item, index) => (
+              <div className="flex flex-col" key={index}>
+                <div className="flex gap-1">
+                  <IconField iconName={item.icon} />
+                  <Label
+                    htmlFor={item.name}
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    {item.label}
+                    {item.required && <span className="text-red-500"> *</span>}
+                  </Label>
                 </div>
-              ))}
-            </div>
-            <Separator className="text-black pb-5" />
-            <UploadImages
-              ref={imageUploaderRef}
-              triggerUpload={triggerUpload}
-              bikeInfo={bikeInfo}
-              mode={mode}
-            />
-            <Button
-              type="submit"
-              className="my-10 bg-green-500 text-white py-2 px-4 rounded flex items-center justify-center gap-2"
-              disabled={loading}
-            >
-              {loading ? (
-                <>
-                  <AiOutlineLoading className="animate-spin" /> Uploading...
-                </>
-              ) : (
-                "Submit"
-              )}
-            </Button>
+                {item.fieldType === "text" || item.fieldType === "number" ? (
+                  <InputField
+                    item={item}
+                    commercialInfo={commercialInfo}
+                    handleInputChanges={handleInputChanges}
+                  />
+                ) : item.fieldType === "dropdown" ? (
+                  <DropdownField
+                    item={item}
+                    commercialInfo={commercialInfo}
+                    handleInputChanges={handleInputChanges}
+                  />
+                ) : item.fieldType === "textarea" ? (
+                  <TextAreaField
+                    item={item}
+                    commercialInfo={commercialInfo}
+                    handleInputChanges={handleInputChanges}
+                  />
+                ) : null}
+              </div>
+            ))}
           </div>
+
+          {/* Ensure 'type' field is included */}
+          <DropdownField
+            item={{
+              name: "type",
+              label: "Listing Type",
+              options: ["Office", "Retail", "Industrial"],
+              required: true,
+            }}
+            commercialInfo={commercialInfo}
+            handleInputChanges={handleInputChanges}
+          />
+
+          <Separator className="text-black pb-5" />
+          <UploadImages
+            ref={imageUploaderRef}
+            triggerUpload={triggerUpload}
+            commercialInfo={commercialInfo}
+            mode={mode}
+          />
+
+          <Button
+            type="submit"
+            className="my-10 bg-green-500 text-white py-2 px-4 rounded flex items-center justify-center gap-2"
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <AiOutlineLoading className="animate-spin" /> Uploading...
+              </>
+            ) : (
+              "Submit"
+            )}
+          </Button>
         </form>
       </div>
       <Footer />

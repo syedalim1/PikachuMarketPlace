@@ -363,6 +363,12 @@
       "required": true,
       "column": 2,
       "icon": "FaFileAlt"
+    },
+    {
+      "name": "price",
+      "label": "Price",
+      "fieldType": "number",
+      "required": true
     }
   ],
   "furnitureDetails": [

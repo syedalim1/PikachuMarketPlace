@@ -18,8 +18,9 @@ import moment from "moment";
 import { eq } from "drizzle-orm";
 import Service from "@/Shared/Service";
 import Footer from "@/Common/Footer";
+import { SportsListing } from "../../configs/schema";
 
-function SportsAddlisting() {
+function SportsAddListing() {
   const [formData, setFormData] = useState({});
   const imageUploaderRef = useRef(null);
   const [triggerUpload, setTriggerUpload] = useState(null);
@@ -28,7 +29,7 @@ function SportsAddlisting() {
   const navigate = useNavigate();
   const { user, isLoaded } = useUser();
   const [searchParams] = useSearchParams();
-  const [bikeInfo, setBikeInfo] = useState(null);
+  const [sportsInfo, setSportsInfo] = useState(null);
 
   const mode = searchParams.get("mode");
   const listid = searchParams.get("id");
@@ -43,13 +44,11 @@ function SportsAddlisting() {
     try {
       const result = await db
         .select()
-        .from(BikeListing)
-        .innerJoin(BikeImages, eq(BikeListing.id, BikeImages.bikelistingId))
-        .where(eq(BikeListing.id, listid));
+        .from(SportsListing)
+        .where(eq(SportsListing.id, listid));
 
-      const resp = Service.FormatResult(result);
-      setBikeInfo(resp[0]);
-      setFormData(resp[0]);
+      setSportsInfo(result[0]);
+      setFormData(result[0]);
     } catch (error) {
       console.error("Error fetching listing details:", error);
     }
@@ -60,7 +59,7 @@ function SportsAddlisting() {
   };
 
   const validateForm = () => {
-    const requiredFields = bikeDetails.bikeDetails.filter(
+    const requiredFields = carDetails.sportsDetails.filter(
       (item) => item.required
     );
     const isValid = requiredFields.every(
@@ -85,7 +84,7 @@ function SportsAddlisting() {
     try {
       if (mode === "edit") {
         await db
-          .update(BikeListing)
+          .update(SportsListing)
           .set({
             ...formData,
             createdBy: user?.primaryEmailAddress?.emailAddress || "Unknown",
@@ -93,10 +92,10 @@ function SportsAddlisting() {
             userImageUrl: user?.profileImageUrl || "",
             postedOn: moment().format("DD/MM/yyyy"),
           })
-          .where(eq(BikeListing.id, listid));
+          .where(eq(SportsListing.id, listid));
       } else {
         const result = await db
-          .insert(BikeListing)
+          .insert(SportsListing)
           .values({
             ...formData,
             username: user?.username,
@@ -104,17 +103,17 @@ function SportsAddlisting() {
             postedOn: moment().format("DD/MM/yyyy"),
             fullName: user?.fullName,
           })
-          .returning({ id: BikeListing.id });
+          .returning({ id: SportsListing.id });
 
         if (result.length >= 0) {
-          const bikeListingId = result[0].id;
-          setTriggerUpload(bikeListingId);
+          const listingId = result[0].id;
+          setTriggerUpload(listingId);
           await imageUploaderRef.current.uploadFiles();
         }
       }
 
       toast({ title: "Successfully Uploaded" });
-      navigate(`/mylists/${username}`);
+      navigate(`/mylists/${user?.username}`);
     } catch (error) {
       console.error("Error saving data:", error);
       toast({ title: "Error saving data", description: error.message });
@@ -137,7 +136,7 @@ function SportsAddlisting() {
         >
           <div>
             <h2 className="font-medium text-xl mb-6 text-gray-700">
-              Enter Sports List Details
+              Enter Sports Equipment Listing Details
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {carDetails.sportsDetails.map((item, index) => (
@@ -157,20 +156,19 @@ function SportsAddlisting() {
                   {item.fieldType === "text" || item.fieldType === "number" ? (
                     <InputField
                       item={item}
-                      bikeInfo={bikeInfo}
+                      sportsInfo={sportsInfo}
                       handleInputChanges={handleInputChanges}
                     />
-                  ) : item.fieldType === "dropdown" &&
-                    Array.isArray(item.options) ? (
+                  ) : item.fieldType === "dropdown" ? (
                     <DropdownField
                       item={item}
-                      bikeInfo={bikeInfo}
+                      sportsInfo={sportsInfo}
                       handleInputChanges={handleInputChanges}
                     />
                   ) : item.fieldType === "textarea" ? (
                     <TextAreaField
                       item={item}
-                      bikeInfo={bikeInfo}
+                      sportsInfo={sportsInfo}
                       handleInputChanges={handleInputChanges}
                     />
                   ) : null}
@@ -181,7 +179,7 @@ function SportsAddlisting() {
             <UploadImages
               ref={imageUploaderRef}
               triggerUpload={triggerUpload}
-              bikeInfo={bikeInfo}
+              sportsInfo={sportsInfo}
               mode={mode}
             />
             <Button
@@ -205,4 +203,4 @@ function SportsAddlisting() {
   );
 }
 
-export default SportsAddlisting;
+export default SportsAddListing;
