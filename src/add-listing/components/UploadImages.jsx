@@ -10,7 +10,7 @@ import { CarImages, JobsImages, MobilesImages } from "../../../configs/schema";
 import { eq } from "drizzle-orm";
 
 const UploadImages = forwardRef(
-  ({ triggerUpload, carInfo, mode, mobileInfo, jobinfo }, ref) => {
+  ({ triggerUpload, carInfo, mode, mobileInfo, jobinfo, trues }, ref) => {
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [uploadProgress, setUploadProgress] = useState({});
     const cld = new Cloudinary({ cloud: { cloudName: "dnfvdyqps" } });
@@ -18,25 +18,22 @@ const UploadImages = forwardRef(
     const [id, setId] = useState();
 
     useEffect(() => {
-      if (mode === "edit" && carInfo?.images?.length > 0) {
-        setEditUploadImage(carInfo.images);
+      if (mode === "edit") {
+        if (carInfo?.images?.length > 0) {
+          setEditUploadImage(carInfo.images);
+        } else if (jobinfo?.images?.length > 0) {
+          setEditUploadImage(jobinfo.images);
+        } else if (mobileInfo?.images?.length > 0) {
+          setEditUploadImage(mobileInfo.images);
+        }
       }
-    }, [mode, carInfo]);
-
+    }, [mode, carInfo, jobinfo, mobileInfo]);
     useEffect(() => {
-      if (mode === "edit" && jobinfo?.images?.length > 0) {
-        setEditUploadImage(jobinfo.images);
-      }
-    }, [mode, jobinfo]);
-
-    useEffect(() => {
-      if (mode === "edit" && mobileInfo?.images?.length > 0) {
-        setEditUploadImage(mobileInfo.images);
-      }
-    }, [mode, mobileInfo]);
-
+      onSubmit();
+    }, []);
     useEffect(() => {
       if (triggerUpload) {
+        console.log("Trigger Upload ID:", triggerUpload);
         setId(triggerUpload);
         onSubmit();
       }
@@ -74,37 +71,82 @@ const UploadImages = forwardRef(
       }
     };
 
-    const onSubmit = async () => {
-      if (!triggerUpload) return;
+    const insertImage = async (url, table, listingIdField, triggerUpload) => {
+      const result = await db
+        .insert(table)
+        .values({ imageUrl: url, [listingIdField]: triggerUpload });
+      return result;
+    };
 
+    const onSubmit = async () => {
+      if (!triggerUpload) {
+        console.error("Listing ID is not defined.");
+        return;
+      }
       const uploadedUrls = await uploadFiles();
 
-      const location = window.location.pathname;
-
+      if (uploadedUrls.length === 0) {
+        console.error("No files were uploaded.");
+        return;
+      }
       try {
-        if (location.includes("/add-listing/Mobiles")) {
-          for (const url of uploadedUrls) {
-            await db
-              .insert(MobilesImages)
-              .values({ imageUrl: url, mobileListingId: triggerUpload });
-          }
-        } else if (location.includes("/add-listing/Jobs")) {
-          for (const url of uploadedUrls) {
-            await db
-              .insert(JobsImages)
-              .values({ imageUrl: url, jobslistingId: triggerUpload });
-          }
-          
-        } else if (location.includes("/add-listing/Cars")) {
-          for (const url of uploadedUrls) {
-            await db
-              .insert(CarImages)
-              .values({ imageUrl: url, carListingId: triggerUpload });
+        const table =
+          trues == "mobile"
+            ? MobilesImages
+            : trues == "job"
+            ? JobsImages
+            : CarImages;
+        const listingIdField =
+          trues == "mobile"
+            ? "mobilelistingId"
+            : trues == "job"
+            ? "jobslistingId"
+            : "carlistingId";
+
+        for (const url of uploadedUrls) {
+          const result = await insertImage(
+            url,
+            table,
+            listingIdField,
+            triggerUpload
+          );
+          if (result) {
+            console.log("Data saved successfully:", result);
+          } else {
+            console.error("Failed to save data.");
           }
         }
         console.log("Images uploaded successfully!");
       } catch (error) {
         console.error("Error saving data:", error);
+      }
+    };
+
+    const removeFile = async (index, isExistingImage) => {
+      try {
+        if (isExistingImage) {
+          const imageToRemove = editUploadImage[index];
+
+          if (!imageToRemove) {
+            console.error("Image not found for the given index.");
+            return;
+          }
+
+          const deleteResult = await db
+            .delete(CarImages)
+            .where(eq(CarImages.imageUrl, imageToRemove));
+
+          if (deleteResult) {
+            console.log("Image deleted from database:", imageToRemove);
+            setEditUploadImage((prev) => prev.filter((_, i) => i !== index));
+          } else {
+            console.error("Failed to delete image from database.");
+          }
+        } else {
+          setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
+        }
+      } catch (error) {
+        console.error("Error removing file:", error);
       }
     };
 
@@ -127,8 +169,16 @@ const UploadImages = forwardRef(
                   alt={`Uploaded ${index}`}
                   className="h-32 w-full object-cover"
                 />
+                <button
+                  onClick={() => removeFile(index, true)}
+                  className="absolute top-1 right-1 bg-red-600 text-white text-xs px-2 py-1 rounded-full"
+                  aria-label="Remove image"
+                >
+                  ✕
+                </button>
               </div>
             ))}
+
           {selectedFiles.map((file, index) => (
             <div
               key={`new-${index}`}
@@ -139,6 +189,18 @@ const UploadImages = forwardRef(
                 alt={`Preview ${index}`}
                 className="h-32 w-full object-cover"
               />
+              <button
+                onClick={() => removeFile(index, false)}
+                className="absolute top-1 right-1 bg-red-600 text-white text-xs px-2 py-1 rounded-full"
+                aria-label="Remove image"
+              >
+                ✕
+              </button>
+              {uploadProgress[file.name] && (
+                <div className="absolute bottom-0 left-0 right-0 bg-purple-500 text-white text-xs text-center">
+                  {uploadProgress[file.name]}%
+                </div>
+              )}
             </div>
           ))}
           <label htmlFor="upload-images" className="border-dotted border">

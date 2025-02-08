@@ -20,8 +20,8 @@ function Home() {
       <MostSearchedCar />
       <MostSearchedMobile />
       <MostSearchedJobs/>
-      <MostSearchedBikes/>
-      <MostSearchedElectronics/>
+      {/* <MostSearchedBikes/>
+      <MostSearchedElectronics/> */}
 
       <Footer />
       <SignedIn />

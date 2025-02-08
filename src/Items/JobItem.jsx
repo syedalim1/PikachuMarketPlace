@@ -43,7 +43,7 @@ const JobItem = ({ Jobs }) => {
       {/* Jobs Title */}
       <div>
         <h2 className="font-bold text-black text-sm sm:text-lg mb-2">
-          {Jobs?.company}
+          {Jobs.company?Jobs.company.length>10?Jobs.company.substring(0,10)+"....":Jobs.company:"Unkhown Jobs"}
         </h2>
       </div>
 

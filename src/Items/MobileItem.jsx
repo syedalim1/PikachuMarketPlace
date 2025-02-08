@@ -42,7 +42,8 @@ console.log(mobile);
       {/* Mobile Title */}
       <div>
         <h2 className="font-bold text-black text-sm sm:text-lg mb-2">
-          {mobile?.brand} {mobile?.model}
+          {mobile?.brand?mobile.brand.length>10?mobile.brand.substring(0,10)+"...":mobile.brand:"Unkhown Mobile"}
+        
         </h2>
       </div>
 

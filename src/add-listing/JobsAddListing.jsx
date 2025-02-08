@@ -34,7 +34,14 @@ function JobsAddListing() {
   const mode = searchParams.get("mode");
   const listid = searchParams.get("id");
 
-  const username=user?.username;
+  const username = user?.username;
+
+  const [trues, settrues] = useState(null);
+
+  useEffect(() => {
+    settrues("job");
+  }, []);
+
   useEffect(() => {
     if (mode === "edit" && isLoaded) {
       GetListDetails();
@@ -77,7 +84,7 @@ function JobsAddListing() {
   };
 
   console.log(user);
-  
+
   const onSubmit = async (e) => {
     e.preventDefault();
 
@@ -107,12 +114,9 @@ function JobsAddListing() {
             createdBy: user?.primaryEmailAddress?.emailAddress || "Unknown",
             postedOn: moment().format("DD/MM/yyyy"),
             fullName: user?.fullName,
-            
           })
           .returning({ id: JobsListing.id });
-console.log(result+ " result");
-
-
+        console.log(result + " result");
 
         if (result.length >= 0) {
           const JobsListingId = result[0].id;
@@ -192,6 +196,7 @@ console.log(result+ " result");
               triggerUpload={triggerUpload}
               jobinfo={jobinfo}
               mode={mode}
+              trues={trues}
             />
             <Button
               type="submit"

@@ -43,7 +43,7 @@ const MostSearchedMobile = () => {
   };
 
   return (
-    <div className="h-full px-4 sm:px-6 lg:px-8 bg-white">
+    <div className=" px-4 sm:px-6 lg:px-8 bg-white">
       {/* Section Title */}
       <h2 className="font-bold text-xl sm:text-3xl text-center py-3 text-gray-800">
         Most Searched Mobiles

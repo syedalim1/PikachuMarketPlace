@@ -2,7 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { db } from "../../../configs";
-import { CarImages, CarListing, MobilesListing,MobilesImages } from "../../../configs/schema";
+import {
+  CarImages,
+  CarListing,
+  MobilesListing,
+  MobilesImages,
+  JobsListing,
+  JobsImages,
+} from "../../../configs/schema";
 import { desc, eq } from "drizzle-orm";
 import { SignedOut, SignInButton, useUser } from "@clerk/clerk-react";
 import { FaTrashArrowUp } from "react-icons/fa6";
@@ -24,18 +31,22 @@ import CarItemSearch from "@/search/[category]/CarItemSearch";
 import Header from "@/Common/Header";
 import MobileItem from "@/Items/MobileItem";
 import MobileSearch from "@/search/[category]/MobileSearch";
+import JobItemSearch from "@/search/[category]/JobItemSearch";
 
 function MyListing() {
   const { user } = useUser();
   const [carList, setCarList] = useState([]);
   const [mobileList, setMobileList] = useState([]);
   const [deleteCarId, setDeleteCarId] = useState(null);
+  const [jobList, setJobList] = useState([]);
+  const [DeleteJobId, setDeleteJobId] = useState(null);
   const [deleteMobileId, setDeleteMobileId] = useState(null);
 
   useEffect(() => {
     if (user) {
       getUserCarListing();
       GetUserMobileList();
+      GetUserjobList();
     }
   }, [user]);
 
@@ -77,7 +88,6 @@ function MyListing() {
 
       const formattedResult = Service.CarFormatResult(result);
       setCarList(formattedResult);
-
     } catch (error) {
       console.error("Error fetching user car listings:", error);
     }
@@ -101,12 +111,35 @@ function MyListing() {
       console.log("User Mobile Listings:", formattedResult); // Log formatted result
     } catch (err) {
       console.error("Error fetching mobile listings:", err);
-    } 
+    }
+  };
+  const GetUserjobList = async () => {
+    try {
+      const result1 = await db
+        .select()
+        .from(JobsListing)
+        .leftJoin(JobsImages, eq(JobsListing.id, JobsImages.jobslistingId))
+        .where(
+          eq(JobsListing.createdBy, user?.primaryEmailAddress?.emailAddress)
+        )
+        .orderBy(desc(JobsListing.id));
+
+      const formattedResult = Service.JobsFormatResult(result1);
+      setJobList(formattedResult);
+      console.log("Job log ", formattedResult);
+      console.log("Job list ", jobList);
+
+      console.log("User job Listings:", formattedResult); // Log formatted result
+    } catch (err) {
+      console.error("Error fetching job listings:", err);
+    }
   };
   const deleteMobileListing = async (id) => {
     try {
       // Delete from CarImages table
-      await db.delete(MobilesImages).where(eq(MobilesImages.mobilelistingId, id));
+      await db
+        .delete(MobilesImages)
+        .where(eq(MobilesImages.mobilelistingId, id));
 
       // Delete from CarListing table
       await db.delete(MobilesListing).where(eq(MobilesListing.id, id));
@@ -115,6 +148,20 @@ function MyListing() {
       GetUserMobileList();
     } catch (error) {
       console.error("Error deleting Mobile listing:", error);
+    }
+  };
+  const deleteJobListing = async (id) => {
+    try {
+      // Delete from JobImages table
+      await db.delete(JobsImages).where(eq(JobsImages.jobslistingId, id));
+
+      // Delete from JobsListing table
+      await db.delete(JobsListing).where(eq(JobsListing.id, id));
+
+      // Refresh the list after deletion
+      GetUserjobList();
+    } catch (error) {
+      console.error("Error deleting car listing:", error);
     }
   };
   const deleteCarListing = async (id) => {
@@ -257,19 +304,75 @@ function MyListing() {
           ) : (
             <div></div>
           )}
-          {mobileList.length == 0 &&carList.length ==0?
-          (
-                <div className="col-span-full text-center text-gray-500">
-                  No listings available. Click "+ Add New Listing" to create
-                  one.
+          {mobileList.length == 0 && carList.length == 0 ? (
+            <div className="col-span-full text-center text-gray-500">
+              No listings available. Click "+ Add New Listing" to create one.
+            </div>
+          ) : (
+            <div></div>
+          )}{" "}
+          {jobList.length > 0 ? (
+            jobList.map((item) => (
+              <div
+                key={item.id}
+                className="flex flex-col bg-white p-2 rounded-lg"
+              >
+                {/* Show "New" badge for the latest listing */}
+                <JobItemSearch job={item} />
+
+                {/* Action Buttons */}
+                <div className="p-2 bg-gray-50 rounded-lg flex justify-between items-center gap-3">
+                  <Link
+                    to={`/add-listing/Cars?mode=edit&id=${item.id}`}
+                    className="w-full"
+                  >
+                    <Button className="w-full" variant="outline">
+                      Edit
+                    </Button>
+                  </Link>
+
+                  <AlertDialog className="bg-white">
+                    <AlertDialogTrigger>
+                      <Button
+                        variant="destructive"
+                        className="bg-red-500 text-white rounded"
+                        onClick={() => setDeleteJobId(item.id)} // Set car ID for deletion
+                      >
+                        <FaTrashArrowUp />
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent className="bg-white">
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Are you sure you want to delete?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This action cannot be undone. This will permanently
+                          delete your listing.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={() => deleteJobListing(DeleteJobId)}
+                        >
+                          Delete
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </div>
-              ):<div></div>}
+              </div>
+            ))
+          ) : (
+            <div></div>
+          )}
         </div>
 
         <Footer />
       </div>
     </div>
   );
-};
+}
 
 export default MyListing;

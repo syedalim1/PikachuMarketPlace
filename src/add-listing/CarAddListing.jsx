@@ -32,15 +32,26 @@ function CarAddListing() {
   const [searchParams] = useSearchParams();
   const [carInfo, setCarInfo] = useState(null);
   const username = user?.username || "guest";
+  const [location, setLocation] = useState(null);
 
+  console.log(imageUploaderRef, " imageUploaderRef ");
 
+  console.log(triggerUpload, " triggerUpload");
+
+  console.log(carInfo, " carInfo");
+  useEffect(() => {
+    setLocation(window.location.pathname); // Update state after component mounts
+  }, []);
+  
+  
   const mode = searchParams.get("mode");
   const listid = searchParams.get("id");
+
+  console.log("Current Path:", location);
 
   useEffect(() => {
     if (mode === "edit" && isLoaded) {
       GetListDetails();
-
     }
   }, [mode, listid, isLoaded]);
 
@@ -56,11 +67,12 @@ function CarAddListing() {
       console.log("Fetched data:", result); // Debug log
 
       const resp = Service.CarFormatResult(result);
+      console.log(resp, " resp");
+      console.log(result, " result");
+
       setCarInfo(resp[0]);
       setFormData(resp[0]);
       setFeaturesData(resp[0]?.features || {});
-    
-      
     } catch (error) {
       console.error("Error fetching listing details:", error);
     }
@@ -69,7 +81,6 @@ function CarAddListing() {
   const handleInputChanges = (name, value) => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
-
 
   const validateForm = () => {
     const requiredFields = carDetails.carDetails.filter(
@@ -96,7 +107,6 @@ function CarAddListing() {
 
     try {
       if (mode === "edit") {
-        
         await db
           .update(CarListing)
           .set({
@@ -108,7 +118,6 @@ function CarAddListing() {
           })
           .where(eq(CarListing.id, listid));
       } else {
-       
         const result = await db
           .insert(CarListing)
           .values({
@@ -197,6 +206,7 @@ function CarAddListing() {
               ref={imageUploaderRef}
               triggerUpload={triggerUpload}
               carInfo={carInfo}
+              location={location}
               mode={mode}
             />
             <Button

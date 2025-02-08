@@ -16,6 +16,8 @@ const JobDetails = () => {
   const { id } = useParams(); // Get car ID from the URL
   const [job, setJob] = useState(null);
 
+  console.log(job," jobs");
+  
   useEffect(() => {
     fetchJobDetails();
   }, [id]);

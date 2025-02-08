@@ -37,6 +37,13 @@ function MobileAddListing() {
 
   console.log("User Info:", user);
 
+  const [trues, settrues] = useState(null);
+
+  useEffect(() => {
+    settrues("mobile");
+  }, []);
+
+
   useEffect(() => {
     if (mode === "edit" && isLoaded && listid) {
       GetListDetails();
@@ -205,6 +212,7 @@ function MobileAddListing() {
               ref={imageUploaderRef}
               triggerUpload={triggerUpload}
               mobileInfo={mobileInfo}
+              trues={trues}
               mode={mode}
             />
             <Button
