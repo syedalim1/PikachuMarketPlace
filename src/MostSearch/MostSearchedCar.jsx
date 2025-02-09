@@ -14,6 +14,7 @@ const MostSearchedCar = () => {
     GetPopularCarList();
   }, []);
 
+  
   const GetPopularCarList = async () => {
     try {
       setLoading(true);
