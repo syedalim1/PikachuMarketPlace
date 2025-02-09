@@ -6,11 +6,19 @@ import React, {
 } from "react";
 import { Cloudinary } from "@cloudinary/url-gen";
 import { db } from "../../../configs"; // Firestore config
-import { CarImages, JobsImages, MobilesImages } from "../../../configs/schema";
+import {
+  BikesImages,
+  CarImages,
+  JobsImages,
+  MobilesImages,
+} from "../../../configs/schema";
 import { eq } from "drizzle-orm";
 
 const UploadImages = forwardRef(
-  ({ triggerUpload, carInfo, mode, mobileInfo, jobinfo, trues }, ref) => {
+  (
+    { triggerUpload, carInfo, mode, mobileInfo, jobinfo, trues, bikeInfo },
+    ref
+  ) => {
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [uploadProgress, setUploadProgress] = useState({});
     const cld = new Cloudinary({ cloud: { cloudName: "dnfvdyqps" } });
@@ -26,8 +34,10 @@ const UploadImages = forwardRef(
         } else if (mobileInfo?.images?.length > 0) {
           setEditUploadImage(mobileInfo.images);
         }
+      } else if (bikeInfo?.images?.length > 0) {
+        setEditUploadImage(bikeInfo.images);
       }
-    }, [mode, carInfo, jobinfo, mobileInfo]);
+    }, [mode, carInfo, jobinfo, mobileInfo, bikeInfo]);
     useEffect(() => {
       onSubmit();
     }, []);
@@ -95,12 +105,16 @@ const UploadImages = forwardRef(
             ? MobilesImages
             : trues == "job"
             ? JobsImages
+            : trues == "bike"
+            ? BikesImages
             : CarImages;
         const listingIdField =
           trues == "mobile"
             ? "mobilelistingId"
             : trues == "job"
             ? "jobslistingId"
+            : trues == "bike"
+            ? "bikeslistingId"
             : "carlistingId";
 
         for (const url of uploadedUrls) {

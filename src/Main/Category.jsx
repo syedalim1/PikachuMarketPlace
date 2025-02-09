@@ -12,7 +12,7 @@ const Categories1 = () => {
           Category
         </h2>
         {/* First Categories Row */}
-        <div className="flex overflow-x-auto scrollbar-hide gap-6">
+        <div className="flex justify-between scrollbar-hide gap-6">
           {Data.Categories1.map((category, index) => (
             <div
               key={index}

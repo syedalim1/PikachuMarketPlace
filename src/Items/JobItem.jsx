@@ -24,7 +24,7 @@ const JobItem = ({ Jobs }) => {
       onClick={handleLinkClick}
       className="relative border h-[250px] rounded-2xl shadow-lg p-3 bg-white cursor-pointer hover:shadow-2xl transition-transform transform hover:scale-105"
       role="button"
-      aria-label={`View details for ${Jobs?.company} ${Jobs?.company}`}
+      aria-label={`View details for ${Jobs?.title} ${Jobs?.company}`}
     >
       {/* New Badge */}
       {Jobs?.isNew && (
@@ -43,14 +43,29 @@ const JobItem = ({ Jobs }) => {
       {/* Jobs Title */}
       <div>
         <h2 className="font-bold text-black text-sm sm:text-lg mb-2">
-          {Jobs.company?Jobs.company.length>10?Jobs.company.substring(0,10)+"....":Jobs.company:"Unkhown Jobs"}
+          {Jobs.title
+            ? Jobs.title.length > 10
+              ? Jobs.title.substring(0, 10) + "...."
+              : Jobs.title
+            : "Unkhown Jobs"}
         </h2>
       </div>
 
       {/* Price and View Details */}
       <div className="sm:flex items-center justify-between">
         <h2 className="font-bold sm:text-xl text-sm">
-          ${Jobs?.salary || "Not Available"}
+          ₹{" "}
+          {Jobs?.salary
+            ? Jobs.salary.toString().length > 5
+              ? Jobs.salary.toString().slice(0, 1) +
+                "," +
+                Jobs.salary.toString().slice(1, 3) +
+                "," +
+                Jobs.salary.toString().slice(3)
+              : Jobs.salary.toString().slice(0, 2) +
+                "," +
+                Jobs.salary.toString().slice(2)
+            : "Not Available"}
         </h2>
 
         <button className="mt-3 bg-black text-white px-3 py-1 w-full rounded-xl hover:bg-gray-800 transition-all">

@@ -18,6 +18,7 @@ import moment from "moment";
 import { eq } from "drizzle-orm";
 import Service from "@/Shared/Service";
 import Footer from "@/Common/Footer";
+import { BikesListing } from "../../configs/schema";
 
 function BikeAddListing() {
   const [formData, setFormData] = useState({});
@@ -29,10 +30,14 @@ function BikeAddListing() {
   const { user, isLoaded } = useUser();
   const [searchParams] = useSearchParams();
   const [bikeInfo, setBikeInfo] = useState(null);
+  const username = user?.username || "guest";
 
   const mode = searchParams.get("mode");
   const listid = searchParams.get("id");
-
+  const [trues, setTrues] = useState(null);
+  useEffect(() => {
+    setTrues("bike");
+  }, []);
   useEffect(() => {
     if (mode === "edit" && isLoaded) {
       GetListDetails();
@@ -43,9 +48,9 @@ function BikeAddListing() {
     try {
       const result = await db
         .select()
-        .from(BikeListing)
-        .innerJoin(BikeImages, eq(BikeListing.id, BikeImages.bikelistingId))
-        .where(eq(BikeListing.id, listid));
+        .from(BikesListing)
+        .innerJoin(BikeImages, eq(BikesListing.id, BikeImages.BikesListingId))
+        .where(eq(BikesListing.id, listid));
 
       const resp = Service.FormatResult(result);
       setBikeInfo(resp[0]);
@@ -60,7 +65,7 @@ function BikeAddListing() {
   };
 
   const validateForm = () => {
-    const requiredFields = bikeDetails.bikeDetails.filter(
+    const requiredFields = carDetails.bikeDetails.filter(
       (item) => item.required
     );
     const isValid = requiredFields.every(
@@ -85,7 +90,7 @@ function BikeAddListing() {
     try {
       if (mode === "edit") {
         await db
-          .update(BikeListing)
+          .update(BikesListing)
           .set({
             ...formData,
             createdBy: user?.primaryEmailAddress?.emailAddress || "Unknown",
@@ -93,10 +98,10 @@ function BikeAddListing() {
             userImageUrl: user?.profileImageUrl || "",
             postedOn: moment().format("DD/MM/yyyy"),
           })
-          .where(eq(BikeListing.id, listid));
+          .where(eq(BikesListing.id, listid));
       } else {
         const result = await db
-          .insert(BikeListing)
+          .insert(BikesListing)
           .values({
             ...formData,
             username: user?.username,
@@ -104,11 +109,11 @@ function BikeAddListing() {
             postedOn: moment().format("DD/MM/yyyy"),
             fullName: user?.fullName,
           })
-          .returning({ id: BikeListing.id });
+          .returning({ id: BikesListing.id });
 
         if (result.length >= 0) {
-          const bikeListingId = result[0].id;
-          setTriggerUpload(bikeListingId);
+          const BikesListingId = result[0].id;
+          setTriggerUpload(BikesListingId);
           await imageUploaderRef.current.uploadFiles();
         }
       }
@@ -183,6 +188,7 @@ function BikeAddListing() {
               triggerUpload={triggerUpload}
               bikeInfo={bikeInfo}
               mode={mode}
+              trues={trues}
             />
             <Button
               type="submit"

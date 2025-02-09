@@ -1,12 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { MdLocalOffer } from "react-icons/md";
 
-function Pricing({ mobile, job }) {
+function Pricing({ mobile, job,bike }) {
   return (
     <div className="p-2 rounded-xl flex justify-between items-center bg-white  ">
       <div>
         <h2 className="font-extrabold text-[20px] sm:text-5xl text-blue-600 ">
-          ₹ {mobile?.MobilesListing?.price || job?.Jobs?.salary}
+          ₹ {mobile?.MobilesListing?.price || job?.Jobs?.salary||bike?.Bikes?.price}
         </h2>
       </div>
 

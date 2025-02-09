@@ -9,6 +9,8 @@ import {
   MobilesImages,
   JobsListing,
   JobsImages,
+  BikesListing,
+  BikesImages,
 } from "../../../configs/schema";
 import { desc, eq } from "drizzle-orm";
 import { SignedOut, SignInButton, useUser } from "@clerk/clerk-react";
@@ -32,6 +34,7 @@ import Header from "@/Common/Header";
 import MobileItem from "@/Items/MobileItem";
 import MobileSearch from "@/search/[category]/MobileSearch";
 import JobItemSearch from "@/search/[category]/JobItemSearch";
+import BikeItemSearch from "@/search/[category]/BikeItemSearch";
 
 function MyListing() {
   const { user } = useUser();
@@ -39,14 +42,18 @@ function MyListing() {
   const [mobileList, setMobileList] = useState([]);
   const [deleteCarId, setDeleteCarId] = useState(null);
   const [jobList, setJobList] = useState([]);
+  const [bikeList, setBikeList] = useState([]);
   const [DeleteJobId, setDeleteJobId] = useState(null);
   const [deleteMobileId, setDeleteMobileId] = useState(null);
+  const [deleteBikeId, setDeleteBikeId] = useState(null);
 
   useEffect(() => {
     if (user) {
       getUserCarListing();
       GetUserMobileList();
       GetUserjobList();
+      GetUserBikeList();
+      
     }
   }, [user]);
 
@@ -134,6 +141,26 @@ function MyListing() {
       console.error("Error fetching job listings:", err);
     }
   };
+  const GetUserBikeList = async () => {
+    try {
+      const result1 = await db
+        .select()
+        .from(BikesListing)
+        .leftJoin(BikesImages, eq(BikesListing.id, BikesImages.bikeslistingId))
+        .where(
+          eq(BikesListing.createdBy, user?.primaryEmailAddress?.emailAddress)
+        )
+        .orderBy(desc(BikesListing.id));
+
+      const formattedResult = Service.BikeFormatResult(result1);
+      setBikeList(formattedResult);
+   
+
+      console.log("User bike Listings:", formattedResult); // Log formatted result
+    } catch (err) {
+      console.error("Error fetching job listings:", err);
+    }
+  };
   const deleteMobileListing = async (id) => {
     try {
       // Delete from CarImages table
@@ -174,6 +201,20 @@ function MyListing() {
 
       // Refresh the list after deletion
       getUserCarListing();
+    } catch (error) {
+      console.error("Error deleting car listing:", error);
+    }
+  };
+  const deleteBikeListing = async (id) => {
+    try {
+      // Delete from BikeImage table
+      await db.delete(BikesImages).where(eq(BikesImages.bikeslistingId, id));
+
+      // Delete from CarListing table
+      await db.delete(BikesListing).where(eq(BikesListing.id, id));
+
+      // Refresh the list after deletion
+      GetUserBikeList();
     } catch (error) {
       console.error("Error deleting car listing:", error);
     }
@@ -310,7 +351,7 @@ function MyListing() {
             </div>
           ) : (
             <div></div>
-          )}{" "}
+          )}
           {jobList.length > 0 ? (
             jobList.map((item) => (
               <div
@@ -366,8 +407,65 @@ function MyListing() {
             ))
           ) : (
             <div></div>
+          )}{" "}
+          {bikeList.length > 0 ? (
+            bikeList.map((item) => (
+              <div
+                key={item.id}
+                className="flex flex-col bg-white p-2 rounded-lg"
+              >
+                {/* Show "New" badge for the latest listing */}
+                <BikeItemSearch bike={item} />
+
+                {/* Action Buttons */}
+                <div className="p-2 bg-gray-50 rounded-lg flex justify-between items-center gap-3">
+                  <Link
+                    to={`/add-listing/Cars?mode=edit&id=${item.id}`}
+                    className="w-full"
+                  >
+                    <Button className="w-full" variant="outline">
+                      Edit
+                    </Button>
+                  </Link>
+
+                  <AlertDialog className="bg-white">
+                    <AlertDialogTrigger>
+                      <Button
+                        variant="destructive"
+                        className="bg-red-500 text-white rounded"
+                        onClick={() => setDeleteBikeId(item.id)} // Set car ID for deletion
+                      >
+                        <FaTrashArrowUp />
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent className="bg-white">
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Are you sure you want to delete?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This action cannot be undone. This will permanently
+                          delete your listing.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={() => deleteBikeListing(deleteBikeId)}
+                        >
+                          Delete
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div></div>
           )}
         </div>
+        <div className="h-10 bg-white"></div>
 
         <Footer />
       </div>

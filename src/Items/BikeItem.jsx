@@ -1,17 +1,20 @@
 import { useNavigate } from "react-router-dom";
 
-const MobileItem = ({ mobile }) => {
+const BikeItem = ({ bike }) => {
   const navigate = useNavigate();
-console.log(mobile,"  mobile");
 
-  if (!mobile) {
+  console.log(bike,"-------bike");
+  
+  
+  if (!bike) {
     return (
-      <div className="text-center text-gray-500">No mobile data available.</div>
+      <div className="text-center text-gray-500">No bike data available.</div>
     );
   }
 
+
   const handleLinkClick = () => {
-    navigate(`/mobile-details/${mobile.id}`);
+    navigate(`/bikes-details/${bike.id}`);
 
     setTimeout(() => {
       window.location.reload();
@@ -23,10 +26,10 @@ console.log(mobile,"  mobile");
       onClick={handleLinkClick}
       className="relative border h-[250px] rounded-2xl shadow-lg p-3 bg-white cursor-pointer hover:shadow-2xl transition-transform transform hover:scale-105"
       role="button"
-      aria-label={`View details for ${mobile?.brand} ${mobile?.model}`}
+      aria-label={`View details for ${bike?.title} ${bike?.company}`}
     >
       {/* New Badge */}
-      {mobile?.isNew && (
+      {bike?.isNew && (
         <div className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 rounded">
           New
         </div>
@@ -34,19 +37,15 @@ console.log(mobile,"  mobile");
 
       {/* Image */}
       <img
-        src={mobile?.images?.[0] || "/path/to/default-image.jpg"}
-        alt={`${mobile?.brand} ${mobile?.model}`}
+        src={bike?.images?.[0] || "/path/to/default-image.jpg"}
+        alt={`${bike?.brand} ${bike?.model}`}
         className="rounded-t-xl h-[100px] w-full sm:w-full sm:h-48 object-contain mb-4"
       />
 
-      {/* Mobile Title */}
+      {/* bike Title */}
       <div>
         <h2 className="font-bold text-black text-sm sm:text-lg mb-2">
-          {mobile?.brand
-            ? mobile.brand.length > 10
-              ? mobile.brand.substring(0, 10) + "..."
-              : mobile.brand
-            : "Unkhown Mobile"}
+          {bike?.brand}
         </h2>
       </div>
 
@@ -54,17 +53,17 @@ console.log(mobile,"  mobile");
       <div className="sm:flex items-center justify-between">
         <h2 className="font-bold sm:text-xl text-sm">
           ₹{" "}
-          {mobile?.price
-            ? mobile.price.length > 5
-              ? mobile.price.slice(0, 1) +
+          {bike?.price
+            ? bike.price.toString().length > 5
+              ? bike.price.toString().slice(0, 1) +
                 "," +
-                mobile.price.slice(1, 3) +
+                bike.price.toString().slice(1, 3) +
                 "," +
-                mobile.price.slice(3)
-              : mobile.price.length > 3
-              ? mobile.price.slice(0, 2) + "," + mobile.price.slice(2)
-              : mobile.price
-            : "N/A"}
+                bike.price.toString().slice(3)
+              : bike.price.toString().slice(0, 2) +
+                "," +
+                bike.price.toString().slice(2)
+            : "Not Available"}
         </h2>
 
         <button className="mt-3 bg-black text-white px-3 py-1 w-full rounded-xl hover:bg-gray-800 transition-all">
@@ -75,4 +74,4 @@ console.log(mobile,"  mobile");
   );
 };
 
-export default MobileItem;
+export default BikeItem;

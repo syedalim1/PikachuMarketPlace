@@ -10,8 +10,8 @@ const Header = () => {
  const [price, setPrice] = useState("");
 
   return (
-    <header className="bg-white shadow-md">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+    <header className="  w-full bg-white shadow-md">
+      <div className=" container mx-auto px-4 py-4 flex justify-between items-center">
         {/* Logo Section */}
         <Link to={"/"} aria-label="Home">
           <img src="/logo.png" width={150} height={100} alt="Logo" />

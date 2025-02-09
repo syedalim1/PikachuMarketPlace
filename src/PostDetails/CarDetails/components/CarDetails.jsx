@@ -45,7 +45,7 @@ const CarDetails = () => {
   }
 
   return (
-    <div className="bg-white px-3">
+    <div className="bg-white ">
       <Header />
       <div className="sm:p-10 md:px-20 bg-white  sm:mt-5">
         <ImageGallery car={car} />

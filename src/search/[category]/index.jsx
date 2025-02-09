@@ -6,6 +6,10 @@ import {
   MobilesListing,
   CarListing,
   CarImages,
+  JobsImages,
+  JobsListing,
+  BikesListing,
+  BikesImages,
 } from "../../../configs/schema";
 import { eq } from "drizzle-orm";
 import React, { useEffect, useState } from "react";
@@ -13,18 +17,30 @@ import { useParams } from "react-router-dom";
 import Service from "@/Shared/Service";
 import MobileItem from "@/Items/MobileItem";
 import CarItem from "@/Items/CarItem"; // Assuming CarItem component exists
+import JobItem from "@/Items/JobItem";
+import JobItemSearch from "./JobItemSearch";
+import BikeItemSearch from "./BikeItemSearch";
+import MobileSearch from "./MobileSearch";
+import CarItemSearch from "./CarItemSearch";
+import Footer from "@/Common/Footer";
 
 const SeachBycategory = () => {
   const { category } = useParams();
   const [carList, setCarList] = useState([]);
-  const [mobileList, setMobileList] = useState([]);
   const [showNotAvailable, setShowNotAvailable] = useState(false);
+  const [mobileList, setMobileList] = useState([]);
+  const [jobList, setJobList] = useState([]);
+  const [bikeList, setBikeList] = useState([]);
 
   useEffect(() => {
     if (category === "Mobiles") {
       GetMobileResult();
     } else if (category === "Cars") {
       GetCarResult();
+    } else if (category === "Jobs") {
+      GetJobResult();
+    } else if (category === "Bikes") {
+      GetBikeResult();
     }
     const timeout = setTimeout(() => {
       setShowNotAvailable(true);
@@ -61,27 +77,58 @@ const SeachBycategory = () => {
       console.error("Error fetching mobile results:", error);
     }
   };
+  const GetJobResult = async () => {
+    try {
+      const result = await db
+        .select()
+        .from(JobsListing)
+        .innerJoin(JobsImages, eq(JobsImages.jobslistingId, JobsListing.id));
+      const formattedJob = Service.JobsFormatResult(result);
+      setJobList(formattedJob);
+    } catch (error) {
+      console.error("Error fetching mobile results:", error);
+    }
+  };
+  const GetBikeResult = async () => {
+    try {
+      const result = await db
+        .select()
+        .from(BikesListing)
+        .innerJoin(
+          BikesImages,
+          eq(BikesImages.bikeslistingId, BikesListing.id)
+        );
+
+      const formattedJob = Service.BikeFormatResult(result);
+      console.log("bike List ", formattedJob);
+      setBikeList(formattedJob);
+    } catch (error) {
+      console.error("Error fetching mobile results:", error);
+    }
+  };
 
   return (
     <div>
       <Header />
       <div className="p-2 flex justify-center"></div>
-      <div className="p-10 md:px-20">
+      <div className="py-2 px-2 md:px-20">
         <h2 className="text-4xl font-bold capitalize">{category}</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-7">
           {/* Render Cars if available */}
-          {carList.length > 0 ? (
-            carList.map((car, index) => (
-              <div key={index}>
-                <CarItem car={car} />
-              </div>
-            ))
-          ) : mobileList.length > 0 ? (
+          {carList.length ? (
+            carList.map((car, index) => <CarItemSearch car={car} key={index} />)
+          ) : mobileList.length ? (
             mobileList.map((mobile, index) => (
-              <div key={index}>
-                <MobileItem mobile={mobile} />
-              </div>
+              <MobileSearch mobile={mobile} key={index} />
+            ))
+          ) : jobList.length ? (
+            jobList.map((jobs, index) => (
+              <JobItemSearch job={jobs} key={index} />
+            ))
+          ) : bikeList.length ? (
+            bikeList.map((bikes, index) => (
+              <BikeItemSearch bike={bikes} key={index} />
             ))
           ) : showNotAvailable ? (
             <div className="h-[370px] rounded-xl flex justify-center items-center  ">
@@ -97,6 +144,7 @@ const SeachBycategory = () => {
               ></div>;
             })
           )}
+          <Footer/>
         </div>
       </div>
     </div>

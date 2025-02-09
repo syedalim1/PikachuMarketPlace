@@ -44,7 +44,6 @@ const MobileFormatResult = (resp) => {
   const result = {};
   const finalResult = [];
 
-  console.log("Service " + resp);
 
   resp.forEach((item) => {
     const listingId = item.MobilesListing?.id;
@@ -76,6 +75,7 @@ const MobileFormatResult = (resp) => {
 };
 
 
+
 const JobsFormatResult = (resp) => {
   const result = {};
   const finalResult = [];
@@ -100,6 +100,37 @@ const JobsFormatResult = (resp) => {
   Object.values(result).forEach((item) => {
     finalResult.push({
       ...item.job,
+      images: item.images,
+    });
+  });
+
+  return finalResult;
+};
+const BikeFormatResult = (resp) => {
+  const result = {};
+  const finalResult = [];
+console.log(resp," resp");
+
+
+  resp.forEach((item) => {
+    const listingId = item.Bikes?.id;
+    if (!listingId) return;
+
+    if (!result[listingId]) {
+      result[listingId] = {
+        bike: item.Bikes,
+        images: [],
+      };
+    }
+
+    if (item.BikesImages?.imageUrl) {
+      result[listingId].images.push(item.BikesImages.imageUrl);
+    }
+  });
+
+  Object.values(result).forEach((item) => {
+    finalResult.push({
+      ...item.bike,
       images: item.images,
     });
   });
@@ -163,4 +194,5 @@ export default {
   CarFormatResult,
   MobileFormatResult,
   JobsFormatResult,
+  BikeFormatResult,
 };

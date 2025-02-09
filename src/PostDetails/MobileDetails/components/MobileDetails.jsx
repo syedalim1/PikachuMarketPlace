@@ -34,7 +34,7 @@ const MobileDetails = () => {
 
       if (result.length > 0) {
         setMobile(result[0]);
-        console.log(mobile);
+        console.log(mobile,"Mobile   123" );
       } else {
         console.error("Mobile not found!");
       }
@@ -48,13 +48,13 @@ const MobileDetails = () => {
   }
 
   return (
-    <div className="bg-white px-3">
+    <div className="bg-white ">
       <Header />
       <ImageGallery mobile={mobile} />
       <MobileHeaders mobile={mobile} />
       <Pricing mobile={mobile}/>
       <MobileDescription mobile={mobile}/>
-      <OwnerDetails/>
+      <OwnerDetails mobile={mobile}/>
       {/* <div className="sm:p-10 md:px-20 bg-white  sm:mt-5">
         <ImageGallery mobile={mobile} />
         <div className="0">

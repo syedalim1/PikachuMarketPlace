@@ -26,36 +26,36 @@ const Categories1 = [
     name: "Bikes",
     icon: <FaBiking />, // Bike-related icon
   },
-  {
-    id: 5,
-    name: "Electronics",
-    icon: <MdElectricalServices />, // Electronics-related icon
-  },
-  {
-    id: 6,
-    name: "Commercial",
-    icon: <GiCommercialAirplane />, // Commercial vehicle-related icon
-  },
-  {
-    id: 7,
-    name: "Furniture",
-    icon: <FaChair />, // Furniture-related icon
-  },
-  {
-    id: 8,
-    name: "Fashion",
-    icon: <GiRunningShoe />, // Fashion-related icon
-  },
-  {
-    id: 9,
-    name: "Sports",
-    icon: <FaBiking />, // Sports-related icon
-  },
-  {
-    id: 10,
-    name: "Pets",
-    icon: <FaDog />, // Pet-related icon
-  },
+  // {
+  //   id: 5,
+  //   name: "Electronics",
+  //   icon: <MdElectricalServices />, // Electronics-related icon
+  // },
+  // {
+  //   id: 6,
+  //   name: "Commercial",
+  //   icon: <GiCommercialAirplane />, // Commercial vehicle-related icon
+  // },
+  // {
+  //   id: 7,
+  //   name: "Furniture",
+  //   icon: <FaChair />, // Furniture-related icon
+  // },
+  // {
+  //   id: 8,
+  //   name: "Fashion",
+  //   icon: <GiRunningShoe />, // Fashion-related icon
+  // },
+  // {
+  //   id: 9,
+  //   name: "Sports",
+  //   icon: <FaBiking />, // Sports-related icon
+  // },
+  // {
+  //   id: 10,
+  //   name: "Pets",
+  //   icon: <FaDog />, // Pet-related icon
+  // },
 ];
 
 const Categories2 = [

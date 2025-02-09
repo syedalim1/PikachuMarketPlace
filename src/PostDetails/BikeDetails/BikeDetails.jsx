@@ -1,7 +1,8 @@
+
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../../../configs"; // Adjust the path to your database configuration
-import { JobsImages, JobsListing } from "../../../configs/schema"; // Adjust paths to schema
+import { BikesImages, BikesListing } from "../../../configs/schema"; // Adjust paths to schema
 import { eq } from "drizzle-orm";
 import Header from "@/Common/Header";
 import ImageGallery from "../MobileDetails/components/ImageGallery";
@@ -9,56 +10,55 @@ import Footer from "@/Common/Footer";
 import MobileDescription from "../MobileDetails/components/MobileDescription";
 import MobileHeaders from "../MobileDetails/components/MobileHeaders";
 import Pricing from "../MobileDetails/components/Pricing";
-import MostSearchedMobile from "@/MostSearch/MostSearchedMobile";
 import OwnerDetails from "../MobileDetails/components/OwnerDetails";
-import MostSearchedJobs from "@/MostSearch/MostSearchedJobs";
+import MostSearchedbikes from "@/MostSearch/MostSearchedbikes";
 
-const JobDetails = () => {
+const BikeDetails = () => {
   const { id } = useParams(); // Get car ID from the URL
-  const [job, setJob] = useState(null);
+  const [bike, setbike] = useState(null);
 
-  console.log(job," jobs");
-  
+  console.log(bike, " bike");
+
   useEffect(() => {
-    fetchJobDetails();
+    fetchBikeDetails();
   }, [id]);
 
-  const fetchJobDetails = async () => {
+  const fetchBikeDetails = async () => {
     try {
       const result = await db
         .select()
-        .from(JobsListing)
-        .innerJoin(JobsImages, eq(JobsListing.id, JobsImages.jobslistingId))
-        .where(eq(JobsListing.id, id));
+        .from(BikesListing)
+        .innerJoin(BikesImages, eq(BikesListing.id, BikesImages.bikeslistingId))
+        .where(eq(BikesListing.id, id));
 
       if (result.length > 0) {
-        setJob(result[0]);
-        console.log(job);
+        setbike(result[0]);
+        console.log(bike);
       } else {
-        console.error("job not found!");
+        console.error("bike not found!");
       }
     } catch (error) {
       console.error("Error fetching car details:", error);
     }
   };
 
-  if (!job) {
+  if (!bike) {
     return <p>Loading car details...</p>;
   }
-console.log(job);
+  console.log(bike);
 
   return (
     <div className="bg-white ">
       <Header />
-      <ImageGallery job={job} />
-      <MobileHeaders job={job} />
-      <Pricing job={job} />
-      <MobileDescription job={job} />
-      <OwnerDetails job={job}/>
+      <ImageGallery bike={bike} />
+      <MobileHeaders bike={bike} />
+      <Pricing bike={bike} />
+      <MobileDescription bike={bike} />
+      <OwnerDetails bike={bike} />
 
       <div className="bg-white sm:p-6 "></div>
 
-      <MostSearchedJobs />
+      <MostSearchedbikes />
       <br />
       <br />
       <br />
@@ -68,4 +68,4 @@ console.log(job);
   );
 };
 
-export default JobDetails;
+export default BikeDetails;

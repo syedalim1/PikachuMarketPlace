@@ -53,7 +53,18 @@ const CarItem = ({ car }) => {
       {/* Price and View Details */}
       <div className="sm:flex items-center justify-between">
         <h2 className="font-bold sm:text-xl text-sm">
-          ${car?.selling_price || "Not Available"}
+          ₹{" "}
+          {car?.selling_price
+            ? car.selling_price.toString().length > 5
+              ? car.selling_price.toString().slice(0, 1) +
+                "," +
+                car.selling_price.toString().slice(1, 3) +
+                "," +
+                car.selling_price.toString().slice(3)
+              : car.selling_price.toString().slice(0, 2) +
+                "," +
+                car.selling_price.toString().slice(2)
+            : "Not Available"}{" "}
         </h2>
 
         <button className="mt-3 bg-black text-white px-3 py-1 w-full rounded-xl hover:bg-gray-800 transition-all">

@@ -5,9 +5,18 @@ function Pricing({ car }) {
   return (
     <div className="p-2 rounded-xl flex justify-between items-center bg-white  ">
       <div>
-       
         <h2 className="font-extrabold text-[20px] sm:text-5xl text-blue-600 ">
-          ₹ {car.CarListing.selling_price}
+          ₹ {car.CarListing?.selling_price
+            ? car.CarListing.selling_price.toString().length > 5
+              ? car.CarListing.selling_price.toString().slice(0, 1) +
+                "," +
+                car.CarListing.selling_price.toString().slice(1, 3) +
+                "," +
+                car.CarListing.selling_price.toString().slice(3)
+              : car.CarListing.selling_price.toString().slice(0, 2) +
+                "," +
+                car.CarListing.selling_price.toString().slice(2)
+            : "Not Available"}{" "}
         </h2>
       </div>
 

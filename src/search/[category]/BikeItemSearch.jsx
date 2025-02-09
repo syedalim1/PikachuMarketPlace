@@ -1,56 +1,56 @@
 import { useNavigate } from "react-router-dom";
 
-const JobItemSearch = ({ job }) => {
+const BikeItemSearch = ({ bike }) => {
   const navigate = useNavigate();
 
-  console.log(job + " is Details");
+  console.log(bike + " is Details");
 
-  if (!job) {
+  if (!bike) {
     return (
-      <div className="text-center text-gray-500">No job data available.</div>
+      <div className="text-center text-gray-500">No bike data available.</div>
     );
   }
 
   const handleLinkClick = () => {
-    navigate(`/Jobs-details/${job.id}`);
+    navigate(`/bikes-details/${bike.id}`);
   };
 
   return (
     <div
       onClick={handleLinkClick}
       className="shadow-lg  bg-white border flex justify-between p-2"
-      aria-label={`View details for ${job?.listing_title || "job"}`}
+      aria-label={`View details for ${bike?.listing_title || "bike"}`}
       role="button"
     >
       {/* Image */}
       <img
-        src={job?.images?.[0] || "/path/to/default-image.jpg"}
-        alt={job?.listing_title || "job"}
+        src={bike?.images?.[0] || "/path/to/default-image.jpg"}
+        alt={bike?.listing_title || "bike"}
         className="rounded-t-xl h-[120px] w-[180px] object-contain sm:w-full  sm:h-48  mb-4"
       />
       <div className="relative  h-[100px] rounded-2xl p-2  cursor-pointer hover:shadow-2xl transition-transform transform hover:scale-105">
         {/* New Badge */}
-        {job?.isNew && (
+        {bike?.isNew && (
           <div className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
             New
           </div>
         )}
 
-        {/* job Title */}
+        {/* bike brand */}
         <div>
           <h2 className="font-bold text-black text-sm sm:text-lg mb-2">
-            {job?.title
-              ? job.title.length > 10
-                ? job.title.substring(0, 20) + "..."
-                : job.title
-              : "Unknown job"}
+            {bike?.brand
+              ? bike.brand.length > 10
+                ? bike.brand.substring(0, 20) + "..."
+                : bike.brand
+              : "Unknown bike"}
           </h2>
         </div>
 
-        {/* salary and View Details */}
+        {/* price and View Details */}
         <div className="sm:flex items-center justify-between">
           <h2 className="font-bold sm:text-xl text-sm">
-            ₹ {job?.salary || "Not Available"}
+            ₹ {bike?.price || "Not Available"}
           </h2>
 
           <button className="mt-3 bg-black text-white px-3 py-1 w-full rounded-xl hover:bg-gray-800 transition-all">
@@ -62,4 +62,4 @@ const JobItemSearch = ({ job }) => {
   );
 };
 
-export default JobItemSearch;
+export default BikeItemSearch;

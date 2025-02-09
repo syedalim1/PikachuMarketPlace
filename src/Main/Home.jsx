@@ -17,12 +17,15 @@ function Home() {
 
       {/* <Map/> */}
       <Category />
-      <MostSearchedCar />
-      <MostSearchedMobile />
-      <MostSearchedJobs/>
-      {/* <MostSearchedBikes/>
-      <MostSearchedElectronics/> */}
+      <div className="h-[]">
+        <MostSearchedCar />
+        <MostSearchedMobile />
+        <MostSearchedJobs />
+        <MostSearchedBikes />
+      </div>
 
+      {/* <MostSearchedElectronics/> */}
+      <div className="h-20 bg-white"></div>
       <Footer />
       <SignedIn />
     </div>
