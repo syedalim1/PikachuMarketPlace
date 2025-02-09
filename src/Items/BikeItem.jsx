@@ -3,15 +3,13 @@ import { useNavigate } from "react-router-dom";
 const BikeItem = ({ bike }) => {
   const navigate = useNavigate();
 
-  console.log(bike,"-------bike");
-  
-  
+  console.log(bike, "-------bike");
+
   if (!bike) {
     return (
       <div className="text-center text-gray-500">No bike data available.</div>
     );
   }
-
 
   const handleLinkClick = () => {
     navigate(`/bikes-details/${bike.id}`);
@@ -55,7 +53,7 @@ const BikeItem = ({ bike }) => {
           ₹{" "}
           {bike?.price
             ? bike.price.toString().length > 5
-              ? bike.price.toString().slice(0, 1) +``
+              ? bike.price.toString().slice(0, 1) +
                 "," +
                 bike.price.toString().slice(1, 3) +
                 "," +
