@@ -55,7 +55,7 @@ const BikeItem = ({ bike }) => {
           ₹{" "}
           {bike?.price
             ? bike.price.toString().length > 5
-              ? bike.price.toString().slice(0, 1) +
+              ? bike.price.toString().slice(0, 1) +``
                 "," +
                 bike.price.toString().slice(1, 3) +
                 "," +

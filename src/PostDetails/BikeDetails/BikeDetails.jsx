@@ -11,7 +11,7 @@ import MobileDescription from "../MobileDetails/components/MobileDescription";
 import MobileHeaders from "../MobileDetails/components/MobileHeaders";
 import Pricing from "../MobileDetails/components/Pricing";
 import OwnerDetails from "../MobileDetails/components/OwnerDetails";
-import MostSearchedbikes from "@/MostSearch/MostSearchedbikes";
+import MostSearchedBikes from "@/MostSearch/MostSearchedBikes";
 
 const BikeDetails = () => {
   const { id } = useParams(); // Get car ID from the URL
@@ -58,7 +58,7 @@ const BikeDetails = () => {
 
       <div className="bg-white sm:p-6 "></div>
 
-      <MostSearchedbikes />
+      <MostSearchedBikes/>
       <br />
       <br />
       <br />

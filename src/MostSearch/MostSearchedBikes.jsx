@@ -1,17 +1,8 @@
 import { useEffect, useState } from "react";
-import CarItem from "../Items/CarItem"; // Importing the CarItem component
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"; // Carousel components
 import Service from "../Shared/Service";
 import { desc, eq } from "drizzle-orm";
 import { db } from "../../configs";
 import { BikesImages, BikesListing } from "../../configs/schema";
-import MobileItem from "@/Items/MobileItem";
 import BikeItem from "@/Items/BikeItem";
 
 const MostSearchedBikes = () => {
