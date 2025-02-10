@@ -8,6 +8,7 @@ import MostSearchedMobile from "../MostSearch/MostSearchedMobile";
 import MostSearchedBikes from "@/MostSearch/MostSearchedBikes";
 import MostSearchedJobs from "@/MostSearch/MostSearchedJobs";
 import MostSearchedElectronics from "@/MostSearch/MostSearchedElectronics";
+import Maps from "@/Map";
 
 function Home() {
   return (
@@ -18,10 +19,11 @@ function Home() {
       {/* <Map/> */}
       <Category />
       <div className="h-[]">
-        <MostSearchedCar />
+        <Maps/>
+        {/* <MostSearchedCar />
         <MostSearchedMobile />
         <MostSearchedJobs />
-        <MostSearchedBikes />
+        <MostSearchedBikes /> */}
       </div>
 
       {/* <MostSearchedElectronics/> */}
