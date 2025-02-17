@@ -75,32 +75,34 @@ function Maps() {
   };
 
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AlzaSyFffSDJ8dxlabT3aOR5uIH4i76QsM05TpU&libraries=places&callback=initMap`;
-    script.async = true;
-    script.defer = true;
-    script.onload = () => {
+    if (!window.google) {
+      const script = document.createElement('script');
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&libraries=places`;
+      script.async = true;
+      script.onload = () => {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(initMap, (error) => {
+            console.error('Error getting location:', error);
+            initMap(); // Fallback to default location
+          });
+        } else {
+          initMap(); // Fallback to default location
+        }
+      };
+      script.onerror = () => {
+        console.error('Error loading Google Maps API');
+      };
+      document.head.appendChild(script);
+    } else {
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => initMap(position),
-          (error) => {
-            console.error("Error fetching location: ", error);
-            // Fallback to a default location
-            initMap({ coords: { latitude: 37.7749, longitude: -122.4194 } });
-          }
-        );
+        navigator.geolocation.getCurrentPosition(initMap, (error) => {
+          console.error('Error getting location:', error);
+          initMap(); // Fallback to default location
+        });
       } else {
-        console.error("Geolocation is not supported by this browser.");
-        // Fallback to a default location
-        initMap({ coords: { latitude: 37.7749, longitude: -122.4194 } });
+        initMap(); // Fallback to default location
       }
-    };
-    document.head.appendChild(script);
-
-    // Cleanup
-    return () => {
-      document.head.removeChild(script);
-    };
+    }
   }, []);
 
   return (

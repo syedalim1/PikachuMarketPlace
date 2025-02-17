@@ -1,4 +1,4 @@
-import { StrictMode } from "react";
+import React from 'react';
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
@@ -27,6 +27,8 @@ import MostSearchedMobile from "./MostSearch/MostSearchedMobile";
 import MobileDetails from "./PostDetails/MobileDetails/components/MobileDetails";
 import JobDetails from "./PostDetails/JobDetails/JobDetails";
 import BikeDetails from "./PostDetails/BikeDetails/BikeDetails";
+import { ThemeProvider } from './context/ThemeContext';
+import { NotificationProvider } from './components/NotificationSystem';
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_KEY;
 
@@ -35,46 +37,50 @@ if (!PUBLISHABLE_KEY) {
 }
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  <React.StrictMode>
     <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/contact" element={<ContactSeller />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/select-category" element={<Selectcategorypost />} />
-          <Route path="/searching" element={<SearchByTarget />} />
-          <Route path="/search/:category" element={<SeachBycategory />} />
-          <Route path="/car-details/:id" element={<CarDetails />} />
-          <Route path="/mobile-details/:id" element={<MobileDetails />} />
-          <Route path="/Jobs-details/:id" element={<JobDetails />} />
-          <Route path="/bikes-details/:id" element={<BikeDetails />} />
-          <Route path="/chats/:username" element={<Inbox />} />
-          <Route path="/mylists/:username" element={<MyListing />} />
+      <ThemeProvider>
+        <NotificationProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/contact" element={<ContactSeller />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/select-category" element={<Selectcategorypost />} />
+              <Route path="/searching" element={<SearchByTarget />} />
+              <Route path="/search/:category" element={<SeachBycategory />} />
+              <Route path="/car-details/:id" element={<CarDetails />} />
+              <Route path="/mobile-details/:id" element={<MobileDetails />} />
+              <Route path="/Jobs-details/:id" element={<JobDetails />} />
+              <Route path="/bikes-details/:id" element={<BikeDetails />} />
+              <Route path="/chats/:username" element={<Inbox />} />
+              <Route path="/mylists/:username" element={<MyListing />} />
 
-          <Route path="/add-listing/Cars" element={<CarAddListing />} />
-          <Route path="/add-listing/Bikes" element={<BikeAddListing />} />
-          <Route
-            path="/add-listing/Commercial"
-            element={<CommercialAddListing />}
-          />
-          <Route
-            path="/add-listing/Electronics"
-            element={<ElectronicsAddListing />}
-          />
-          <Route path="/add-listing/Fashion" element={<FashionAddlisting />} />
-          <Route
-            path="/add-listing/Furniture"
-            element={<FurnitureAddlisting />}
-          />
-          <Route path="/add-listing/Mobiles" element={<MobileAddListing />} />
-          <Route path="/add-listing/Jobs" element={<JobsAddListing />} />
-          <Route path="/add-listing/Pets" element={<PetsAddlisting />} />
-          <Route path="/add-listing/Sports" element={<SportsAddlisting />} />
-          {/* <Route path="/search/Mobiles" element={<MostSearchedMobile />} /> */}
-        </Routes>
-      </BrowserRouter>
-      <Toaster />
+              <Route path="/add-listing/Cars" element={<CarAddListing />} />
+              <Route path="/add-listing/Bikes" element={<BikeAddListing />} />
+              <Route
+                path="/add-listing/Commercial"
+                element={<CommercialAddListing />}
+              />
+              <Route
+                path="/add-listing/Electronics"
+                element={<ElectronicsAddListing />}
+              />
+              <Route path="/add-listing/Fashion" element={<FashionAddlisting />} />
+              <Route
+                path="/add-listing/Furniture"
+                element={<FurnitureAddlisting />}
+              />
+              <Route path="/add-listing/Mobiles" element={<MobileAddListing />} />
+              <Route path="/add-listing/Jobs" element={<JobsAddListing />} />
+              <Route path="/add-listing/Pets" element={<PetsAddlisting />} />
+              <Route path="/add-listing/Sports" element={<SportsAddlisting />} />
+              {/* <Route path="/search/Mobiles" element={<MostSearchedMobile />} /> */}
+            </Routes>
+          </BrowserRouter>
+          <Toaster />
+        </NotificationProvider>
+      </ThemeProvider>
     </ClerkProvider>
-  </StrictMode>
+  </React.StrictMode>
 );

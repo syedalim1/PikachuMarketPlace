@@ -1,8 +1,8 @@
-
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { db } from "../../../configs"; // Adjust the path to your database configuration
-import { BikesImages, BikesListing } from "../../../configs/schema"; // Adjust paths to schema
+import { motion } from "framer-motion";
+import { db } from "../../../configs";
+import { BikesImages, BikesListing } from "../../../configs/schema";
 import { eq } from "drizzle-orm";
 import Header from "@/Common/Header";
 import ImageGallery from "../MobileDetails/components/ImageGallery";
@@ -12,59 +12,93 @@ import MobileHeaders from "../MobileDetails/components/MobileHeaders";
 import Pricing from "../MobileDetails/components/Pricing";
 import OwnerDetails from "../MobileDetails/components/OwnerDetails";
 import MostSearchedBikes from "@/MostSearch/MostSearchedBikes";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import { fadeInUp, staggerContainer, scaleIn } from "@/utils/animations";
 
 const BikeDetails = () => {
-  const { id } = useParams(); // Get car ID from the URL
-  const [bike, setbike] = useState(null);
-
-  console.log(bike, " bike");
+  const { id } = useParams();
+  const [bike, setBike] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    const fetchBikeDetails = async () => {
+      try {
+        setLoading(true);
+        const result = await db
+          .select()
+          .from(BikesListing)
+          .innerJoin(BikesImages, eq(BikesListing.id, BikesImages.bikeslistingId))
+          .where(eq(BikesListing.id, id));
+
+        if (result.length > 0) {
+          setBike(result[0]);
+        } else {
+          setError("Bike not found!");
+        }
+      } catch (error) {
+        setError("Error fetching bike details. Please try again later.");
+        console.error("Error fetching bike details:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchBikeDetails();
   }, [id]);
 
-  const fetchBikeDetails = async () => {
-    try {
-      const result = await db
-        .select()
-        .from(BikesListing)
-        .innerJoin(BikesImages, eq(BikesListing.id, BikesImages.bikeslistingId))
-        .where(eq(BikesListing.id, id));
-
-      if (result.length > 0) {
-        setbike(result[0]);
-        console.log(bike);
-      } else {
-        console.error("bike not found!");
-      }
-    } catch (error) {
-      console.error("Error fetching car details:", error);
-    }
-  };
-
-  if (!bike) {
-    return <p>Loading car details...</p>;
+  if (loading) {
+    return <LoadingSpinner />;
   }
-  console.log(bike);
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          className="text-red-500 text-xl font-semibold"
+        >
+          {error}
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
-    <div className="bg-white ">
+    <motion.div
+      initial="initial"
+      animate="animate"
+      className="bg-white min-h-screen"
+    >
       <Header />
-      <ImageGallery bike={bike} />
-      <MobileHeaders bike={bike} />
-      <Pricing bike={bike} />
-      <MobileDescription bike={bike} />
-      <OwnerDetails bike={bike} />
+      <motion.div variants={staggerContainer} className="container mx-auto px-4 py-8">
+        <motion.div variants={scaleIn}>
+          <ImageGallery bike={bike} />
+        </motion.div>
 
-      <div className="bg-white sm:p-6 "></div>
+        <motion.div variants={fadeInUp} className="mt-8">
+          <MobileHeaders bike={bike} />
+        </motion.div>
 
-      <MostSearchedBikes/>
-      <br />
-      <br />
-      <br />
-      {/* </div> */}
+        <motion.div variants={scaleIn} className="mt-6">
+          <Pricing bike={bike} />
+        </motion.div>
+
+        <motion.div variants={fadeInUp} className="mt-8">
+          <MobileDescription bike={bike} />
+        </motion.div>
+
+        <motion.div variants={scaleIn} className="mt-8">
+          <OwnerDetails bike={bike} />
+        </motion.div>
+
+        <motion.div variants={fadeInUp} className="mt-12">
+          <MostSearchedBikes />
+        </motion.div>
+      </motion.div>
       <Footer />
-    </div>
+    </motion.div>
   );
 };
 

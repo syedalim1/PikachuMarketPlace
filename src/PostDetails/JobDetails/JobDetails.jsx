@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { db } from "../../../configs"; // Adjust the path to your database configuration
-import { JobsImages, JobsListing } from "../../../configs/schema"; // Adjust paths to schema
+import { motion } from "framer-motion";
+import { db } from "../../../configs";
+import { JobsImages, JobsListing } from "../../../configs/schema";
 import { eq } from "drizzle-orm";
 import Header from "@/Common/Header";
 import ImageGallery from "../MobileDetails/components/ImageGallery";
@@ -9,62 +10,95 @@ import Footer from "@/Common/Footer";
 import MobileDescription from "../MobileDetails/components/MobileDescription";
 import MobileHeaders from "../MobileDetails/components/MobileHeaders";
 import Pricing from "../MobileDetails/components/Pricing";
-import MostSearchedMobile from "@/MostSearch/MostSearchedMobile";
 import OwnerDetails from "../MobileDetails/components/OwnerDetails";
 import MostSearchedJobs from "@/MostSearch/MostSearchedJobs";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import { fadeInUp, staggerContainer, bounceIn } from "@/utils/animations";
 
 const JobDetails = () => {
-  const { id } = useParams(); // Get car ID from the URL
+  const { id } = useParams();
   const [job, setJob] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  console.log(job," jobs");
-  
   useEffect(() => {
+    const fetchJobDetails = async () => {
+      try {
+        setLoading(true);
+        const result = await db
+          .select()
+          .from(JobsListing)
+          .innerJoin(JobsImages, eq(JobsListing.id, JobsImages.jobslistingId))
+          .where(eq(JobsListing.id, id));
+
+        if (result.length > 0) {
+          setJob(result[0]);
+        } else {
+          setError("Job not found!");
+        }
+      } catch (error) {
+        setError("Error fetching job details. Please try again later.");
+        console.error("Error fetching job details:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchJobDetails();
   }, [id]);
 
-  const fetchJobDetails = async () => {
-    try {
-      const result = await db
-        .select()
-        .from(JobsListing)
-        .innerJoin(JobsImages, eq(JobsListing.id, JobsImages.jobslistingId))
-        .where(eq(JobsListing.id, id));
-
-      if (result.length > 0) {
-        setJob(result[0]);
-        console.log(job);
-      } else {
-        console.error("job not found!");
-      }
-    } catch (error) {
-      console.error("Error fetching car details:", error);
-    }
-  };
-
-  if (!job) {
-    return <p>Loading car details...</p>;
+  if (loading) {
+    return <LoadingSpinner />;
   }
-console.log(job);
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          className="text-red-500 text-xl font-semibold"
+        >
+          {error}
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
-    <div className="bg-white ">
+    <motion.div
+      initial="initial"
+      animate="animate"
+      className="bg-white min-h-screen"
+    >
       <Header />
-      <ImageGallery job={job} />
-      <MobileHeaders job={job} />
-      <Pricing job={job} />
-      <MobileDescription job={job} />
-      <OwnerDetails job={job}/>
+      <motion.div variants={staggerContainer} className="container mx-auto px-4 py-8">
+        <motion.div variants={bounceIn}>
+          <ImageGallery job={job} />
+        </motion.div>
 
-      <div className="bg-white sm:p-6 "></div>
+        <motion.div variants={fadeInUp} className="mt-8">
+          <MobileHeaders job={job} />
+        </motion.div>
 
-      <MostSearchedJobs />
-      <br />
-      <br />
-      <br />
-      {/* </div> */}
+        <motion.div variants={bounceIn} className="mt-6">
+          <Pricing job={job} />
+        </motion.div>
+
+        <motion.div variants={fadeInUp} className="mt-8">
+          <MobileDescription job={job} />
+        </motion.div>
+
+        <motion.div variants={bounceIn} className="mt-8">
+          <OwnerDetails job={job} />
+        </motion.div>
+
+        <motion.div variants={fadeInUp} className="mt-12">
+          <MostSearchedJobs />
+        </motion.div>
+      </motion.div>
       <Footer />
-    </div>
+    </motion.div>
   );
 };
 
